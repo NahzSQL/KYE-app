@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>KYE Review - Oluwaseun Adeleke | Degxifi Admin</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#10b77f",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#10221c",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .document-view-container {
+            background-image: radial-gradient(circle at center, rgba(16, 183, 127, 0.10) 0%, transparent 70%);
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-slate-50 text-slate-900 dark:text-slate-800 min-h-screen flex flex-col">
+    <!-- Top Navigation Bar -->
+    <header class="border-b border-primary/20 bg-slate-50/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-[1440px] mx-auto w-full flex items-center justify-between px-6 lg:px-10 h-16">
+            <div class="flex items-center gap-8">
+                <div class="flex items-center gap-3">
+                    <img src="../logo.png" alt="Degxifi Logo" class="size-8 rounded-full object-cover" />
+                    <h2 class="text-slate-900 text-xl font-black tracking-tight">Degxifi <span
+                            class="text-primary font-bold text-xs ml-2 px-2.5 py-0.5 bg-primary/10 rounded-full tracking-widest uppercase">Admin</span>
+                    </h2>
+                </div>
+                <nav class="hidden md:flex items-center gap-6">
+                    <a class="text-slate-500 hover:text-primary text-sm font-medium transition-colors"
+                        href="../admin_staff_management/code.html">Staff Management</a>
+                    <a class="text-primary text-sm font-bold border-b-2 border-primary pb-1 transition-colors"
+                        href="../admin_KYE_review_page/code.html">KYE Queue</a>
+                    <a class="text-slate-500 hover:text-primary text-sm font-medium transition-colors"
+                        href="../admin_audit_logs/code.html">Audit Logs</a>
+                </nav>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="relative group">
+                    <span
+                        class="material-symbols-outlined p-2 rounded-lg bg-primary/5 hover:bg-primary/10 cursor-pointer transition-colors">notifications</span>
+                    <span
+                        class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full border-2 border-background-dark"></span>
+                </div>
+                <div class="h-8 w-[1px] bg-primary/20"></div>
+                <div class="flex items-center gap-3 pl-2">
+                    <div class="text-right hidden sm:block">
+                        <p class="text-xs font-bold leading-none">Tunde Bakare</p>
+                        <p class="text-[10px] text-slate-500">Chief Compliance</p>
+                    </div>
+                    <img class="w-10 h-10 rounded-full border border-primary/20" data-alt="Admin user profile avatar"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4QxUwoj_WP-i7CeiQWxS5oZzPwnmYLcfbNAMH_quXljwA78IQfSc6NnFsNK0hmbVlQ3d0BFtaF9_Uzbq3zyTf9Y04w-3EZ_2GNTN646OwNnrArOhMWYa5fIMvGaqygz9Q747ntWFhgkwP_cs1wHKB7hkk_Ng1IBNNZXGWhdZQqTO2psrVtyHNlUhG6FdAymJgH2pIycMqVcWTIuSKzXFLJN9_dEAGnCf7mn3Dff9IdBgWY--e4JRp2zRUtiQKmXEWIZ6417y6_ig" />
+                </div>
+                <a href="../login/code.html"
+                    class="p-2 rounded-lg text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-all"
+                    title="Sign Out"><span class="material-symbols-outlined text-xl">logout</span></a>
+            </div>
+        </div>
+    </header>
+    <main class="flex-1 max-w-[1440px] mx-auto w-full px-6 py-6 flex flex-col gap-6">
+        <!-- Breadcrumbs & Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+                <nav class="flex items-center gap-2 text-xs font-medium text-slate-500 mb-2">
+                    <a class="hover:text-primary transition-colors"
+                        href="../admin_staff_management/code.html">Compliance</a>
+                    <span class="material-symbols-outlined text-sm">chevron_right</span>
+                    <a class="hover:text-primary transition-colors" href="../admin_staff_management/code.html">KYE
+                        Queue</a>
+                    <span class="material-symbols-outlined text-sm">chevron_right</span>
+                    <span class="text-primary">Review: Oluwaseun Adeleke</span>
+                </nav>
+                <div class="flex items-center gap-4">
+                    <h2 class="text-3xl font-black tracking-tight dark:text-slate-900">Oluwaseun Adeleke</h2>
+                    <span
+                        class="px-3 py-1 bg-amber-500/10 text-amber-500 text-xs font-bold rounded-full border border-amber-500/20 uppercase tracking-wider">Pending
+                        Review</span>
+                </div>
+                <p class="text-slate-500 font-medium mt-1">Senior Developer • ID: PASSPORT-99210-MH</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <button
+                    class="flex items-center gap-2 px-4 py-2 rounded-lg border border-primary/20 hover:bg-primary/5 transition-colors text-sm font-semibold">
+                    <span class="material-symbols-outlined text-lg">history</span>
+                    View History
+                </button>
+                <button
+                    class="flex items-center gap-2 px-4 py-2 rounded-lg border border-primary/20 hover:bg-primary/5 transition-colors text-sm font-semibold">
+                    <span class="material-symbols-outlined text-lg">print</span>
+                    Export PDF
+                </button>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- Left: Document Viewer (Main Content) -->
+            <div class="lg:col-span-8 flex flex-col gap-4">
+                <div
+                    class="bg-background-light dark:bg-slate-50/40 border border-primary/10 rounded-xl overflow-hidden flex flex-col h-[700px]">
+                    <!-- Viewer Toolbar -->
+                    <div
+                        class="bg-slate-50/60 border-b border-primary/10 px-4 py-3 flex items-center justify-between">
+                        <div class="flex gap-1 bg-slate-50/80 p-1 rounded-lg">
+                            <button
+                                class="px-4 py-1.5 text-xs font-bold rounded-md bg-primary text-white transition-all">Passport</button>
+                            <button
+                                class="px-4 py-1.5 text-xs font-bold rounded-md hover:bg-primary/10 text-slate-500 hover:text-primary transition-all">Utility
+                                Bill</button>
+                            <button
+                                class="px-4 py-1.5 text-xs font-bold rounded-md hover:bg-primary/10 text-slate-500 hover:text-primary transition-all">Selfie</button>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button
+                                class="p-2 rounded-lg bg-slate-50 hover:text-primary transition-colors border border-primary/10"
+                                title="Zoom Out">
+                                <span class="material-symbols-outlined text-xl">zoom_out</span>
+                            </button>
+                            <span class="text-xs font-mono px-2 text-slate-500">100%</span>
+                            <button
+                                class="p-2 rounded-lg bg-slate-50 hover:text-primary transition-colors border border-primary/10"
+                                title="Zoom In">
+                                <span class="material-symbols-outlined text-xl">zoom_in</span>
+                            </button>
+                            <div class="w-[1px] h-6 bg-primary/10 mx-1"></div>
+                            <button
+                                class="p-2 rounded-lg bg-slate-50 hover:text-primary transition-colors border border-primary/10"
+                                title="Rotate">
+                                <span class="material-symbols-outlined text-xl">rotate_right</span>
+                            </button>
+                            <button
+                                class="p-2 rounded-lg bg-slate-50 hover:text-primary transition-colors border border-primary/10"
+                                title="Fullscreen">
+                                <span class="material-symbols-outlined text-xl">fullscreen</span>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Main Viewer Area -->
+                    <div
+                        class="flex-1 relative document-view-container overflow-hidden flex items-center justify-center p-8">
+                        <div class="relative group">
+                            <!-- Simulated Passport View -->
+                            <div
+                                class="w-[500px] aspect-[1.4/1] bg-slate-100 rounded-lg shadow-2xl border border-slate-900/5 relative overflow-hidden">
+                                <img class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+                                    data-alt="High resolution scan of a Nigerian Passport"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuArV9RvbMc-LfFLfb6qsYFmoJ3xEIUmGp6yewputsIYLftdopHsA1Ozx_tS20q-rIiVU1fETcW8yvzSMjfroxDJwEboyURORjLcGDBucD2zES7SwawVohPIYAOdyg-iChPTpxP4A3dE1ZrNTtoA6loP1kzjOKDoQQ4uX_QS_6_QJbgVpRKkQZP24CKTLPZWU9V-6_6qPWPgISka_bAM4-7KDsWSfo0eii4jZzkeuG7wxGaPN_TNZ-vpJhYhfNsiEec8UWty5MOxV5E" />
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                                <div class="absolute bottom-4 left-6 right-6 flex justify-between items-end">
+                                    <div class="flex flex-col gap-1">
+                                        <div class="h-2 w-32 bg-primary/40 rounded"></div>
+                                        <div class="h-2 w-48 bg-primary/20 rounded"></div>
+                                    </div>
+                                    <div class="w-12 h-12 border border-primary/40 rounded bg-slate-900/5 backdrop-blur-sm">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Verification Overlay Indicator -->
+                            <div
+                                class="absolute -top-4 -right-4 bg-primary text-white font-black text-[10px] py-1 px-3 rounded-full shadow-lg border-4 border-background-dark z-10">
+                                OCR VERIFIED
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Document Meta Info Footer -->
+                    <div class="bg-slate-50/40 border-t border-primary/10 px-6 py-4 grid grid-cols-3 gap-8">
+                        <div>
+                            <p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Document Type</p>
+                            <p class="text-sm font-semibold">International Passport (NGA)</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Expiry Date</p>
+                            <p class="text-sm font-semibold">12 APR 2028</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Security Level</p>
+                            <div class="flex items-center gap-2 mt-0.5">
+                                <div class="flex gap-0.5">
+                                    <div class="w-3 h-1.5 bg-primary rounded-full"></div>
+                                    <div class="w-3 h-1.5 bg-primary rounded-full"></div>
+                                    <div class="w-3 h-1.5 bg-primary rounded-full"></div>
+                                    <div class="w-3 h-1.5 bg-slate-200 rounded-full"></div>
+                                </div>
+                                <span class="text-xs font-bold text-primary">High</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Thumbnail Navigation -->
+                <div class="flex gap-4 overflow-x-auto pb-2">
+                    <div
+                        class="min-w-[120px] aspect-video rounded-lg border-2 border-primary bg-slate-50/60 p-1 cursor-pointer">
+                        <img class="w-full h-full object-cover rounded shadow" data-alt="Thumbnail of Passport document"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOMlDGv_ZnxEiGVYaJ85zZ9rnL_pEs_4qbh5vOB5RZxWdVwpAttVKgObukW7r9P-afXfkB9wUEyI2T_GflfI7eJBSDn8KVKqH96DNJuu9vzL-kxu1p0lcNGypa_xWle83XecQRBiCKa3DxXJU7HENIWLf1QwPrlpslKN2qyQFp89TFxBNpA0ZMH_TZrNL3xxCxwCd0nx2TGMMF8h3sMR1piczRSN7CnfwCe93Kwf1yGzdaV-MOrjBgiQA8qRYAYNZgODpcIX2WCgY" />
+                    </div>
+                    <div
+                        class="min-w-[120px] aspect-video rounded-lg border border-primary/10 bg-slate-50/60 p-1 opacity-60 hover:opacity-100 cursor-pointer transition-all">
+                        <img class="w-full h-full object-cover rounded shadow"
+                            data-alt="Thumbnail of Utility Bill document"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2WIgRpLMZoFDy52J6BFP_wX3_yP0UtZEsPr04IRinPjhZrMR041WFHYcBG3tLLoDzjOk5_xeQGCKAq2pmCWLTtT5UoEtQG50akix-VfRkiU95o3RTw5YBOR-Tx0PxO7rRycn3nBjIeLp3uvPBxlCu9wMttvLKtUto7y4WdKtiL-gcxcAhuRfoX3zXRM9PYyyDC6yNSS0vQYG0bObhm8WS2OUM8qH1bftq4JAbexod3bzYk_-BWb3OT0qUPAGRKOTX6YNVKbpNcDk" />
+                    </div>
+                    <div
+                        class="min-w-[120px] aspect-video rounded-lg border border-primary/10 bg-slate-50/60 p-1 opacity-60 hover:opacity-100 cursor-pointer transition-all">
+                        <img class="w-full h-full object-cover rounded shadow"
+                            data-alt="Thumbnail of Selfie verification"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJ9vxu4n2HHGLg3L22ZbYhjyH6S8JtEobpii26YDLkcqJ3nwHmOa1sKrLqsKaUOA_t95UwYnodY6R0hsKE1BneyEmAA9czKFnZr81X7ISc8Ylj9onm2V_H8gUCALXl1t1BIpoBeH5k4FghOpcGznB17bg4BHFiwV9NUDgK0xLElBzLqb3NM1kTr8ZpoTuyLLLpH4OywFQ9Ks81WJ8u9Vk-sgHrM1BseOB6UwSwaKVzWNz0ZI_3s36iPSuf_czY0ElIHjkeSLbGpsg" />
+                    </div>
+                </div>
+            </div>
+            <!-- Right: Review Sidebar -->
+            <div class="lg:col-span-4 flex flex-col gap-6">
+                <!-- Metadata Card -->
+                <div class="bg-background-light dark:bg-slate-50/40 border border-primary/10 rounded-xl p-6">
+                    <h3 class="text-sm font-bold border-b border-primary/10 pb-3 mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary text-lg">info</span>
+                        Submission Metadata
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs text-slate-500 font-medium">Email Address</span>
+                            <span class="text-sm font-semibold truncate max-w-[180px]">o.adeleke@degxifi.io</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs text-slate-500 font-medium">Submitted Date</span>
+                            <span class="text-sm font-semibold">Oct 24, 2023, 14:20</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs text-slate-500 font-medium">Verification ID</span>
+                            <span class="text-sm font-mono text-primary font-semibold">KYE-MH-99210</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs text-slate-500 font-medium">Risk Score</span>
+                            <div class="flex items-center gap-1.5">
+                                <span class="text-sm font-bold text-emerald-400">0.08 / Low</span>
+                                <span class="material-symbols-outlined text-emerald-400 text-sm">verified</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs text-slate-500 font-medium">Location</span>
+                            <span class="text-sm font-semibold">Lagos, Nigeria</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Review Actions Card -->
+                <div
+                    class="bg-background-light dark:bg-slate-50/40 border border-primary/10 rounded-xl p-6 shadow-xl shadow-black/20">
+                    <h3 class="text-sm font-bold border-b border-primary/10 pb-3 mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary text-lg">rate_review</span>
+                        Review Actions
+                    </h3>
+                    <div class="mb-6">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Admin
+                            Comments</label>
+                        <textarea
+                            class="w-full bg-slate-50/50 border border-primary/10 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary text-sm p-3 min-h-[120px] placeholder:text-slate-600"
+                            placeholder="Internal notes on this submission..."></textarea>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button id="reject-btn"
+                            class="flex flex-col items-center justify-center gap-1 bg-red-500/10 border border-red-500/30 hover:bg-red-500/20 text-red-500 py-4 rounded-lg transition-all group">
+                            <span
+                                class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">cancel</span>
+                            <span class="text-xs font-black uppercase tracking-widest">Reject</span>
+                        </button>
+                        <button id="approve-btn"
+                            class="flex flex-col items-center justify-center gap-1 bg-primary border border-primary/30 hover:bg-primary/90 text-white py-4 rounded-lg transition-all group">
+                            <span
+                                class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">check_circle</span>
+                            <span class="text-xs font-black uppercase tracking-widest">Approve</span>
+                        </button>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-primary/10">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">If
+                            Rejecting, choose reason:</label>
+                        <select
+                            class="w-full bg-slate-50/50 border border-primary/10 rounded-lg text-sm text-slate-500 focus:ring-primary focus:border-primary">
+                            <option>Select reason...</option>
+                            <option>Document Expired</option>
+                            <option>Blurred / Unreadable Image</option>
+                            <option>Mismatching Data</option>
+                            <option>Duplicate Submission</option>
+                            <option>Restricted Jurisdiction</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Quick Checks Checklist -->
+                <div class="bg-background-light dark:bg-slate-50/40 border border-primary/10 rounded-xl p-6">
+                    <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Manual Checklist</h3>
+                    <div class="space-y-3">
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <div
+                                class="w-5 h-5 rounded border-2 border-primary/30 flex items-center justify-center group-hover:border-primary transition-colors">
+                                <span
+                                    class="material-symbols-outlined text-primary text-base hidden group-hover:block opacity-50">check</span>
+                            </div>
+                            <span
+                                class="text-xs font-medium text-slate-500 group-hover:text-slate-700 transition-colors">Full
+                                name matches profile</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <div
+                                class="w-5 h-5 rounded border-2 border-primary/30 flex items-center justify-center group-hover:border-primary transition-colors">
+                                <span
+                                    class="material-symbols-outlined text-primary text-base hidden group-hover:block opacity-50">check</span>
+                            </div>
+                            <span
+                                class="text-xs font-medium text-slate-500 group-hover:text-slate-700 transition-colors">Selfie
+                                matches ID photo</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <div
+                                class="w-5 h-5 rounded border-2 border-primary/30 flex items-center justify-center group-hover:border-primary transition-colors">
+                                <span
+                                    class="material-symbols-outlined text-primary text-base hidden group-hover:block opacity-50">check</span>
+                            </div>
+                            <span
+                                class="text-xs font-medium text-slate-500 group-hover:text-slate-700 transition-colors">Address
+                                proof is under 3 months</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Footer Stats -->
+    <footer class="mt-auto border-t border-primary/10 bg-slate-50/30 py-4">
+        <div class="max-w-[1440px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-6">
+                <div class="flex items-center gap-2">
+                    <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                    <span class="text-[10px] font-bold text-slate-500 uppercase">System Online</span>
+                </div>
+                <div class="text-[10px] font-bold text-slate-500 uppercase">Version 2.4.0 (Stable)</div>
+            </div>
+            <div class="flex items-center gap-4 text-xs font-medium text-slate-500">
+                <p>Support</p>
+                <div class="w-1 h-1 rounded-full bg-primary/30"></div>
+                <p>Internal Docs</p>
+                <div class="w-1 h-1 rounded-full bg-primary/30"></div>
+                <p>© 2023 Degxifi Compliance Lab</p>
+            </div>
+        </div>
+    </footer>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Fallback Toast if showToast doesn't exist
+        function fallbackToast(message, type="success") {
+            if(typeof showToast === "function") {
+                try {
+                    showToast(message, type);
+                    return;
+                } catch(e) {}
+            }
+            // Create mini-toast
+            const t = document.createElement("div");
+            t.className = `fixed bottom-4 right-4 px-6 py-3 rounded-xl text-sm font-bold shadow-2xl z-[9999] transform transition-all translate-y-10 opacity-0 flex items-center gap-2 ${type === "success" ? "bg-primary text-white" : "bg-red-500 text-white"}`;
+            t.innerHTML = `<span class="material-symbols-outlined text-lg">${type === 'success' ? 'check_circle' : 'error'}</span><span>${message}</span>`;
+            document.body.appendChild(t);
+            setTimeout(() => t.classList.remove("translate-y-10", "opacity-0"), 10);
+            setTimeout(() => {
+                t.classList.add("translate-y-10", "opacity-0");
+                setTimeout(() => t.remove(), 300);
+            }, 3000);
+        }
+
+        // Intercept all '#' links
+        document.querySelectorAll('a[href="#"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                fallbackToast("Backend Action Pending: " + (this.textContent.trim() || 'Link clicked'), "success");
+            });
+        });
+
+        // Pagination Buttons Interaction
+        document.querySelectorAll('button').forEach(btn => {
+            const txt = btn.textContent.trim();
+            // Numbers 1, 2, 3...
+            if(txt.match(/^[0-9]+$/) && btn.parentElement.classList.contains('gap-2')) {
+                btn.addEventListener('click', function() {
+                    fallbackToast("Fetching Page " + txt + " from database...", "success");
+                    // Visual active state swap if applicable
+                    this.parentElement.querySelectorAll('button').forEach(b => {
+                        if(b.textContent.trim().match(/^[0-9]+$/)) {
+                            b.classList.remove('bg-primary', 'text-white');
+                            if(!b.classList.contains('text-slate-500')) {
+                                b.classList.add('text-slate-500');
+                            }
+                        }
+                    });
+                    this.classList.remove('text-slate-500', 'bg-white');
+                    this.classList.add('bg-primary', 'text-white');
+                });
+            }
+            
+            // Next / Prev Pagination 
+            if(txt === 'chevron_left' || txt === 'chevron_right' || txt === 'keyboard_double_arrow_left' || txt === 'keyboard_double_arrow_right') {
+                btn.addEventListener('click', function() {
+                    fallbackToast("Navigating pages...", "success");
+                });
+            }
+        });
+
+        // Filter / Select dropdowns
+        document.querySelectorAll('select').forEach(sel => {
+            sel.addEventListener('change', function() {
+                fallbackToast("Filtering data by: " + this.value, "success");
+            });
+        });
+        
+        // Top right bell icon / notification
+        const notifBtn = document.querySelector('button:has(span:contains("notifications"))') || document.querySelector('button span.material-symbols-outlined:contains("notifications")');
+        if(notifBtn) {
+            notifBtn.parentElement.addEventListener('click', function() {
+                fallbackToast("You have 0 unread alerts.");
+            });
+        }
+        
+    });
+</script>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Toast Notification System
+        function showToast(message, type = "success") {
+            const toast = document.createElement("div");
+            toast.className = `fixed bottom-4 right-4 px-6 py-3 rounded-xl text-sm font-bold shadow-2xl z-[200] transform transition-all translate-y-10 opacity-0 flex items-center gap-2 ${type === "success" ? "bg-primary text-white" : "bg-red-500 text-white"
+                }`;
+
+            const icon = document.createElement("span");
+            icon.className = "material-symbols-outlined text-lg";
+            icon.innerText = type === "success" ? "check_circle" : "error";
+
+            const text = document.createElement("span");
+            text.innerText = message;
+
+            toast.appendChild(icon);
+            toast.appendChild(text);
+            document.body.appendChild(toast);
+
+            // Animate in
+            setTimeout(() => toast.classList.remove("translate-y-10", "opacity-0"), 10);
+
+            // Animate out
+            setTimeout(() => {
+                toast.classList.add("translate-y-10", "opacity-0");
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Quick Checks Interactive Checklist
+        const checkLabels = document.querySelectorAll('.space-y-3 label');
+        checkLabels.forEach(label => {
+            label.addEventListener('click', function (e) {
+                // Prevent default so we can fake the click
+                e.preventDefault();
+                const checkIcon = this.querySelector('span.material-symbols-outlined');
+                const box = this.querySelector('.w-5.h-5');
+                const textSpan = this.querySelector('span.text-xs');
+
+                if (checkIcon.classList.contains('hidden')) {
+                    checkIcon.classList.remove('hidden', 'opacity-50');
+                    checkIcon.classList.add('opacity-100');
+                    box.classList.add('border-primary', 'bg-primary/10');
+                    textSpan.classList.add('text-primary');
+                    textSpan.classList.remove('text-slate-500');
+                } else {
+                    checkIcon.classList.add('hidden', 'opacity-50');
+                    checkIcon.classList.remove('opacity-100');
+                    box.classList.remove('border-primary', 'bg-primary/10');
+                    textSpan.classList.remove('text-primary');
+                    textSpan.classList.add('text-slate-500');
+                }
+            });
+        });
+
+        // Action Buttons
+        const approveBtn = document.getElementById("approve-btn");
+        const rejectBtn = document.getElementById("reject-btn");
+
+        if (approveBtn) {
+            approveBtn.addEventListener('click', () => {
+                showToast("KYE Documents Approved. Staff profile updated.");
+                setTimeout(() => {
+                    window.location.href = "../admin_staff_management/code.html";
+                }, 1500);
+            });
+        }
+
+        if (rejectBtn) {
+            rejectBtn.addEventListener('click', () => {
+                const reason = document.querySelector('select').value;
+                if (reason === "Select reason...") {
+                    showToast("Please select a rejection reason before rejecting.", "error");
+                    return;
+                }
+                showToast("KYE Documents Rejected for: " + reason, "error");
+                setTimeout(() => {
+                    window.location.href = "../admin_staff_management/code.html";
+                }, 2000);
+            });
+        }
+
+        // Thumbnail Click Logic
+        const thumbnails = document.querySelectorAll('.aspect-video');
+        thumbnails.forEach(thumb => {
+            thumb.addEventListener('click', function () {
+                const mainImage = document.querySelector('.aspect-square img');
+                const thumbImg = this.querySelector('img');
+
+                // Reset all borders
+                thumbnails.forEach(t => {
+                    t.classList.remove('border-primary', 'border-2', 'opacity-100');
+                    t.classList.add('border-primary/10', 'border', 'opacity-60');
+                });
+
+                // Set active
+                this.classList.remove('border-primary/10', 'border', 'opacity-60');
+                this.classList.add('border-primary', 'border-2', 'opacity-100');
+
+                // Swap main img src
+                mainImage.src = thumbImg.src;
+            });
+        });
+    });
+</script>
+
+</html>
