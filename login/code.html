@@ -195,7 +195,7 @@
 
         <!-- Bottom Bar -->
         <footer class="py-6 text-center">
-            <p class="text-slate-600 text-xs">© 2024 Degxifi Protocol. All internal communications are monitored and
+            <p class="text-slate-600 text-xs">© 2025 Degxifi Protocol. All internal communications are monitored and
                 encrypted.</p>
         </footer>
     </div>
@@ -231,90 +231,133 @@
 
         function handleLogin(event) {
             event.preventDefault();
-            // Route based on role selection
-            if (selectedRole === 'staff') {
-                window.location.href = '../staff_dashboard/code.html';
-            } else {
-                window.location.href = '../admin_staff_management/code.html';
+
+            const emailInput = document.querySelector('input[type="email"]').value;
+            const passwordInput = document.getElementById('password-input').value;
+
+            if (!emailInput) {
+                showError('Please enter your email address.');
+                return;
             }
+
+            // ========================================
+            // ADMIN LOGIN
+            // ========================================
+            if (selectedRole !== 'staff') {
+                const profile = {
+                    name: 'Gideon Igwe',
+                    email: emailInput,
+                    role: 'Super Admin',
+                    department: 'Administration',
+                    region: 'Nigeria',
+                    staffId: 'DGX-ADM-0001',
+                    kyeStatus: 'verified',
+                    kyeStep: 4,
+                    kyeTotalSteps: 4,
+                    kyeStepLabel: 'Verified',
+                    kyeSubmittedDate: null,
+                    kyeRefId: null,
+                    documentsUploaded: 0,
+                    documentsRequired: 0,
+                    riskScore: 0,
+                };
+
+                localStorage.removeItem('degxifi_kye_draft');
+                localStorage.setItem('degxifi_session', JSON.stringify({
+                    ...profile,
+                    loggedIn: true,
+                    loginTime: new Date().toISOString(),
+                    selectedRole: selectedRole
+                }));
+                window.location.href = '../admin_staff_management/code.html';
+                return;
+            }
+
+            // ========================================
+            // STAFF LOGIN
+            // ========================================
+
+            // Check if this staff has been deleted/removed by admin
+            let staffRecord = null;
+            try {
+                const adminStaff = JSON.parse(localStorage.getItem('degxifi_admin_staff'));
+                if (adminStaff && Array.isArray(adminStaff)) {
+                    staffRecord = adminStaff.find(s =>
+                        s.email && s.email.toLowerCase() === emailInput.toLowerCase()
+                    );
+                    // If staff list is populated but this email isn't there, they were deleted or don't exist
+                    if (!staffRecord && adminStaff.length > 0) {
+                        showError('Access denied. Your account has been removed or does not exist. Please contact your administrator.');
+                        return;
+                    }
+                }
+            } catch { }
+
+            let profile;
+            if (staffRecord) {
+                profile = {
+                    name: staffRecord.name,
+                    email: staffRecord.email,
+                    role: staffRecord.role || 'Staff',
+                    department: staffRecord.department || 'General',
+                    region: 'Nigeria',
+                    staffId: staffRecord.id,
+                    kyeStatus: staffRecord.kyeStatus || 'pending_submission',
+                    kyeStep: staffRecord.kyeStatus === 'pending_review' ? 2 : 0,
+                    kyeTotalSteps: 4,
+                    kyeStepLabel: staffRecord.kyeStatus === 'pending_review' ? 'Document Review' : 'Awaiting Submission',
+                    kyeSubmittedDate: staffRecord.kyeSubmittedDate || null,
+                    kyeRefId: null,
+                    documentsUploaded: staffRecord.kyeStatus === 'pending_review' ? 3 : 0,
+                    documentsRequired: 3,
+                    riskScore: 0,
+                    avatar: staffRecord.avatar || null,
+                };
+            } else {
+                // Ultimate fallback if localStorage is completely empty but we still want to let them test the demo
+                const tempName = emailInput.split('@')[0].split('.').map(n => n.charAt(0).toUpperCase() + n.slice(1)).join(' ');
+                profile = {
+                    name: tempName || 'Test Staff',
+                    email: emailInput,
+                    role: 'Staff',
+                    department: 'Engineering',
+                    region: 'Nigeria',
+                    staffId: 'DGX-STF-' + Math.floor(Math.random() * 9000 + 1000),
+                    kyeStatus: 'pending_submission',
+                    kyeStep: 0,
+                    kyeTotalSteps: 4,
+                    kyeStepLabel: 'Awaiting Submission',
+                    kyeSubmittedDate: null,
+                    kyeRefId: null,
+                    documentsUploaded: 0,
+                    documentsRequired: 3,
+                    riskScore: 0,
+                };
+            }
+
+            const activityEvents = [{
+                id: 1, type: 'success', title: 'Account Created',
+                description: 'Staff account registered. Please complete KYE verification.',
+                date: new Date().toISOString(), icon: 'person_add'
+            }];
+
+            const notifications = [{
+                id: 1, title: 'Welcome to Degxifi',
+                message: 'Your staff account is active. Please complete your KYE verification.',
+                time: new Date().toISOString(), read: false, icon: 'waving_hand'
+            }];
+
+            localStorage.removeItem('degxifi_kye_draft');
+            localStorage.setItem('degxifi_session', JSON.stringify({
+                ...profile, loggedIn: true,
+                loginTime: new Date().toISOString(), selectedRole: selectedRole
+            }));
+            localStorage.setItem('degxifi_activities', JSON.stringify(activityEvents));
+            localStorage.setItem('degxifi_notifications', JSON.stringify(notifications));
+            window.location.href = '../staff_dashboard/code.html';
         }
     </script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Fallback Toast if showToast doesn't exist
-        function fallbackToast(message, type="success") {
-            if(typeof showToast === "function") {
-                try {
-                    showToast(message, type);
-                    return;
-                } catch(e) {}
-            }
-            // Create mini-toast
-            const t = document.createElement("div");
-            t.className = `fixed bottom-4 right-4 px-6 py-3 rounded-xl text-sm font-bold shadow-2xl z-[9999] transform transition-all translate-y-10 opacity-0 flex items-center gap-2 ${type === "success" ? "bg-primary text-white" : "bg-red-500 text-white"}`;
-            t.innerHTML = `<span class="material-symbols-outlined text-lg">${type === 'success' ? 'check_circle' : 'error'}</span><span>${message}</span>`;
-            document.body.appendChild(t);
-            setTimeout(() => t.classList.remove("translate-y-10", "opacity-0"), 10);
-            setTimeout(() => {
-                t.classList.add("translate-y-10", "opacity-0");
-                setTimeout(() => t.remove(), 300);
-            }, 3000);
-        }
 
-        // Intercept all '#' links
-        document.querySelectorAll('a[href="#"]').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                fallbackToast("Backend Action Pending: " + (this.textContent.trim() || 'Link clicked'), "success");
-            });
-        });
-
-        // Pagination Buttons Interaction
-        document.querySelectorAll('button').forEach(btn => {
-            const txt = btn.textContent.trim();
-            // Numbers 1, 2, 3...
-            if(txt.match(/^[0-9]+$/) && btn.parentElement.classList.contains('gap-2')) {
-                btn.addEventListener('click', function() {
-                    fallbackToast("Fetching Page " + txt + " from database...", "success");
-                    // Visual active state swap if applicable
-                    this.parentElement.querySelectorAll('button').forEach(b => {
-                        if(b.textContent.trim().match(/^[0-9]+$/)) {
-                            b.classList.remove('bg-primary', 'text-white');
-                            if(!b.classList.contains('text-slate-500')) {
-                                b.classList.add('text-slate-500');
-                            }
-                        }
-                    });
-                    this.classList.remove('text-slate-500', 'bg-white');
-                    this.classList.add('bg-primary', 'text-white');
-                });
-            }
-            
-            // Next / Prev Pagination 
-            if(txt === 'chevron_left' || txt === 'chevron_right' || txt === 'keyboard_double_arrow_left' || txt === 'keyboard_double_arrow_right') {
-                btn.addEventListener('click', function() {
-                    fallbackToast("Navigating pages...", "success");
-                });
-            }
-        });
-
-        // Filter / Select dropdowns
-        document.querySelectorAll('select').forEach(sel => {
-            sel.addEventListener('change', function() {
-                fallbackToast("Filtering data by: " + this.value, "success");
-            });
-        });
-        
-        // Top right bell icon / notification
-        const notifBtn = document.querySelector('button:has(span:contains("notifications"))') || document.querySelector('button span.material-symbols-outlined:contains("notifications")');
-        if(notifBtn) {
-            notifBtn.parentElement.addEventListener('click', function() {
-                fallbackToast("You have 0 unread alerts.");
-            });
-        }
-        
-    });
-</script>
 </body>
 
 </html>

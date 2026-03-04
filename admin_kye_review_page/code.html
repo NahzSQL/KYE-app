@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>KYE Review - Oluwaseun Adeleke | Degxifi Admin</title>
+    <title>KYE Review - Gideon Igwe | Degxifi Admin</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap"
         rel="stylesheet" />
@@ -40,6 +40,84 @@
         .document-view-container {
             background-image: radial-gradient(circle at center, rgba(16, 183, 127, 0.10) 0%, transparent 70%);
         }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .animate-slide-in-right {
+            animation: slideInRight 0.5s ease-out forwards;
+        }
+
+        .animate-count-up {
+            animation: countUp 0.4s ease-out forwards;
+        }
+
+        .stat-card {
+            cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px) !important;
+            box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.08);
+        }
+
+        .delay-100 {
+            animation-delay: 0.1s;
+        }
+
+        .delay-200 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-300 {
+            animation-delay: 0.3s;
+        }
+
+        .delay-400 {
+            animation-delay: 0.4s;
+        }
+
+        .delay-500 {
+            animation-delay: 0.5s;
+        }
     </style>
 </head>
 
@@ -73,11 +151,13 @@
                 <div class="h-8 w-[1px] bg-primary/20"></div>
                 <div class="flex items-center gap-3 pl-2">
                     <div class="text-right hidden sm:block">
-                        <p class="text-xs font-bold leading-none">Tunde Bakare</p>
-                        <p class="text-[10px] text-slate-500">Chief Compliance</p>
+                        <p id="admin-header-name" class="text-xs font-bold leading-none">Admin</p>
+                        <p id="admin-header-role" class="text-[10px] text-slate-500">Super Admin</p>
                     </div>
-                    <img class="w-10 h-10 rounded-full border border-primary/20" data-alt="Admin user profile avatar"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4QxUwoj_WP-i7CeiQWxS5oZzPwnmYLcfbNAMH_quXljwA78IQfSc6NnFsNK0hmbVlQ3d0BFtaF9_Uzbq3zyTf9Y04w-3EZ_2GNTN646OwNnrArOhMWYa5fIMvGaqygz9Q747ntWFhgkwP_cs1wHKB7hkk_Ng1IBNNZXGWhdZQqTO2psrVtyHNlUhG6FdAymJgH2pIycMqVcWTIuSKzXFLJN9_dEAGnCf7mn3Dff9IdBgWY--e4JRp2zRUtiQKmXEWIZ6417y6_ig" />
+                    <div id="admin-header-avatar"
+                        class="w-10 h-10 rounded-full border border-primary/20 bg-primary/20 flex items-center justify-center overflow-hidden">
+                        <span class="material-symbols-outlined text-primary">person</span>
+                    </div>
                 </div>
                 <a href="../login/code.html"
                     class="p-2 rounded-lg text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-all"
@@ -85,26 +165,148 @@
             </div>
         </div>
     </header>
-    <main class="flex-1 max-w-[1440px] mx-auto w-full px-6 py-6 flex flex-col gap-6">
+
+    <!-- ============= QUEUE LIST VIEW (shown when no ?id= param) ============= -->
+    <main id="queue-view" class="flex-1 max-w-[1440px] mx-auto w-full px-6 py-8 flex flex-col gap-6 hidden">
+        <!-- Page Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 animate-fade-in-up">
+            <div>
+                <nav class="flex items-center gap-2 text-xs font-medium text-slate-500 mb-2">
+                    <a class="hover:text-primary transition-colors" href="../admin_staff_management/code.html">Admin</a>
+                    <span class="material-symbols-outlined text-sm">chevron_right</span>
+                    <span class="text-primary">KYE Queue</span>
+                </nav>
+                <h2 class="text-3xl font-black tracking-tight">KYE Review Queue</h2>
+                <p class="text-slate-500 text-sm mt-1">Review and manage staff KYE verification submissions.</p>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="stat-card bg-white border border-slate-200 rounded-xl p-5 animate-fade-in-up delay-100">
+                <div class="flex items-center gap-4">
+                    <div class="size-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                        <span class="material-symbols-outlined text-primary text-2xl">groups</span>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Total Staff</p>
+                        <p id="q-stat-total" class="text-2xl font-black text-slate-900 animate-count-up delay-300">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-card bg-white border border-amber-200/60 rounded-xl p-5 animate-fade-in-up delay-200">
+                <div class="flex items-center gap-4">
+                    <div class="size-12 rounded-xl bg-amber-500/10 flex items-center justify-center shrink-0">
+                        <span class="material-symbols-outlined text-amber-500 text-2xl">pending_actions</span>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-amber-600 uppercase tracking-wider">Pending Review</p>
+                        <p id="q-stat-pending" class="text-2xl font-black text-amber-600 animate-count-up delay-300">0
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-card bg-white border border-emerald-200/60 rounded-xl p-5 animate-fade-in-up delay-300">
+                <div class="flex items-center gap-4">
+                    <div class="size-12 rounded-xl bg-emerald-500/10 flex items-center justify-center shrink-0">
+                        <span class="material-symbols-outlined text-emerald-500 text-2xl">verified</span>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">Verified</p>
+                        <p id="q-stat-verified" class="text-2xl font-black text-emerald-600 animate-count-up delay-400">
+                            0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-card bg-white border border-red-200/60 rounded-xl p-5 animate-fade-in-up delay-400">
+                <div class="flex items-center gap-4">
+                    <div class="size-12 rounded-xl bg-red-500/10 flex items-center justify-center shrink-0">
+                        <span class="material-symbols-outlined text-red-500 text-2xl">cancel</span>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-red-600 uppercase tracking-wider">Rejected</p>
+                        <p id="q-stat-rejected" class="text-2xl font-black text-red-600 animate-count-up delay-500">0
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Tabs & Search -->
+        <div class="bg-white border border-slate-200 rounded-xl overflow-hidden animate-fade-in-up delay-400">
+            <div
+                class="px-6 py-4 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="flex gap-2 flex-wrap">
+                    <button onclick="filterQueue('all')" id="q-filter-all"
+                        class="px-4 py-2 text-xs font-bold rounded-lg bg-primary text-white transition-all">All</button>
+                    <button onclick="filterQueue('pending_review')" id="q-filter-pending_review"
+                        class="px-4 py-2 text-xs font-bold rounded-lg bg-slate-100 text-slate-600 hover:bg-amber-50 hover:text-amber-600 transition-all">Pending</button>
+                    <button onclick="filterQueue('verified')" id="q-filter-verified"
+                        class="px-4 py-2 text-xs font-bold rounded-lg bg-slate-100 text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition-all">Verified</button>
+                    <button onclick="filterQueue('rejected')" id="q-filter-rejected"
+                        class="px-4 py-2 text-xs font-bold rounded-lg bg-slate-100 text-slate-600 hover:bg-red-50 hover:text-red-600 transition-all">Rejected</button>
+                    <button onclick="filterQueue('pending_submission')" id="q-filter-pending_submission"
+                        class="px-4 py-2 text-xs font-bold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">Not
+                        Submitted</button>
+                </div>
+                <div class="relative">
+                    <span
+                        class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+                    <input id="q-search" type="text" placeholder="Search by name or email..."
+                        class="pl-10 pr-4 py-2 text-sm border border-slate-200 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary w-full md:w-72"
+                        oninput="filterQueue(currentQueueFilter)">
+                </div>
+            </div>
+
+            <!-- Queue Table -->
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead class="bg-slate-50 text-slate-500 uppercase text-[10px] tracking-widest font-bold">
+                        <tr>
+                            <th class="px-6 py-3 text-left">Staff Member</th>
+                            <th class="px-6 py-3 text-left">Role / Dept</th>
+                            <th class="px-6 py-3 text-left">Submitted</th>
+                            <th class="px-6 py-3 text-left">Status</th>
+                            <th class="px-6 py-3 text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="queue-table-body" class="divide-y divide-slate-100">
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Empty State -->
+            <div id="queue-empty" class="hidden p-12 text-center">
+                <div class="size-16 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-4">
+                    <span class="material-symbols-outlined text-3xl text-slate-300">inbox</span>
+                </div>
+                <p class="text-sm font-bold text-slate-500">No submissions found</p>
+                <p class="text-xs text-slate-400 mt-1">No staff match the current filter.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- ============= INDIVIDUAL REVIEW VIEW (shown when ?id= is present) ============= -->
+    <main id="review-view" class="flex-1 max-w-[1440px] mx-auto w-full px-6 py-6 flex flex-col gap-6 hidden">
         <!-- Breadcrumbs & Header -->
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
                 <nav class="flex items-center gap-2 text-xs font-medium text-slate-500 mb-2">
-                    <a class="hover:text-primary transition-colors"
-                        href="../admin_staff_management/code.html">Compliance</a>
+                    <a class="hover:text-primary transition-colors" href="../admin_staff_management/code.html">Admin</a>
                     <span class="material-symbols-outlined text-sm">chevron_right</span>
-                    <a class="hover:text-primary transition-colors" href="../admin_staff_management/code.html">KYE
+                    <a class="hover:text-primary transition-colors" href="../admin_KYE_review_page/code.html">KYE
                         Queue</a>
                     <span class="material-symbols-outlined text-sm">chevron_right</span>
-                    <span class="text-primary">Review: Oluwaseun Adeleke</span>
+                    <span id="breadcrumb-name" class="text-primary">Review: Staff Member</span>
                 </nav>
                 <div class="flex items-center gap-4">
-                    <h2 class="text-3xl font-black tracking-tight dark:text-slate-900">Oluwaseun Adeleke</h2>
-                    <span
+                    <h2 id="header-name" class="text-3xl font-black tracking-tight dark:text-slate-900">Staff Member
+                    </h2>
+                    <span id="header-status"
                         class="px-3 py-1 bg-amber-500/10 text-amber-500 text-xs font-bold rounded-full border border-amber-500/20 uppercase tracking-wider">Pending
                         Review</span>
                 </div>
-                <p class="text-slate-500 font-medium mt-1">Senior Developer • ID: PASSPORT-99210-MH</p>
+                <p id="header-meta" class="text-slate-500 font-medium mt-1">Role • ID: -----</p>
             </div>
             <div class="flex items-center gap-3">
                 <button
@@ -125,15 +327,14 @@
                 <div
                     class="bg-background-light dark:bg-slate-50/40 border border-primary/10 rounded-xl overflow-hidden flex flex-col h-[700px]">
                     <!-- Viewer Toolbar -->
-                    <div
-                        class="bg-slate-50/60 border-b border-primary/10 px-4 py-3 flex items-center justify-between">
-                        <div class="flex gap-1 bg-slate-50/80 p-1 rounded-lg">
-                            <button
+                    <div class="bg-slate-50/60 border-b border-primary/10 px-4 py-3 flex items-center justify-between">
+                        <div id="doc-tabs" class="flex gap-1 bg-slate-50/80 p-1 rounded-lg">
+                            <button id="doc-tab-0"
                                 class="px-4 py-1.5 text-xs font-bold rounded-md bg-primary text-white transition-all">Passport</button>
-                            <button
+                            <button id="doc-tab-1"
                                 class="px-4 py-1.5 text-xs font-bold rounded-md hover:bg-primary/10 text-slate-500 hover:text-primary transition-all">Utility
                                 Bill</button>
-                            <button
+                            <button id="doc-tab-2"
                                 class="px-4 py-1.5 text-xs font-bold rounded-md hover:bg-primary/10 text-slate-500 hover:text-primary transition-all">Selfie</button>
                         </div>
                         <div class="flex items-center gap-2">
@@ -168,7 +369,8 @@
                             <!-- Simulated Passport View -->
                             <div
                                 class="w-[500px] aspect-[1.4/1] bg-slate-100 rounded-lg shadow-2xl border border-slate-900/5 relative overflow-hidden">
-                                <img class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+                                <img id="doc-main-img"
+                                    class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
                                     data-alt="High resolution scan of a Nigerian Passport"
                                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuArV9RvbMc-LfFLfb6qsYFmoJ3xEIUmGp6yewputsIYLftdopHsA1Ozx_tS20q-rIiVU1fETcW8yvzSMjfroxDJwEboyURORjLcGDBucD2zES7SwawVohPIYAOdyg-iChPTpxP4A3dE1ZrNTtoA6loP1kzjOKDoQQ4uX_QS_6_QJbgVpRKkQZP24CKTLPZWU9V-6_6qPWPgISka_bAM4-7KDsWSfo0eii4jZzkeuG7wxGaPN_TNZ-vpJhYhfNsiEec8UWty5MOxV5E" />
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
@@ -177,7 +379,8 @@
                                         <div class="h-2 w-32 bg-primary/40 rounded"></div>
                                         <div class="h-2 w-48 bg-primary/20 rounded"></div>
                                     </div>
-                                    <div class="w-12 h-12 border border-primary/40 rounded bg-slate-900/5 backdrop-blur-sm">
+                                    <div
+                                        class="w-12 h-12 border border-primary/40 rounded bg-slate-900/5 backdrop-blur-sm">
                                     </div>
                                 </div>
                             </div>
@@ -214,20 +417,21 @@
                 </div>
                 <!-- Thumbnail Navigation -->
                 <div class="flex gap-4 overflow-x-auto pb-2">
-                    <div
+                    <div id="doc-thumb-0"
                         class="min-w-[120px] aspect-video rounded-lg border-2 border-primary bg-slate-50/60 p-1 cursor-pointer">
-                        <img class="w-full h-full object-cover rounded shadow" data-alt="Thumbnail of Passport document"
+                        <img id="doc-thumb-img-0" class="w-full h-full object-cover rounded shadow"
+                            data-alt="Thumbnail of Passport document"
                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOMlDGv_ZnxEiGVYaJ85zZ9rnL_pEs_4qbh5vOB5RZxWdVwpAttVKgObukW7r9P-afXfkB9wUEyI2T_GflfI7eJBSDn8KVKqH96DNJuu9vzL-kxu1p0lcNGypa_xWle83XecQRBiCKa3DxXJU7HENIWLf1QwPrlpslKN2qyQFp89TFxBNpA0ZMH_TZrNL3xxCxwCd0nx2TGMMF8h3sMR1piczRSN7CnfwCe93Kwf1yGzdaV-MOrjBgiQA8qRYAYNZgODpcIX2WCgY" />
                     </div>
-                    <div
+                    <div id="doc-thumb-1"
                         class="min-w-[120px] aspect-video rounded-lg border border-primary/10 bg-slate-50/60 p-1 opacity-60 hover:opacity-100 cursor-pointer transition-all">
-                        <img class="w-full h-full object-cover rounded shadow"
+                        <img id="doc-thumb-img-1" class="w-full h-full object-cover rounded shadow"
                             data-alt="Thumbnail of Utility Bill document"
                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2WIgRpLMZoFDy52J6BFP_wX3_yP0UtZEsPr04IRinPjhZrMR041WFHYcBG3tLLoDzjOk5_xeQGCKAq2pmCWLTtT5UoEtQG50akix-VfRkiU95o3RTw5YBOR-Tx0PxO7rRycn3nBjIeLp3uvPBxlCu9wMttvLKtUto7y4WdKtiL-gcxcAhuRfoX3zXRM9PYyyDC6yNSS0vQYG0bObhm8WS2OUM8qH1bftq4JAbexod3bzYk_-BWb3OT0qUPAGRKOTX6YNVKbpNcDk" />
                     </div>
-                    <div
+                    <div id="doc-thumb-2"
                         class="min-w-[120px] aspect-video rounded-lg border border-primary/10 bg-slate-50/60 p-1 opacity-60 hover:opacity-100 cursor-pointer transition-all">
-                        <img class="w-full h-full object-cover rounded shadow"
+                        <img id="doc-thumb-img-2" class="w-full h-full object-cover rounded shadow"
                             data-alt="Thumbnail of Selfie verification"
                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJ9vxu4n2HHGLg3L22ZbYhjyH6S8JtEobpii26YDLkcqJ3nwHmOa1sKrLqsKaUOA_t95UwYnodY6R0hsKE1BneyEmAA9czKFnZr81X7ISc8Ylj9onm2V_H8gUCALXl1t1BIpoBeH5k4FghOpcGznB17bg4BHFiwV9NUDgK0xLElBzLqb3NM1kTr8ZpoTuyLLLpH4OywFQ9Ks81WJ8u9Vk-sgHrM1BseOB6UwSwaKVzWNz0ZI_3s36iPSuf_czY0ElIHjkeSLbGpsg" />
                     </div>
@@ -244,15 +448,16 @@
                     <div class="space-y-4">
                         <div class="flex justify-between items-center">
                             <span class="text-xs text-slate-500 font-medium">Email Address</span>
-                            <span class="text-sm font-semibold truncate max-w-[180px]">o.adeleke@degxifi.io</span>
+                            <span id="meta-email"
+                                class="text-sm font-semibold truncate max-w-[180px]">email@degxifi.com</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-xs text-slate-500 font-medium">Submitted Date</span>
-                            <span class="text-sm font-semibold">Oct 24, 2023, 14:20</span>
+                            <span id="meta-date" class="text-sm font-semibold">—</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-xs text-slate-500 font-medium">Verification ID</span>
-                            <span class="text-sm font-mono text-primary font-semibold">KYE-MH-99210</span>
+                            <span id="meta-kyeid" class="text-sm font-mono text-primary font-semibold">—</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-xs text-slate-500 font-medium">Risk Score</span>
@@ -367,82 +572,82 @@
             </div>
         </div>
     </footer>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Fallback Toast if showToast doesn't exist
-        function fallbackToast(message, type="success") {
-            if(typeof showToast === "function") {
-                try {
-                    showToast(message, type);
-                    return;
-                } catch(e) {}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Fallback Toast if showToast doesn't exist
+            function fallbackToast(message, type = "success") {
+                if (typeof showToast === "function") {
+                    try {
+                        showToast(message, type);
+                        return;
+                    } catch (e) { }
+                }
+                // Create mini-toast
+                const t = document.createElement("div");
+                t.className = `fixed bottom-4 right-4 px-6 py-3 rounded-xl text-sm font-bold shadow-2xl z-[9999] transform transition-all translate-y-10 opacity-0 flex items-center gap-2 ${type === "success" ? "bg-primary text-white" : "bg-red-500 text-white"}`;
+                t.innerHTML = `<span class="material-symbols-outlined text-lg">${type === 'success' ? 'check_circle' : 'error'}</span><span>${message}</span>`;
+                document.body.appendChild(t);
+                setTimeout(() => t.classList.remove("translate-y-10", "opacity-0"), 10);
+                setTimeout(() => {
+                    t.classList.add("translate-y-10", "opacity-0");
+                    setTimeout(() => t.remove(), 300);
+                }, 3000);
             }
-            // Create mini-toast
-            const t = document.createElement("div");
-            t.className = `fixed bottom-4 right-4 px-6 py-3 rounded-xl text-sm font-bold shadow-2xl z-[9999] transform transition-all translate-y-10 opacity-0 flex items-center gap-2 ${type === "success" ? "bg-primary text-white" : "bg-red-500 text-white"}`;
-            t.innerHTML = `<span class="material-symbols-outlined text-lg">${type === 'success' ? 'check_circle' : 'error'}</span><span>${message}</span>`;
-            document.body.appendChild(t);
-            setTimeout(() => t.classList.remove("translate-y-10", "opacity-0"), 10);
-            setTimeout(() => {
-                t.classList.add("translate-y-10", "opacity-0");
-                setTimeout(() => t.remove(), 300);
-            }, 3000);
-        }
 
-        // Intercept all '#' links
-        document.querySelectorAll('a[href="#"]').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                fallbackToast("Backend Action Pending: " + (this.textContent.trim() || 'Link clicked'), "success");
+            // Intercept all '#' links
+            document.querySelectorAll('a[href="#"]').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    fallbackToast("Backend Action Pending: " + (this.textContent.trim() || 'Link clicked'), "success");
+                });
             });
-        });
 
-        // Pagination Buttons Interaction
-        document.querySelectorAll('button').forEach(btn => {
-            const txt = btn.textContent.trim();
-            // Numbers 1, 2, 3...
-            if(txt.match(/^[0-9]+$/) && btn.parentElement.classList.contains('gap-2')) {
-                btn.addEventListener('click', function() {
-                    fallbackToast("Fetching Page " + txt + " from database...", "success");
-                    // Visual active state swap if applicable
-                    this.parentElement.querySelectorAll('button').forEach(b => {
-                        if(b.textContent.trim().match(/^[0-9]+$/)) {
-                            b.classList.remove('bg-primary', 'text-white');
-                            if(!b.classList.contains('text-slate-500')) {
-                                b.classList.add('text-slate-500');
+            // Pagination Buttons Interaction
+            document.querySelectorAll('button').forEach(btn => {
+                const txt = btn.textContent.trim();
+                // Numbers 1, 2, 3...
+                if (txt.match(/^[0-9]+$/) && btn.parentElement.classList.contains('gap-2')) {
+                    btn.addEventListener('click', function () {
+                        fallbackToast("Fetching Page " + txt + " from database...", "success");
+                        // Visual active state swap if applicable
+                        this.parentElement.querySelectorAll('button').forEach(b => {
+                            if (b.textContent.trim().match(/^[0-9]+$/)) {
+                                b.classList.remove('bg-primary', 'text-white');
+                                if (!b.classList.contains('text-slate-500')) {
+                                    b.classList.add('text-slate-500');
+                                }
                             }
-                        }
+                        });
+                        this.classList.remove('text-slate-500', 'bg-white');
+                        this.classList.add('bg-primary', 'text-white');
                     });
-                    this.classList.remove('text-slate-500', 'bg-white');
-                    this.classList.add('bg-primary', 'text-white');
-                });
-            }
-            
-            // Next / Prev Pagination 
-            if(txt === 'chevron_left' || txt === 'chevron_right' || txt === 'keyboard_double_arrow_left' || txt === 'keyboard_double_arrow_right') {
-                btn.addEventListener('click', function() {
-                    fallbackToast("Navigating pages...", "success");
-                });
-            }
-        });
+                }
 
-        // Filter / Select dropdowns
-        document.querySelectorAll('select').forEach(sel => {
-            sel.addEventListener('change', function() {
-                fallbackToast("Filtering data by: " + this.value, "success");
+                // Next / Prev Pagination 
+                if (txt === 'chevron_left' || txt === 'chevron_right' || txt === 'keyboard_double_arrow_left' || txt === 'keyboard_double_arrow_right') {
+                    btn.addEventListener('click', function () {
+                        fallbackToast("Navigating pages...", "success");
+                    });
+                }
             });
+
+            // Filter / Select dropdowns
+            document.querySelectorAll('select').forEach(sel => {
+                sel.addEventListener('change', function () {
+                    fallbackToast("Filtering data by: " + this.value, "success");
+                });
+            });
+
+            // Top right bell icon / notification
+            const notifBtn = document.querySelector('button:has(span:contains("notifications"))') || document.querySelector('button span.material-symbols-outlined:contains("notifications")');
+            if (notifBtn) {
+                notifBtn.parentElement.addEventListener('click', function () {
+                    fallbackToast("You have 0 unread alerts.");
+                });
+            }
+
         });
-        
-        // Top right bell icon / notification
-        const notifBtn = document.querySelector('button:has(span:contains("notifications"))') || document.querySelector('button span.material-symbols-outlined:contains("notifications")');
-        if(notifBtn) {
-            notifBtn.parentElement.addEventListener('click', function() {
-                fallbackToast("You have 0 unread alerts.");
-            });
-        }
-        
-    });
-</script>
+    </script>
 </body>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -499,54 +704,298 @@
             });
         });
 
-        // Action Buttons
-        const approveBtn = document.getElementById("approve-btn");
-        const rejectBtn = document.getElementById("reject-btn");
+        // ========================================
+        // ADMIN HEADER POPULATION
+        // ========================================
+        try {
+            const adminSession = JSON.parse(localStorage.getItem('degxifi_session'));
+            if (adminSession && adminSession.name) {
+                const el1 = document.getElementById('admin-header-name');
+                const el2 = document.getElementById('admin-header-role');
+                if (el1) el1.textContent = adminSession.name;
+                if (el2) el2.textContent = adminSession.role || 'Super Admin';
+            }
+        } catch (e) { }
+
+        // ========================================
+        // MODE DETECTION
+        // ========================================
+        const urlParams = new URLSearchParams(window.location.search);
+        const reviewId = urlParams.get('id');
+        let currentStaff = null;
+        let staffList = [];
+        try { staffList = JSON.parse(localStorage.getItem('degxifi_admin_staff')) || []; } catch (e) { }
+
+        if (!reviewId) {
+            // ============================================
+            // QUEUE MODE — Show list of all staff
+            // ============================================
+            document.getElementById('queue-view').classList.remove('hidden');
+            document.getElementById('review-view').classList.add('hidden');
+            document.title = 'KYE Queue | Degxifi Admin';
+
+            let currentQueueFilter = 'all';
+            window.currentQueueFilter = 'all';
+
+            function getStatusBadge(status) {
+                const map = {
+                    pending_review: '<span class="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-500/10 text-amber-600 text-[10px] font-bold rounded-full border border-amber-500/20 uppercase tracking-wider"><span class="material-symbols-outlined text-xs">schedule</span>Pending</span>',
+                    verified: '<span class="inline-flex items-center gap-1 px-2.5 py-1 bg-emerald-500/10 text-emerald-600 text-[10px] font-bold rounded-full border border-emerald-500/20 uppercase tracking-wider"><span class="material-symbols-outlined text-xs">verified</span>Verified</span>',
+                    rejected: '<span class="inline-flex items-center gap-1 px-2.5 py-1 bg-red-500/10 text-red-600 text-[10px] font-bold rounded-full border border-red-500/20 uppercase tracking-wider"><span class="material-symbols-outlined text-xs">cancel</span>Rejected</span>',
+                    pending_submission: '<span class="inline-flex items-center gap-1 px-2.5 py-1 bg-slate-100 text-slate-500 text-[10px] font-bold rounded-full border border-slate-200 uppercase tracking-wider"><span class="material-symbols-outlined text-xs">edit</span>Not Submitted</span>'
+                };
+                return map[status] || map.pending_submission;
+            }
+
+            function getActionBtn(staff) {
+                if (staff.kyeStatus === 'pending_review') {
+                    return '<a href="?id=' + staff.id + '" class="inline-flex items-center gap-1.5 px-4 py-2 bg-primary text-white text-xs font-bold rounded-lg hover:brightness-110 transition-all shadow-sm shadow-primary/20"><span class="material-symbols-outlined text-sm">rate_review</span>Review</a>';
+                } else if (staff.kyeStatus === 'verified') {
+                    return '<a href="?id=' + staff.id + '" class="inline-flex items-center gap-1.5 px-4 py-2 bg-white text-slate-600 text-xs font-bold rounded-lg hover:bg-slate-50 transition-all border border-slate-200"><span class="material-symbols-outlined text-sm">visibility</span>View</a>';
+                } else if (staff.kyeStatus === 'rejected') {
+                    return '<a href="?id=' + staff.id + '" class="inline-flex items-center gap-1.5 px-4 py-2 bg-white text-red-500 text-xs font-bold rounded-lg hover:bg-red-50 transition-all border border-red-200"><span class="material-symbols-outlined text-sm">history</span>View</a>';
+                }
+                return '<span class="text-xs text-slate-400 font-medium">Awaiting submission</span>';
+            }
+
+            window.filterQueue = function (filter) {
+                currentQueueFilter = filter;
+                window.currentQueueFilter = filter;
+                var searchTerm = (document.getElementById('q-search').value || '').toLowerCase();
+
+                // Update tab styles
+                ['all', 'pending_review', 'verified', 'rejected', 'pending_submission'].forEach(function (f) {
+                    var btn = document.getElementById('q-filter-' + f);
+                    if (!btn) return;
+                    if (f === filter) {
+                        var colorMap = { all: 'bg-primary text-white', pending_review: 'bg-amber-500 text-white', verified: 'bg-emerald-500 text-white', rejected: 'bg-red-500 text-white', pending_submission: 'bg-slate-500 text-white' };
+                        btn.className = 'px-4 py-2 text-xs font-bold rounded-lg ' + colorMap[f] + ' transition-all';
+                    } else {
+                        btn.className = 'px-4 py-2 text-xs font-bold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all';
+                    }
+                });
+
+                var filtered = staffList.slice();
+                if (filter !== 'all') {
+                    filtered = filtered.filter(function (s) { return s.kyeStatus === filter; });
+                }
+                if (searchTerm) {
+                    filtered = filtered.filter(function (s) {
+                        return (s.name || '').toLowerCase().indexOf(searchTerm) !== -1 ||
+                            (s.email || '').toLowerCase().indexOf(searchTerm) !== -1;
+                    });
+                }
+
+                var tbody = document.getElementById('queue-table-body');
+                var emptyEl = document.getElementById('queue-empty');
+
+                if (filtered.length === 0) {
+                    tbody.innerHTML = '';
+                    emptyEl.classList.remove('hidden');
+                } else {
+                    emptyEl.classList.add('hidden');
+                    var rows = '';
+                    for (var i = 0; i < filtered.length; i++) {
+                        var s = filtered[i];
+                        var initials = (s.name || 'S').split(' ').map(function (n) { return n[0]; }).join('').toUpperCase().slice(0, 2);
+                        var dateStr = s.kyeSubmittedDate ? new Date(s.kyeSubmittedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—';
+                        var avatarHtml = s.avatar ? '<img src="' + s.avatar + '" class="w-full h-full object-cover">' : initials;
+                        rows += '<tr class="hover:bg-slate-50/80 transition-all">' +
+                            '<td class="px-6 py-4"><div class="flex items-center gap-3"><div class="size-9 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-bold shrink-0 overflow-hidden">' + avatarHtml + '</div><div><p class="font-bold text-slate-900 text-sm">' + s.name + '</p><p class="text-xs text-slate-500">' + s.email + '</p></div></div></td>' +
+                            '<td class="px-6 py-4 text-slate-600 text-sm">' + (s.role || 'Staff') + ' · ' + (s.department || 'General') + '</td>' +
+                            '<td class="px-6 py-4 text-sm text-slate-500">' + dateStr + '</td>' +
+                            '<td class="px-6 py-4">' + getStatusBadge(s.kyeStatus) + '</td>' +
+                            '<td class="px-6 py-4 text-right">' + getActionBtn(s) + '</td></tr>';
+                    }
+                    tbody.innerHTML = rows;
+                }
+
+                // Stats
+                document.getElementById('q-stat-total').textContent = staffList.length;
+                document.getElementById('q-stat-pending').textContent = staffList.filter(function (s) { return s.kyeStatus === 'pending_review'; }).length;
+                document.getElementById('q-stat-verified').textContent = staffList.filter(function (s) { return s.kyeStatus === 'verified'; }).length;
+                document.getElementById('q-stat-rejected').textContent = staffList.filter(function (s) { return s.kyeStatus === 'rejected'; }).length;
+            };
+
+            // Initial render
+            filterQueue('all');
+
+        } else {
+            // ============================================
+            // REVIEW MODE — Show individual staff review
+            // ============================================
+            document.getElementById('queue-view').classList.add('hidden');
+            document.getElementById('review-view').classList.remove('hidden');
+
+            currentStaff = staffList.find(function (s) { return s.id === reviewId; });
+
+            if (currentStaff) {
+                document.title = 'Review: ' + currentStaff.name + ' | Degxifi Admin';
+                document.getElementById('breadcrumb-name').textContent = 'Review: ' + currentStaff.name;
+                document.getElementById('header-name').textContent = currentStaff.name;
+                document.getElementById('meta-email').textContent = currentStaff.email;
+
+                var role = currentStaff.role || currentStaff.department || 'Staff';
+                document.getElementById('header-meta').textContent = role + ' • ID: ' + currentStaff.id;
+                document.getElementById('meta-kyeid').textContent = 'KYE-' + currentStaff.id.split('-').pop();
+
+                var dateStr = currentStaff.kyeSubmittedDate
+                    ? new Date(currentStaff.kyeSubmittedDate).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+                    : 'Not Submitted';
+                document.getElementById('meta-date').textContent = dateStr;
+
+                var stEl = document.getElementById('header-status');
+                if (currentStaff.kyeStatus === 'verified') {
+                    stEl.className = 'px-3 py-1 bg-emerald-500/10 text-emerald-500 text-xs font-bold rounded-full border border-emerald-500/20 uppercase tracking-wider';
+                    stEl.textContent = 'Verified';
+                    hideReviewActions();
+                } else if (currentStaff.kyeStatus === 'rejected') {
+                    stEl.className = 'px-3 py-1 bg-red-500/10 text-red-500 text-xs font-bold rounded-full border border-red-500/20 uppercase tracking-wider';
+                    stEl.textContent = 'Rejected';
+                    hideReviewActions();
+                } else if (currentStaff.kyeStatus === 'pending_review') {
+                    stEl.className = 'px-3 py-1 bg-amber-500/10 text-amber-500 text-xs font-bold rounded-full border border-amber-500/20 uppercase tracking-wider';
+                    stEl.textContent = 'Pending Review';
+                } else {
+                    stEl.className = 'px-3 py-1 bg-slate-100 text-slate-500 text-xs font-bold rounded-full border border-slate-200 uppercase tracking-wider';
+                    stEl.textContent = 'Not Submitted';
+                    hideReviewActions();
+                }
+
+                function hideReviewActions() {
+                    var ab = document.getElementById('approve-btn');
+                    if (ab) ab.parentElement.parentElement.style.display = 'none';
+                    var cl = document.querySelector('.space-y-3 label');
+                    if (cl) cl.parentElement.parentElement.style.display = 'none';
+                }
+
+                // Populate Actual Documents using IDs
+                var docs = currentStaff.kyeDocs;
+                if (docs) {
+                    var mainImg = document.getElementById('doc-main-img');
+                    var tabBtns = [document.getElementById('doc-tab-0'), document.getElementById('doc-tab-1'), document.getElementById('doc-tab-2')];
+                    var thumbImgs = [document.getElementById('doc-thumb-img-0'), document.getElementById('doc-thumb-img-1'), document.getElementById('doc-thumb-img-2')];
+                    var thumbDivs = [document.getElementById('doc-thumb-0'), document.getElementById('doc-thumb-1'), document.getElementById('doc-thumb-2')];
+
+                    var idTypeLabels = { passport: 'Passport', national_id: 'National ID', drivers_license: "Driver's License", voters_card: "Voter's Card" };
+                    var docImages = [docs.idImage, docs.addressImage, docs.selfieImage];
+
+                    // Update tab label for ID type
+                    if (tabBtns[0]) tabBtns[0].textContent = idTypeLabels[docs.idType] || 'ID Document';
+
+                    // Set main viewer to ID doc by default
+                    if (docs.idImage && mainImg) { mainImg.src = docs.idImage; mainImg.style.objectFit = 'contain'; }
+
+                    // Set thumbnails
+                    if (docs.idImage && thumbImgs[0]) thumbImgs[0].src = docs.idImage;
+                    if (docs.addressImage && thumbImgs[1]) thumbImgs[1].src = docs.addressImage;
+                    if (docs.selfieImage && thumbImgs[2]) thumbImgs[2].src = docs.selfieImage;
+
+                    // Update Document Type metadata
+                    var docTypeEl = document.querySelector('.grid.grid-cols-3 .text-sm.font-semibold');
+                    if (docTypeEl) docTypeEl.textContent = (idTypeLabels[docs.idType] || 'ID Document') + ' (NGA)';
+
+                    // Helper to set active tab + thumbnail
+                    function setActiveDoc(idx) {
+                        // Update tabs
+                        for (var j = 0; j < 3; j++) {
+                            if (tabBtns[j]) tabBtns[j].className = 'px-4 py-1.5 text-xs font-bold rounded-md hover:bg-primary/10 text-slate-500 hover:text-primary transition-all';
+                        }
+                        if (tabBtns[idx]) tabBtns[idx].className = 'px-4 py-1.5 text-xs font-bold rounded-md bg-primary text-white transition-all';
+                        // Update thumbnails
+                        for (var j = 0; j < 3; j++) {
+                            if (thumbDivs[j]) {
+                                thumbDivs[j].classList.remove('border-primary', 'border-2', 'opacity-100');
+                                thumbDivs[j].classList.add('border', 'opacity-60');
+                            }
+                        }
+                        if (thumbDivs[idx]) {
+                            thumbDivs[idx].classList.remove('border', 'opacity-60');
+                            thumbDivs[idx].classList.add('border-primary', 'border-2', 'opacity-100');
+                        }
+                        // Update main image
+                        if (docImages[idx] && mainImg) mainImg.src = docImages[idx];
+                    }
+
+                    // Tab click handlers
+                    for (var ti = 0; ti < 3; ti++) {
+                        (function (idx) {
+                            if (tabBtns[idx]) tabBtns[idx].addEventListener('click', function () { setActiveDoc(idx); });
+                        })(ti);
+                    }
+
+                    // Thumbnail click handlers
+                    for (var thi = 0; thi < 3; thi++) {
+                        (function (idx) {
+                            if (thumbDivs[idx]) thumbDivs[idx].addEventListener('click', function () { setActiveDoc(idx); });
+                        })(thi);
+                    }
+                } else {
+                    var viewerContainer = document.querySelector('.document-view-container');
+                    if (viewerContainer) {
+                        viewerContainer.innerHTML = '<div class="flex flex-col items-center justify-center h-full text-center"><span class="material-symbols-outlined text-5xl text-slate-300 mb-3">folder_off</span><p class="text-sm font-bold text-slate-500">No Documents Available</p><p class="text-xs text-slate-400 mt-1">This staff member has not uploaded any documents yet.</p></div>';
+                    }
+                }
+            } else {
+                showToast("Staff profile not found.", "error");
+            }
+        }
+
+        // ========================================
+        // SHARED: Approve / Reject (review mode)
+        // ========================================
+        function updateStatus(newStatus, actionOrReason) {
+            if (!currentStaff) { showToast('Staff not found.', 'error'); return; }
+
+            currentStaff.kyeStatus = newStatus;
+            var idx = staffList.findIndex(function (s) { return s.id === reviewId; });
+            if (idx !== -1) staffList[idx] = currentStaff;
+            localStorage.setItem('degxifi_admin_staff', JSON.stringify(staffList));
+
+            try {
+                var sess = JSON.parse(localStorage.getItem('degxifi_session'));
+                if (sess && (sess.staffId === reviewId || (sess.email && sess.email.toLowerCase() === (currentStaff.email || '').toLowerCase()))) {
+                    sess.kyeStatus = newStatus;
+                    localStorage.setItem('degxifi_session', JSON.stringify(sess));
+                }
+            } catch (e) { }
+
+            try {
+                var sess2 = JSON.parse(localStorage.getItem('degxifi_session'));
+                var adminName = (sess2 && sess2.name) ? sess2.name : 'Admin';
+                var logs = JSON.parse(localStorage.getItem('degxifi_audit_logs')) || [];
+                logs.unshift({ id: Date.now(), admin: adminName, action: newStatus === 'verified' ? 'Approved KYE for ' + currentStaff.name : 'Rejected KYE for ' + currentStaff.name + ' - ' + actionOrReason, date: new Date().toISOString() });
+                localStorage.setItem('degxifi_audit_logs', JSON.stringify(logs));
+            } catch (e) { }
+
+            showToast('KYE Documents ' + (newStatus === 'verified' ? 'Approved' : 'Rejected') + '.');
+            setTimeout(function () { window.location.href = '../admin_KYE_review_page/code.html'; }, 1000);
+        }
+
+        var approveBtn = document.getElementById("approve-btn");
+        var rejectBtn = document.getElementById("reject-btn");
 
         if (approveBtn) {
-            approveBtn.addEventListener('click', () => {
-                showToast("KYE Documents Approved. Staff profile updated.");
-                setTimeout(() => {
-                    window.location.href = "../admin_staff_management/code.html";
-                }, 1500);
+            approveBtn.addEventListener('click', function () {
+                this.classList.add('opacity-80', 'cursor-not-allowed', 'pointer-events-none');
+                this.innerHTML = '<span class="material-symbols-outlined animate-spin text-2xl">sync</span><span class="text-xs font-black uppercase tracking-widest">Processing...</span>';
+                setTimeout(function () { updateStatus('verified', 'Approved'); }, 800);
             });
         }
 
         if (rejectBtn) {
-            rejectBtn.addEventListener('click', () => {
-                const reason = document.querySelector('select').value;
-                if (reason === "Select reason...") {
-                    showToast("Please select a rejection reason before rejecting.", "error");
+            rejectBtn.addEventListener('click', function () {
+                var sel = document.querySelector('select');
+                var reason = sel ? sel.value : '';
+                if (!reason || reason === 'Select reason...') {
+                    showToast('Please select a rejection reason.', 'error');
                     return;
                 }
-                showToast("KYE Documents Rejected for: " + reason, "error");
-                setTimeout(() => {
-                    window.location.href = "../admin_staff_management/code.html";
-                }, 2000);
+                this.classList.add('opacity-80', 'cursor-not-allowed', 'pointer-events-none');
+                this.innerHTML = '<span class="material-symbols-outlined animate-spin text-2xl">sync</span><span class="text-xs font-black uppercase tracking-widest">Processing...</span>';
+                setTimeout(function () { updateStatus('rejected', reason); }, 800);
             });
         }
-
-        // Thumbnail Click Logic
-        const thumbnails = document.querySelectorAll('.aspect-video');
-        thumbnails.forEach(thumb => {
-            thumb.addEventListener('click', function () {
-                const mainImage = document.querySelector('.aspect-square img');
-                const thumbImg = this.querySelector('img');
-
-                // Reset all borders
-                thumbnails.forEach(t => {
-                    t.classList.remove('border-primary', 'border-2', 'opacity-100');
-                    t.classList.add('border-primary/10', 'border', 'opacity-60');
-                });
-
-                // Set active
-                this.classList.remove('border-primary/10', 'border', 'opacity-60');
-                this.classList.add('border-primary', 'border-2', 'opacity-100');
-
-                // Swap main img src
-                mainImage.src = thumbImg.src;
-            });
-        });
     });
 </script>
 

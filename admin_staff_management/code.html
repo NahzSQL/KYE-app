@@ -12,9 +12,6 @@
         rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap"
         rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -43,12 +40,117 @@
         body {
             font-family: 'Inter', sans-serif;
         }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.5s ease-out both;
+        }
+
+        .delay-100 {
+            animation-delay: 0.1s;
+        }
+
+        .delay-200 {
+            animation-delay: 0.2s;
+        }
+
+        /* Modal Animations */
+        @keyframes modalBackdropIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes modalBackdropOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+
+        @keyframes modalCardIn {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.92);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes modalCardOut {
+            from {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+        }
+
+        .modal-backdrop-in {
+            animation: modalBackdropIn 0.3s ease-out forwards;
+        }
+
+        .modal-backdrop-out {
+            animation: modalBackdropOut 0.25s ease-in forwards;
+        }
+
+        .modal-card-in {
+            animation: modalCardIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .modal-card-out {
+            animation: modalCardOut 0.2s ease-in forwards;
+        }
+
+        /* Row delete animation */
+        @keyframes rowSlideOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+                max-height: 80px;
+            }
+
+            to {
+                opacity: 0;
+                transform: translateX(-30px);
+                max-height: 0;
+                padding: 0;
+            }
+        }
+
+        .row-removing {
+            animation: rowSlideOut 0.35s ease-in forwards;
+            overflow: hidden;
+        }
     </style>
 </head>
 
-<body class="bg-background-light dark:bg-slate-50 text-slate-900 dark:text-slate-800 min-h-screen">
+<body class="bg-background-light text-slate-900 min-h-screen">
     <div class="flex flex-col min-h-screen">
-        <!-- Main Content Area -->
         <!-- Top Navigation Bar -->
         <header class="border-b border-primary/20 bg-slate-50/80 backdrop-blur-md sticky top-0 z-50">
             <div class="max-w-[1440px] mx-auto w-full flex items-center justify-between px-6 lg:px-10 h-16">
@@ -69,50 +171,80 @@
                     </nav>
                 </div>
                 <div class="flex items-center gap-4">
-                    <div
-                        class="hidden sm:flex items-center bg-white rounded-lg px-3 py-1.5 border border-slate-200">
+                    <div class="hidden sm:flex items-center bg-white rounded-lg px-3 py-1.5 border border-slate-200">
                         <span class="material-symbols-outlined text-slate-500 text-sm">search</span>
-                        <input
+                        <input id="global-search"
                             class="bg-transparent border-none focus:ring-0 text-sm text-slate-900 placeholder:text-slate-500 w-40 lg:w-64"
                             placeholder="Global Search..." type="text" />
                     </div>
-                    <button class="p-2 text-slate-500 hover:text-slate-900 transition-colors relative">
-                        <span class="material-symbols-outlined">notifications</span>
-                        <span
-                            class="absolute top-2 right-2 size-2 bg-primary rounded-full border-2 border-background-dark"></span>
-                    </button>
-                    <div class="h-8 w-px bg-border-dark mx-2"></div>
-                    <div class="flex items-center gap-3">
-                        <div class="text-right hidden sm:block">
-                            <p class="text-xs font-bold text-slate-900 leading-none">Tunde Bakare</p>
-                            <p class="text-[10px] text-primary font-medium uppercase tracking-widest mt-1">Super
-                                Admin
-                            </p>
-                        </div>
-                        <div class="size-10 rounded-full border-2 border-primary/30 p-0.5">
-                            <img class="size-full rounded-full object-cover"
-                                data-alt="Admin user profile avatar showing a smiling male professional"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9dp5vxNUv2-9g7b7jRhcTWP8b7BUCR9AkNCKPTKTuKfe-4QoEyC3vH7WxqpvUuvmw2OFILMylbwxLn3CGpFA-CKgftjuTxfd1qAWBhhRAJHhUpzdbmlf7FdI6L8ELYTs3-Oa0ZV84h8Q4R9X_Sm2UVRXLqgmuf3GhF18RRNn0IgX5aMEVQuJNp5ASN-kgKp31oOa5PsGzUqkLAFWTsJqt01mE_MVvRH7jkHfqH0LVgimMQ6NGhXtlKnBKGtDs2nGI1gI_l6f91ok" />
+                    <!-- Notification Bell -->
+                    <div class="relative">
+                        <button id="notif-bell" onclick="toggleNotifications()"
+                            class="relative p-2 rounded-lg text-slate-500 hover:text-primary hover:bg-primary/10 transition-all"
+                            title="Notifications">
+                            <span class="material-symbols-outlined">notifications</span>
+                            <span id="notif-badge"
+                                class="absolute top-1 right-1 size-2 bg-primary rounded-full hidden"></span>
+                        </button>
+                        <div id="notif-dropdown"
+                            class="hidden absolute right-0 top-12 w-80 bg-white border border-slate-200 rounded-xl shadow-2xl shadow-slate-200/50 z-50 overflow-hidden">
+                            <div class="p-4 border-b border-slate-100 flex items-center justify-between">
+                                <h4 class="font-bold text-sm text-slate-900">Admin Notifications</h4>
+                                <button onclick="markAllRead()"
+                                    class="text-xs text-primary font-medium hover:underline">Mark all read</button>
+                            </div>
+                            <div id="notif-list" class="max-h-72 overflow-y-auto"></div>
+                            <div class="p-3 border-t border-slate-100 text-center">
+                                <span class="text-xs text-slate-400">End of notifications</span>
+                            </div>
                         </div>
                     </div>
-                    <a href="../login/code.html"
+                    <div class="h-8 w-px bg-slate-200 mx-1"></div>
+                    <div class="flex items-center gap-3">
+                        <div class="text-right hidden sm:block">
+                            <p id="admin-name" class="text-xs font-bold text-slate-900 leading-none">Admin</p>
+                            <p class="text-[10px] text-primary font-medium uppercase tracking-widest mt-1">Super
+                                Admin</p>
+                        </div>
+                        <div
+                            class="size-10 rounded-full border-2 border-primary/30 bg-primary/10 flex items-center justify-center overflow-hidden">
+                            <span class="material-symbols-outlined text-primary">admin_panel_settings</span>
+                        </div>
+                    </div>
+                    <a href="#" id="logout-btn"
                         class="p-2 rounded-lg text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
                         title="Sign Out"><span class="material-symbols-outlined text-xl">logout</span></a>
+                    <!-- Mobile Menu Toggle -->
+                    <button onclick="toggleMobileMenu()"
+                        class="md:hidden p-2 rounded-lg text-slate-500 hover:text-primary hover:bg-primary/10 transition-all">
+                        <span id="mobile-menu-icon" class="material-symbols-outlined text-xl">menu</span>
+                    </button>
                 </div>
+            </div>
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden border-t border-slate-200 bg-white px-6 py-3">
+                <nav class="flex flex-col gap-3">
+                    <a class="text-primary text-sm font-bold py-2" href="../admin_staff_management/code.html">Staff
+                        Management</a>
+                    <a class="text-slate-500 hover:text-primary transition-colors text-sm font-medium py-2"
+                        href="../admin_KYE_review_page/code.html">KYE Queue</a>
+                    <a class="text-slate-500 hover:text-primary transition-colors text-sm font-medium py-2"
+                        href="../admin_audit_logs/code.html">Audit Logs</a>
+                </nav>
             </div>
         </header>
         <!-- Page Content -->
         <main class="p-6 lg:p-10 max-w-[1400px] mx-auto w-full">
             <!-- Page Header -->
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 animate-fade-in-up">
                 <div>
                     <h1 class="text-slate-900 text-3xl font-black tracking-tight mb-1">Staff KYE Management</h1>
                     <p class="text-slate-500 text-sm">Review and manage internal identity verification for Degxifi
                         personnel.</p>
                 </div>
                 <div class="flex items-center gap-3">
-                    <button
-                        class="flex items-center gap-2 px-4 py-2 bg-white hover:bg-border-dark text-slate-900 rounded-lg text-sm font-bold border border-slate-200 transition-all">
+                    <button id="download-csv-btn"
+                        class="flex items-center gap-2 px-4 py-2 bg-white hover:bg-slate-50 text-slate-900 rounded-lg text-sm font-bold border border-slate-200 transition-all">
                         <span class="material-symbols-outlined text-sm">download</span>
                         Download CSV
                     </button>
@@ -124,98 +256,79 @@
                 </div>
             </div>
             <!-- Summary Stats -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="text-slate-500 text-sm font-medium">Total Applications</span>
-                        <span class="material-symbols-outlined text-primary">groups</span>
-                    </div>
-                    <div class="flex items-baseline gap-2">
-                        <h3 class="text-slate-900 text-3xl font-bold tracking-tight">1,284</h3>
-                        <span class="text-primary text-xs font-bold bg-primary/10 px-1.5 py-0.5 rounded">+12%</span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 animate-fade-in-up delay-100">
+                <div
+                    class="bg-white border border-slate-200 rounded-xl p-5 hover:shadow-lg hover:shadow-slate-100 transition-all hover:-translate-y-0.5">
+                    <div class="flex items-center gap-4">
+                        <div class="size-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-primary text-2xl">groups</span>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Total Staff</p>
+                            <h3 id="stat-total" class="text-2xl font-black text-slate-900">0</h3>
+                        </div>
                     </div>
                 </div>
                 <div
-                    class="bg-white border-l-4 border-l-yellow-500 border border-slate-200 rounded-xl p-6 shadow-sm">
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="text-slate-500 text-sm font-medium">Pending Review</span>
-                        <span class="material-symbols-outlined text-yellow-500">hourglass_empty</span>
-                    </div>
-                    <div class="flex items-baseline gap-2">
-                        <h3 class="text-slate-900 text-3xl font-bold tracking-tight">156</h3>
-                        <span
-                            class="text-yellow-500 text-xs font-bold bg-yellow-500/10 px-1.5 py-0.5 rounded">+5%</span>
-                    </div>
-                </div>
-                <div
-                    class="bg-white border-l-4 border-l-primary border border-slate-200 rounded-xl p-6 shadow-sm">
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="text-slate-500 text-sm font-medium">Approved</span>
-                        <span class="material-symbols-outlined text-primary">check_circle</span>
-                    </div>
-                    <div class="flex items-baseline gap-2">
-                        <h3 class="text-slate-900 text-3xl font-bold tracking-tight">1,042</h3>
-                        <span class="text-primary text-xs font-bold bg-primary/10 px-1.5 py-0.5 rounded">+8%</span>
+                    class="bg-white border border-amber-200/60 rounded-xl p-5 hover:shadow-lg hover:shadow-amber-50 transition-all hover:-translate-y-0.5">
+                    <div class="flex items-center gap-4">
+                        <div class="size-12 rounded-xl bg-amber-500/10 flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-amber-500 text-2xl">pending_actions</span>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold text-amber-600 uppercase tracking-wider">Pending Review</p>
+                            <h3 id="stat-pending" class="text-2xl font-black text-amber-600">0</h3>
+                        </div>
                     </div>
                 </div>
                 <div
-                    class="bg-white border-l-4 border-l-red-500 border border-slate-200 rounded-xl p-6 shadow-sm">
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="text-slate-500 text-sm font-medium">Flagged/Rejected</span>
-                        <span class="material-symbols-outlined text-red-500">report</span>
+                    class="bg-white border border-emerald-200/60 rounded-xl p-5 hover:shadow-lg hover:shadow-emerald-50 transition-all hover:-translate-y-0.5">
+                    <div class="flex items-center gap-4">
+                        <div class="size-12 rounded-xl bg-emerald-500/10 flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-emerald-500 text-2xl">verified</span>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">Verified</p>
+                            <h3 id="stat-verified" class="text-2xl font-black text-emerald-600">0</h3>
+                        </div>
                     </div>
-                    <div class="flex items-baseline gap-2">
-                        <h3 class="text-slate-900 text-3xl font-bold tracking-tight">86</h3>
-                        <span class="text-red-500 text-xs font-bold bg-red-500/10 px-1.5 py-0.5 rounded">-2%</span>
+                </div>
+                <div
+                    class="bg-white border border-red-200/60 rounded-xl p-5 hover:shadow-lg hover:shadow-red-50 transition-all hover:-translate-y-0.5">
+                    <div class="flex items-center gap-4">
+                        <div class="size-12 rounded-xl bg-red-500/10 flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-red-500 text-2xl">cancel</span>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold text-red-600 uppercase tracking-wider">Rejected</p>
+                            <h3 id="stat-rejected" class="text-2xl font-black text-red-600">0</h3>
+                        </div>
                     </div>
                 </div>
             </div>
             <!-- Filters & Search -->
-            <div class="bg-white border border-slate-200 rounded-xl p-4 mb-6">
+            <div class="bg-white border border-slate-200 rounded-xl p-4 mb-6 animate-fade-in-up delay-200">
                 <div class="flex flex-col lg:flex-row gap-4 items-center">
                     <div class="relative w-full lg:flex-1">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
                             <span class="material-symbols-outlined text-sm">search</span>
                         </span>
-                        <input
+                        <input id="table-search"
                             class="block w-full pl-10 pr-3 py-2 bg-slate-50/50 border border-slate-200 focus:border-primary focus:ring-1 focus:ring-primary rounded-lg text-sm text-slate-900 placeholder:text-slate-500 transition-all"
                             placeholder="Search by name, email, or department..." type="text" />
                     </div>
                     <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto">
                         <div class="flex items-center gap-2">
                             <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Status:</span>
-                            <select
+                            <select id="filter-status"
                                 class="bg-slate-50/50 border border-slate-200 text-slate-700 text-sm rounded-lg focus:ring-primary focus:border-primary p-2 transition-all">
-                                <option>All Statuses</option>
-                                <option>Pending</option>
-                                <option>Verified</option>
-                                <option>Rejected</option>
+                                <option value="all">All Statuses</option>
+                                <option value="pending_submission">Not Submitted</option>
+                                <option value="pending_review">Pending</option>
+                                <option value="verified">Verified</option>
+                                <option value="rejected">Rejected</option>
                             </select>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Role:</span>
-                            <select
-                                class="bg-slate-50/50 border border-slate-200 text-slate-700 text-sm rounded-lg focus:ring-primary focus:border-primary p-2 transition-all">
-                                <option>All Roles</option>
-                                <option>Developer</option>
-                                <option>Support</option>
-                                <option>Manager</option>
-                                <option>Compliance</option>
-                            </select>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Date:</span>
-                            <select
-                                class="bg-slate-50/50 border border-slate-200 text-slate-700 text-sm rounded-lg focus:ring-primary focus:border-primary p-2 transition-all">
-                                <option>Last 30 Days</option>
-                                <option>Last 7 Days</option>
-                                <option>Custom Range</option>
-                            </select>
-                        </div>
-                        <button
-                            class="p-2 bg-slate-50/50 border border-slate-200 text-slate-500 hover:text-slate-900 rounded-lg transition-colors">
-                            <span class="material-symbols-outlined">tune</span>
-                        </button>
                     </div>
                 </div>
             </div>
@@ -238,209 +351,23 @@
                                     Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-border-dark">
-                            <!-- Row 1 -->
-                            <tr class="hover:bg-primary/5 transition-colors group">
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center gap-3">
-                                        <div class="size-10 rounded-lg overflow-hidden border border-slate-200">
-                                            <img class="size-full object-cover" data-alt="Staff member portrait"
-                                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPTbN5Mp_REAm0exhNkyLt2_JC3tNkYd5_giJK9X5d1Fbx77h9COR0S7tA_AqX0Kg__mT1I63nLRBhs32d9VHAB0xQxZhSpZ7JzONMWTEMjq_7UdWjv8m0ZQNUlpMnc0oy0UO2qoaM7pynRWNJFjHU7I3H6k0pzdbEN7PMGkUE_2XSWcEzWMVUAE638Te0ntEpvPvehbHs0MPHXqmeslqrIeaR-J9f6s1IPsLPGBn_O-bj-HeI" />
-                                        </div>
-                                        <div>
-                                            <p class="text-slate-900 text-sm font-bold">Oluwaseun Adeleke</p>
-                                            <p class="text-slate-500 text-xs">o.adeleke@degxifi.com</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="text-slate-600 text-sm font-medium px-2 py-1 bg-slate-50 rounded border border-slate-200">Senior
-                                        Developer</span>
-                                </td>
-                                <td class="px-6 py-4 text-slate-500 text-sm">Oct 24, 2023</td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-yellow-500/10 text-yellow-500 border border-yellow-500/20">
-                                        <span class="size-1.5 rounded-full bg-yellow-500"></span>
-                                        Pending
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 text-right">
-                                    <div class="flex items-center justify-end gap-2">
-                                        <a href="../admin_KYE_review_page/code.html"
-                                            class="px-3 py-1.5 bg-primary text-white text-xs font-black rounded-lg hover:bg-primary/90 transition-all">VIEW
-                                            DOCS</a>
-                                        <button
-                                            class="p-1.5 text-slate-500 hover:text-primary hover:bg-primary/10 rounded-lg transition-all"
-                                            title="Approve">
-                                            <span class="material-symbols-outlined text-lg">check_circle</span>
-                                        </button>
-                                        <button
-                                            class="p-1.5 text-slate-500 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-all"
-                                            title="Reject">
-                                            <span class="material-symbols-outlined text-lg">cancel</span>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <!-- Row 2 -->
-                            <tr class="hover:bg-primary/5 transition-colors group">
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center gap-3">
-                                        <div class="size-10 rounded-lg overflow-hidden border border-slate-200">
-                                            <img class="size-full object-cover" data-alt="Female staff member portrait"
-                                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEPhzfu-MsFjjWEH4rLafm9uDpgcvyw1oxycU0-nwLEj4-PHW8Cqj_trVIaQE_CwW4xf9lmkXACt9Im4MTS5nKGUIRLvzbtEKYFzQjqpIyT9LYKFUGf2WxudM58zOsnWUBv4JS_YDi6WDBqovKK3-2YmByETi5Z-NzM9tHLq949cTC63HiPP9d1N_9Pu_bzzt2IZ4qf2-r2Z1dit7fgmtdAjFuEUGsoUxEFoYYbT-wMmt_0b6Spr1WWQU74n_8mWaBFeNC6pFsfgI" />
-                                        </div>
-                                        <div>
-                                            <p class="text-slate-900 text-sm font-bold">Ngozi Eze</p>
-                                            <p class="text-slate-500 text-xs">n.eze@degxifi.com</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="text-slate-600 text-sm font-medium px-2 py-1 bg-slate-50 rounded border border-slate-200">Compliance
-                                        Mgr</span>
-                                </td>
-                                <td class="px-6 py-4 text-slate-500 text-sm">Oct 23, 2023</td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-primary/10 text-primary border border-primary/20">
-                                        <span class="size-1.5 rounded-full bg-primary"></span>
-                                        Verified
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 text-right">
-                                    <div class="flex items-center justify-end gap-2">
-                                        <a href="../admin_KYE_review_page/code.html"
-                                            class="px-3 py-1.5 bg-white text-slate-900 text-xs font-black rounded-lg hover:bg-border-dark transition-all border border-slate-200">VIEW
-                                            DOCS</a>
-                                        <span
-                                            class="text-primary/50 flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest mr-2">
-                                            <span class="material-symbols-outlined text-sm">verified_user</span>
-                                            Checked
-                                        </span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <!-- Row 3 -->
-                            <tr class="hover:bg-primary/5 transition-colors group">
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center gap-3">
-                                        <div class="size-10 rounded-lg overflow-hidden border border-slate-200">
-                                            <img class="size-full object-cover" data-alt="Staff member portrait"
-                                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlGTy_WUe_U9O1-4WxA2lJ_9T0ahOavu4RgWvG7hGaiTEQcaIfauJukSINxNRNJxdsa5UMYzP91bQMS3cQkFnIVzCLrLgG0-Z3QvxyKDXRSWAHzvF6We4BDnM4bFMhAacML_yI7NLCk0lv-e7eE4I5lUtf9nS0gUd4KKFwEssCY-UXBo8YH6eVxSz3TbJrZUHDg9H7ZmH7bSC0Qht9-q6SAJFlG6Nf4K5YrjVPvqbRiQJKvVqHs1oTElLlov7J6ezox3mU_ekUXsg" />
-                                        </div>
-                                        <div>
-                                            <p class="text-slate-900 text-sm font-bold">Chinedu Okafor</p>
-                                            <p class="text-slate-500 text-xs">c.okafor@degxifi.com</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="text-slate-600 text-sm font-medium px-2 py-1 bg-slate-50 rounded border border-slate-200">Support
-                                        Lead</span>
-                                </td>
-                                <td class="px-6 py-4 text-slate-500 text-sm">Oct 22, 2023</td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-red-500/10 text-red-500 border border-red-500/20">
-                                        <span class="size-1.5 rounded-full bg-red-500"></span>
-                                        Rejected
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 text-right">
-                                    <div class="flex items-center justify-end gap-2">
-                                        <button
-                                            class="px-3 py-1.5 bg-white text-slate-900 text-xs font-black rounded-lg hover:bg-border-dark transition-all border border-slate-200">RE-OPEN</button>
-                                        <button class="p-1.5 text-slate-500 hover:text-slate-900 rounded-lg transition-all"
-                                            title="View History">
-                                            <span class="material-symbols-outlined text-lg">history</span>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <!-- Row 4 -->
-                            <tr class="hover:bg-primary/5 transition-colors group">
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center gap-3">
-                                        <div class="size-10 rounded-lg overflow-hidden border border-slate-200">
-                                            <img class="size-full object-cover" data-alt="Staff member portrait"
-                                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuACxkZs9UzwjOmk0zIeGrgI_It7R7QkVyvfOkZwk5y0ZMHOQCIvD0jEbVNbJws2Y432XqgHgtLwWvhPBTFn6QmeD-ZOv6k1XQACe2fJE5jifyqTEY3czBdfQGSo92PSBKfc4tFt5CKV84lBPrCWsV5fwjAO6NxURx4UBZUDjEVXf2hgO64rSm7J9Mr2L8T89xGer09QLTq4yGSXzvGAIVCp0Id75HTV2AzPi1_G2149GMrGX1qYUb8rSz71XQkNJv5VLxO0HHlbc5I" />
-                                        </div>
-                                        <div>
-                                            <p class="text-slate-900 text-sm font-bold">Amaka Nnadi</p>
-                                            <p class="text-slate-500 text-xs">a.nnadi@degxifi.com</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="text-slate-600 text-sm font-medium px-2 py-1 bg-slate-50 rounded border border-slate-200">Designer</span>
-                                </td>
-                                <td class="px-6 py-4 text-slate-500 text-sm">Oct 21, 2023</td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-yellow-500/10 text-yellow-500 border border-yellow-500/20">
-                                        <span class="size-1.5 rounded-full bg-yellow-500"></span>
-                                        Pending
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 text-right">
-                                    <div class="flex items-center justify-end gap-2">
-                                        <a href="../admin_KYE_review_page/code.html"
-                                            class="px-3 py-1.5 bg-primary text-white text-xs font-black rounded-lg hover:bg-primary/90 transition-all">VIEW
-                                            DOCS</a>
-                                        <button
-                                            class="p-1.5 text-slate-500 hover:text-primary hover:bg-primary/10 rounded-lg transition-all"
-                                            title="Approve">
-                                            <span class="material-symbols-outlined text-lg">check_circle</span>
-                                        </button>
-                                        <button
-                                            class="p-1.5 text-slate-500 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-all"
-                                            title="Reject">
-                                            <span class="material-symbols-outlined text-lg">cancel</span>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
+                        <tbody id="staff-table-body" class="divide-y divide-slate-100">
+                            <!-- Rows will be dynamically generated -->
                         </tbody>
                     </table>
                 </div>
-                <!-- Table Pagination -->
-                <div
+                <!-- Table Footer -->
+                <div id="table-footer"
                     class="bg-slate-50/50 border-t border-slate-200 px-6 py-4 flex items-center justify-between">
-                    <p class="text-xs text-slate-500">Showing <span class="text-slate-900 font-bold">1-4</span> of <span
-                            class="text-slate-900 font-bold">1,284</span> entries</p>
-                    <div class="flex items-center gap-2">
-                        <button
-                            class="p-1.5 bg-white border border-slate-200 text-slate-500 hover:text-slate-900 rounded disabled:opacity-50 transition-colors"
-                            disabled="">
-                            <span class="material-symbols-outlined text-sm">chevron_left</span>
-                        </button>
-                        <button
-                            class="size-8 flex items-center justify-center bg-primary text-white text-xs font-bold rounded">1</button>
-                        <button
-                            class="size-8 flex items-center justify-center text-slate-500 hover:text-slate-900 text-xs font-bold rounded transition-colors">2</button>
-                        <button
-                            class="size-8 flex items-center justify-center text-slate-500 hover:text-slate-900 text-xs font-bold rounded transition-colors">3</button>
-                        <span class="text-slate-600">...</span>
-                        <button
-                            class="size-8 flex items-center justify-center text-slate-500 hover:text-slate-900 text-xs font-bold rounded transition-colors">321</button>
-                        <button
-                            class="p-1.5 bg-white border border-slate-200 text-slate-500 hover:text-slate-900 rounded transition-colors">
-                            <span class="material-symbols-outlined text-sm">chevron_right</span>
-                        </button>
-                    </div>
+                    <p id="table-count" class="text-xs text-slate-500">Showing <span
+                            class="text-slate-900 font-bold">0</span> entries</p>
                 </div>
             </div>
         </main>
         <!-- Footer -->
         <footer
             class="mt-auto py-6 px-10 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p class="text-xs text-slate-500">© 2024 Degxifi Protocol. All system actions are cryptographically
+            <p class="text-xs text-slate-500">© 2025 Degxifi Protocol. All system actions are cryptographically
                 logged.</p>
             <div class="flex items-center gap-6">
                 <a class="text-xs text-slate-500 hover:text-primary transition-colors" href="#">Privacy Policy</a>
@@ -452,56 +379,55 @@
 
     <!-- Add Staff Modal -->
     <div id="add-staff-modal" style="display: none;"
-        class="fixed inset-0 z-[100] items-center justify-center bg-slate-50/80 backdrop-blur-sm p-4 transition-opacity">
-        <div class="bg-white border border-slate-200 rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
+        class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
+        <div id="modal-card"
+            class="bg-white border border-slate-200 rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
             <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
-                <h3 class="text-xl font-black text-slate-900 tracking-tight">Add New Staff</h3>
+                <h3 class="text-xl font-black text-slate-900 tracking-tight">Invite New Staff</h3>
                 <button id="close-modal-btn" class="text-slate-500 hover:text-slate-900 transition-colors">
                     <span class="material-symbols-outlined">close</span>
                 </button>
             </div>
             <div class="p-6 flex flex-col gap-5">
                 <p class="text-sm text-slate-500 leading-relaxed">Create a new staff profile. An invitation email
-                    containing a login link and a temporary password will be sent automatically to their corporate email
-                    address.</p>
-
+                    with login credentials will be sent to their corporate email address.</p>
                 <div class="flex flex-col gap-1.5">
                     <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Full Name</label>
-                    <input type="text"
+                    <input id="modal-name" type="text"
                         class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 placeholder-slate-600 transition-all"
                         placeholder="e.g. Amina Bello" />
                 </div>
-
                 <div class="flex flex-col gap-1.5">
                     <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Work Email</label>
-                    <input type="email"
+                    <input id="modal-email" type="email"
                         class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 placeholder-slate-600 transition-all"
                         placeholder="amina.bello@degxifi.com" />
                 </div>
-
                 <div class="grid grid-cols-2 gap-4">
                     <div class="flex flex-col gap-1.5">
                         <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Department</label>
-                        <select
+                        <select id="modal-dept"
                             class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 transition-all appearance-none cursor-pointer">
                             <option>Engineering</option>
                             <option>Compliance</option>
                             <option>Operations</option>
                             <option>HR</option>
+                            <option>Design</option>
+                            <option>Support</option>
                         </select>
                     </div>
                     <div class="flex flex-col gap-1.5">
                         <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Role</label>
-                        <select
+                        <select id="modal-role"
                             class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 transition-all appearance-none cursor-pointer">
                             <option>Staff</option>
-                            <option>Admin</option>
+                            <option>Manager</option>
+                            <option>Lead</option>
                         </select>
                     </div>
                 </div>
             </div>
-            <div
-                class="px-6 py-4 border-t border-slate-200 flex items-center justify-end gap-3 bg-slate-50/30">
+            <div class="px-6 py-4 border-t border-slate-200 flex items-center justify-end gap-3 bg-slate-50/30">
                 <button id="cancel-modal-btn"
                     class="px-4 py-2 text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors">Cancel</button>
                 <button id="send-invite-btn"
@@ -513,226 +439,610 @@
         </div>
     </div>
 
+    <!-- Confirm Delete Modal -->
+    <div id="delete-confirm-modal" style="display: none;"
+        class="fixed inset-0 z-[110] flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
+        <div id="delete-modal-card"
+            class="bg-white border border-slate-200 rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl">
+            <div class="p-6 text-center">
+                <div class="size-14 rounded-full bg-red-500/10 flex items-center justify-center mx-auto mb-4">
+                    <span class="material-symbols-outlined text-red-500 text-3xl">person_remove</span>
+                </div>
+                <h3 class="text-lg font-black text-slate-900 mb-2">Remove Staff Member?</h3>
+                <p id="delete-confirm-text" class="text-sm text-slate-500 leading-relaxed">This action will permanently
+                    remove this staff profile and all associated data.</p>
+            </div>
+            <div class="px-6 py-4 border-t border-slate-200 flex items-center justify-center gap-3 bg-slate-50/30">
+                <button id="delete-cancel-btn"
+                    class="px-5 py-2.5 text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors bg-white border border-slate-200 rounded-xl">Cancel</button>
+                <button id="delete-confirm-btn"
+                    class="bg-red-500 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-red-600 transition-all flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]">delete</span>
+                    Remove
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Email Sent Confirmation Modal -->
+    <div id="email-sent-modal" style="display: none;"
+        class="fixed inset-0 z-[110] flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
+        <div id="email-modal-card"
+            class="bg-white border border-slate-200 rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl">
+            <div class="p-6 text-center">
+                <div class="size-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                    <span class="material-symbols-outlined text-primary text-3xl">mark_email_read</span>
+                </div>
+                <h3 class="text-lg font-black text-slate-900 mb-2">Invitation Email Sent!</h3>
+                <p class="text-sm text-slate-500 leading-relaxed mb-4">Login credentials have been generated and sent.
+                </p>
+                <div class="bg-slate-50 rounded-xl p-4 text-left border border-slate-200 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Email</span>
+                        <span id="email-sent-email" class="text-xs font-bold text-slate-900"></span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Password</span>
+                        <span id="email-sent-password" class="text-xs font-mono font-bold text-primary"></span>
+                    </div>
+                </div>
+                <p class="text-[10px] text-slate-400 mt-3">The staff member can use these credentials to login and
+                    complete their KYE.</p>
+            </div>
+            <div class="px-6 py-4 border-t border-slate-200 flex items-center justify-center bg-slate-50/30">
+                <button id="email-sent-ok-btn"
+                    class="bg-primary text-white px-8 py-2.5 rounded-xl text-sm font-bold hover:bg-primary/90 transition-all">Got
+                    it</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Toast Notification System
-            function showToast(message, type = "success") {
-                const toast = document.createElement("div");
-                toast.className = `fixed bottom-4 right-4 px-6 py-3 rounded-xl text-sm font-bold shadow-2xl z-[200] transform transition-all translate-y-10 opacity-0 flex items-center gap-2 ${type === "success" ? "bg-primary text-white" : "bg-red-500 text-white"
-                    }`;
+        // ========================================
+        // TOAST NOTIFICATION UTILITY
+        // ========================================
+        function showToast(message, type = "success") {
+            const toast = document.createElement("div");
+            toast.className = `fixed bottom-4 right-4 px-6 py-3 rounded-xl text-sm font-bold shadow-2xl z-[200] transform transition-all translate-y-10 opacity-0 flex items-center gap-2 ${type === "success" ? "bg-primary text-white" : "bg-red-500 text-white"}`;
+            toast.innerHTML = `<span class="material-symbols-outlined text-lg">${type === 'success' ? 'check_circle' : 'error'}</span><span>${message}</span>`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.classList.remove("translate-y-10", "opacity-0"), 10);
+            setTimeout(() => { toast.classList.add("translate-y-10", "opacity-0"); setTimeout(() => toast.remove(), 300); }, 3000);
+        }
 
-                const icon = document.createElement("span");
-                icon.className = "material-symbols-outlined text-lg";
-                icon.innerText = type === "success" ? "check_circle" : "error";
+        // ========================================
+        // STAFF DATA ENGINE
+        // ========================================
+        const DEFAULT_STAFF = [
+            { id: 'DGX-STF-0102', name: 'Ngozi Eze', email: 'n.eze@degxifi.com', role: 'Compliance Manager', department: 'Compliance', kyeStatus: 'verified', kyeSubmittedDate: '2025-09-15T10:30:00', kyeRefId: 'DGX-10202-KYE', avatar: null },
+            { id: 'DGX-STF-0203', name: 'Chinedu Okafor', email: 'c.okafor@degxifi.com', role: 'Support Lead', department: 'Support', kyeStatus: 'rejected', kyeSubmittedDate: '2025-09-20T14:00:00', kyeRefId: 'DGX-10305-KYE', avatar: null },
+            { id: 'DGX-STF-0304', name: 'Amaka Nnadi', email: 'a.nnadi@degxifi.com', role: 'UI Designer', department: 'Design', kyeStatus: 'pending_review', kyeSubmittedDate: '2025-10-01T09:00:00', kyeRefId: 'DGX-10410-KYE', avatar: null },
+            { id: 'DGX-STF-0405', name: 'Ibrahim Musa', email: 'i.musa@degxifi.com', role: 'Backend Developer', department: 'Engineering', kyeStatus: 'pending_submission', kyeSubmittedDate: null, kyeRefId: null, avatar: null },
+        ];
 
-                const text = document.createElement("span");
-                text.innerText = message;
+        function getAllStaff() {
+            let staff = [];
+            try { staff = JSON.parse(localStorage.getItem('degxifi_admin_staff')) || []; } catch { }
 
-                toast.appendChild(icon);
-                toast.appendChild(text);
-                document.body.appendChild(toast);
+            // Note: do NOT refill from DEFAULT_STAFF here.
+            // If all staff were deleted, the list stays empty.
+            // The admin database (degxifi_admin_staff) is the single source of truth.
+            return staff;
+        }
 
-                // Animate in
-                setTimeout(() => {
-                    toast.classList.remove("translate-y-10", "opacity-0");
-                }, 10);
+        function saveStaff(staff) {
+            localStorage.setItem('degxifi_admin_staff', JSON.stringify(staff));
+        }
 
-                // Animate out
-                setTimeout(() => {
-                    toast.classList.add("translate-y-10", "opacity-0");
-                    setTimeout(() => toast.remove(), 300);
-                }, 3000);
+        function initStaffData() {
+            if (!localStorage.getItem('degxifi_admin_staff')) {
+                saveStaff([...DEFAULT_STAFF]);
+            }
+        }
+
+        // ========================================
+        // TABLE RENDERING
+        // ========================================
+        function getStatusBadge(status) {
+            // Use explicit class strings — Tailwind JIT can't detect dynamically-built class names
+            const map = {
+                'pending_submission': { label: 'Not Submitted', classes: 'bg-slate-100 text-slate-500 border-slate-200', dot: 'bg-slate-400' },
+                'pending_review': { label: 'Pending Review', classes: 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20', dot: 'bg-yellow-500' },
+                'verified': { label: 'Verified', classes: 'bg-primary/10 text-primary border-primary/20', dot: 'bg-primary' },
+                'rejected': { label: 'Rejected', classes: 'bg-red-500/10 text-red-500 border-red-500/20', dot: 'bg-red-500' },
+            };
+            const s = map[status] || map['pending_submission'];
+            return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold ${s.classes} border">
+                <span class="size-1.5 rounded-full ${s.dot}"></span>${s.label}</span>`;
+        }
+
+        function deleteBtn(id) {
+            return `<button onclick="confirmRemoveStaff('${id}')"
+                class="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-all"
+                title="Remove Staff">
+                <span class="material-symbols-outlined text-lg">delete</span>
+            </button>`;
+        }
+
+        function getActions(staff) {
+            if (staff.kyeStatus === 'pending_review') {
+                return `<div class="flex items-center justify-end gap-2">
+                    <a href="../admin_KYE_review_page/code.html?id=${staff.id}"
+                        class="px-3 py-1.5 bg-primary text-white text-xs font-black rounded-lg hover:bg-primary/90 transition-all">VIEW DOCS</a>
+                    <button onclick="approveStaff('${staff.id}')"
+                        class="p-1.5 text-slate-500 hover:text-primary hover:bg-primary/10 rounded-lg transition-all"
+                        title="Approve">
+                        <span class="material-symbols-outlined text-lg">check_circle</span>
+                    </button>
+                    <button onclick="rejectStaff('${staff.id}')"
+                        class="p-1.5 text-slate-500 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-all"
+                        title="Reject">
+                        <span class="material-symbols-outlined text-lg">cancel</span>
+                    </button>
+                    ${deleteBtn(staff.id)}
+                </div>`;
+            } else if (staff.kyeStatus === 'verified') {
+                return `<div class="flex items-center justify-end gap-2">
+                    <a href="../admin_KYE_review_page/code.html?id=${staff.id}"
+                        class="px-3 py-1.5 bg-white text-slate-900 text-xs font-black rounded-lg hover:bg-slate-50 transition-all border border-slate-200">VIEW DOCS</a>
+                    <span class="text-primary/50 flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest">
+                        <span class="material-symbols-outlined text-sm">verified_user</span>Checked</span>
+                    ${deleteBtn(staff.id)}
+                </div>`;
+            } else if (staff.kyeStatus === 'rejected') {
+                return `<div class="flex items-center justify-end gap-2">
+                    <button onclick="reopenStaff('${staff.id}')"
+                        class="px-3 py-1.5 bg-white text-slate-900 text-xs font-black rounded-lg hover:bg-slate-50 transition-all border border-slate-200">RE-OPEN</button>
+                    <a href="../admin_KYE_review_page/code.html?id=${staff.id}"
+                        class="p-1.5 text-slate-500 hover:text-slate-900 rounded-lg transition-all"
+                        title="View History">
+                        <span class="material-symbols-outlined text-lg">history</span>
+                    </a>
+                    ${deleteBtn(staff.id)}
+                </div>`;
+            } else {
+                return `<div class="flex items-center justify-end gap-2">
+                    <span class="text-slate-400 flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest">
+                    <span class="material-symbols-outlined text-sm">schedule</span>Awaiting</span>
+                    ${deleteBtn(staff.id)}
+                </div>`;
+            }
+        }
+
+        function renderTable(filterStatus = 'all', searchTerm = '') {
+            const staff = getAllStaff();
+            const tbody = document.getElementById('staff-table-body');
+
+            let filtered = staff;
+            if (filterStatus !== 'all') {
+                filtered = filtered.filter(s => s.kyeStatus === filterStatus);
+            }
+            if (searchTerm) {
+                const term = searchTerm.toLowerCase();
+                filtered = filtered.filter(s =>
+                    (s.name || '').toLowerCase().includes(term) ||
+                    (s.email || '').toLowerCase().includes(term) ||
+                    (s.department || '').toLowerCase().includes(term) ||
+                    (s.role || '').toLowerCase().includes(term)
+                );
             }
 
-            // Modal Logic
-            const modal = document.getElementById("add-staff-modal");
-            const openBtn = document.getElementById("invite-staff-btn");
-            const closeBtn = document.getElementById("close-modal-btn");
-            const cancelBtn = document.getElementById("cancel-modal-btn");
-            const sendBtn = document.getElementById("send-invite-btn");
+            // Stats
+            const total = staff.length;
+            const pending = staff.filter(s => s.kyeStatus === 'pending_review').length;
+            const verified = staff.filter(s => s.kyeStatus === 'verified').length;
+            const rejected = staff.filter(s => s.kyeStatus === 'rejected').length;
+            document.getElementById('stat-total').textContent = total;
+            document.getElementById('stat-pending').textContent = pending;
+            document.getElementById('stat-verified').textContent = verified;
+            document.getElementById('stat-rejected').textContent = rejected;
 
-            if (openBtn && modal) {
-                openBtn.addEventListener("click", function () {
-                    modal.style.display = "flex";
-                });
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-16 text-center">
+                    <div class="flex flex-col items-center gap-3">
+                        <div class="size-14 rounded-full bg-slate-100 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-slate-400 text-2xl">person_off</span>
+                        </div>
+                        <p class="text-sm font-bold text-slate-900">No staff members found</p>
+                        <p class="text-xs text-slate-500">Try adjusting your filters or invite new staff.</p>
+                    </div>
+                </td></tr>`;
+            } else {
+                tbody.innerHTML = filtered.map(s => {
+                    const initial = (s.name || 'U').charAt(0).toUpperCase();
+                    const avatarHtml = s.avatar
+                        ? `<img src="${s.avatar}" class="size-full object-cover" alt="${s.name}" />`
+                        : `<span class="text-sm font-bold text-primary">${initial}</span>`;
+                    const dateStr = s.kyeSubmittedDate
+                        ? new Date(s.kyeSubmittedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                        : '—';
+                    return `<tr class="hover:bg-primary/5 transition-colors group">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                <div class="size-10 rounded-lg overflow-hidden border border-slate-200 bg-primary/10 flex items-center justify-center shrink-0">
+                                    ${avatarHtml}
+                                </div>
+                                <div>
+                                    <p class="text-slate-900 text-sm font-bold">${s.name || 'Unknown'}</p>
+                                    <p class="text-slate-500 text-xs">${s.email || ''}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="text-slate-600 text-sm font-medium px-2 py-1 bg-slate-50 rounded border border-slate-200">${s.role || s.department || '—'}</span>
+                        </td>
+                        <td class="px-6 py-4 text-slate-500 text-sm">${dateStr}</td>
+                        <td class="px-6 py-4">${getStatusBadge(s.kyeStatus)}</td>
+                        <td class="px-6 py-4 text-right">${getActions(s)}</td>
+                    </tr>`;
+                }).join('');
             }
 
-            function closeModal() {
-                modal.style.display = "none";
+            document.getElementById('table-count').innerHTML = `Showing <span class="text-slate-900 font-bold">${filtered.length}</span> of <span class="text-slate-900 font-bold">${total}</span> entries`;
+        }
+
+        // ========================================
+        // ADMIN ACTIONS
+        // ========================================
+        function updateStaffStatus(id, newStatus) {
+            const staff = getAllStaff();
+            const s = staff.find(x => x.id === id);
+            if (s) {
+                s.kyeStatus = newStatus;
+                saveStaff(staff);
+
+                // Also update the live user session if it's the same person
+                try {
+                    const session = JSON.parse(localStorage.getItem('degxifi_session'));
+                    if (session && session.staffId === id) {
+                        session.kyeStatus = newStatus;
+                        localStorage.setItem('degxifi_session', JSON.stringify(session));
+                    }
+                } catch { }
+
+                // Log to audit
+                logAuditEvent(`${newStatus === 'verified' ? 'Approved' : newStatus === 'rejected' ? 'Rejected' : 'Reopened'} KYE for ${s.name}`);
             }
+            renderTable(document.getElementById('filter-status').value, document.getElementById('table-search').value);
+        }
 
-            if (closeBtn) closeBtn.addEventListener("click", closeModal);
-            if (cancelBtn) cancelBtn.addEventListener("click", closeModal);
-            if (sendBtn) {
-                sendBtn.addEventListener("click", function () {
-                    closeModal();
-                    showToast("Staff invitation sent successfully!");
+        window.approveStaff = function (id) {
+            updateStaffStatus(id, 'verified');
+            showToast('KYE Approved successfully!');
+        };
+
+        window.rejectStaff = function (id) {
+            updateStaffStatus(id, 'rejected');
+            showToast('KYE Application Rejected.', 'error');
+        };
+
+        window.reopenStaff = function (id) {
+            updateStaffStatus(id, 'pending_review');
+            showToast('Case re-opened and pushed back to queue.');
+        };
+
+        function logAuditEvent(action) {
+            try {
+                const session = JSON.parse(localStorage.getItem('degxifi_session'));
+                const adminName = (session && session.name) ? session.name : 'Admin';
+                let logs = JSON.parse(localStorage.getItem('degxifi_audit_logs')) || [];
+                logs.unshift({
+                    id: Date.now(),
+                    admin: adminName,
+                    action: action,
+                    timestamp: new Date().toISOString(),
+                    type: 'kye_action'
                 });
+                localStorage.setItem('degxifi_audit_logs', JSON.stringify(logs));
+            } catch { }
+        }
+
+        // ========================================
+        // NOTIFICATION SYSTEM
+        // ========================================
+        function toggleNotifications() {
+            document.getElementById('notif-dropdown').classList.toggle('hidden');
+        }
+
+        function getAdminNotifications() {
+            try { return JSON.parse(localStorage.getItem('degxifi_admin_notifications')) || []; } catch { return []; }
+        }
+
+        function renderNotifications() {
+            const notifs = getAdminNotifications();
+            const list = document.getElementById('notif-list');
+            const badge = document.getElementById('notif-badge');
+            const unread = notifs.filter(n => !n.read).length;
+            badge.classList.toggle('hidden', unread === 0);
+
+            if (notifs.length === 0) {
+                list.innerHTML = `<div class="p-6 text-center">
+                    <span class="material-symbols-outlined text-slate-300 text-3xl">notifications_off</span>
+                    <p class="text-xs text-slate-500 mt-2">No new notifications</p>
+                </div>`;
+            } else {
+                list.innerHTML = notifs.slice(0, 10).map(n => {
+                    const diffMins = Math.floor((new Date() - new Date(n.time)) / 60000);
+                    const timeAgo = diffMins < 60 ? diffMins + 'm ago' : (diffMins < 1440 ? Math.floor(diffMins / 60) + 'h ago' : Math.floor(diffMins / 1440) + 'd ago');
+                    return `<div class="flex items-start gap-3 p-4 border-b border-slate-50 hover:bg-slate-50 cursor-pointer ${n.read ? 'opacity-60' : ''}" onclick="markNotifRead(${n.id})">
+                        <div class="size-9 rounded-lg ${n.read ? 'bg-slate-100' : 'bg-primary/10'} flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-sm ${n.read ? 'text-slate-400' : 'text-primary'}">${n.icon || 'info'}</span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-xs font-bold text-slate-900">${n.title}</p>
+                            <p class="text-[11px] text-slate-500 mt-0.5 truncate">${n.message}</p>
+                            <p class="text-[10px] text-slate-400 mt-1">${timeAgo}</p>
+                        </div>
+                        ${!n.read ? '<div class="size-2 rounded-full bg-primary shrink-0 mt-2"></div>' : ''}
+                    </div>`;
+                }).join('');
             }
+        }
 
-            // Download CSV logic
-            const downloadBtn = [...document.querySelectorAll('button')].find(b => b.textContent.includes('Download CSV')) || document.querySelector("button:has(span.material-symbols-outlined:contains('download'))");
+        window.markNotifRead = function (id) {
+            let notifs = getAdminNotifications();
+            const n = notifs.find(x => x.id === id);
+            if (n) { n.read = true; localStorage.setItem('degxifi_admin_notifications', JSON.stringify(notifs)); renderNotifications(); }
+        };
 
-            if (downloadBtn) {
-                downloadBtn.addEventListener("click", function () {
-                    showToast("CSV Download started...");
+        window.markAllRead = function () {
+            let notifs = getAdminNotifications();
+            notifs.forEach(n => n.read = true);
+            localStorage.setItem('degxifi_admin_notifications', JSON.stringify(notifs));
+            renderNotifications();
+        };
 
-                    // Simple logic to parse the table and download a CSV file
-                    const rows = document.querySelectorAll('table tr');
-                    let csvContent = "data:text/csv;charset=utf-8,";
+        // Close dropdown on outside click
+        document.addEventListener('click', (e) => {
+            const dd = document.getElementById('notif-dropdown');
+            const bell = document.getElementById('notif-bell');
+            if (dd && !dd.classList.contains('hidden') && !dd.contains(e.target) && !bell.contains(e.target)) dd.classList.add('hidden');
+        });
 
-                    rows.forEach(function (rowArray) {
-                        let row = [];
-                        const cols = rowArray.querySelectorAll('td, th');
+        // ========================================
+        // MOBILE MENU
+        // ========================================
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('mobile-menu-icon');
+            menu.classList.toggle('hidden');
+            icon.textContent = menu.classList.contains('hidden') ? 'menu' : 'close';
+        }
 
-                        cols.forEach(function (col, index) {
-                            // Only capture headers and the first 4 text columns, skip the image/action columns to keep it clean
-                            if (index < 4) {
-                                // Extract text, remove newlines and extra spaces
-                                let text = col.innerText.replace(/(\r\n|\n|\r)/gm, " ").trim();
-                                // Escape quotes
-                                text = text.replace(/"/g, '""');
-                                row.push('"' + text + '"');
-                            }
-                        });
+        // ========================================
+        // ANIMATED MODAL HELPERS
+        // ========================================
+        function openModal(modalEl, cardEl) {
+            modalEl.style.display = 'flex';
+            modalEl.classList.remove('modal-backdrop-out');
+            modalEl.classList.add('modal-backdrop-in');
+            cardEl.classList.remove('modal-card-out');
+            cardEl.classList.add('modal-card-in');
+        }
 
-                        csvContent += row.join(",") + "\r\n";
-                    });
+        function closeModal(modalEl, cardEl) {
+            modalEl.classList.remove('modal-backdrop-in');
+            modalEl.classList.add('modal-backdrop-out');
+            cardEl.classList.remove('modal-card-in');
+            cardEl.classList.add('modal-card-out');
+            setTimeout(() => { modalEl.style.display = 'none'; }, 280);
+        }
 
-                    const encodedUri = encodeURI(csvContent);
-                    const link = document.createElement("a");
-                    link.setAttribute("href", encodedUri);
-                    link.setAttribute("download", "degxifi_staff_management_export.csv");
-                    document.body.appendChild(link); // Required for FF
+        // ========================================
+        // PASSWORD GENERATOR
+        // ========================================
+        function generatePassword() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789@#$!';
+            let pwd = '';
+            for (let i = 0; i < 10; i++) pwd += chars.charAt(Math.floor(Math.random() * chars.length));
+            return pwd;
+        }
 
-                    link.click(); // This will download the data file
-                    document.body.removeChild(link);
-                });
-            }
+        // ========================================
+        // MODAL LOGIC (Invite Staff)
+        // ========================================
+        function setupModal() {
+            const modal = document.getElementById('add-staff-modal');
+            const card = document.getElementById('modal-card');
 
-            // Row Action Logic (Approve / Reject)
-            const approveBtns = document.querySelectorAll('button[title="Approve"]');
-            const rejectBtns = document.querySelectorAll('button[title="Reject"]');
+            document.getElementById('invite-staff-btn').addEventListener('click', () => openModal(modal, card));
+            document.getElementById('close-modal-btn').addEventListener('click', () => closeModal(modal, card));
+            document.getElementById('cancel-modal-btn').addEventListener('click', () => closeModal(modal, card));
 
-            approveBtns.forEach(btn => {
-                btn.addEventListener('click', function () {
-                    const row = this.closest('tr');
-                    const statusTd = row.querySelector('td:nth-child(4)');
-                    statusTd.innerHTML = `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-primary/10 text-primary border border-primary/20">
-                                            <span class="size-1.5 rounded-full bg-primary"></span>Verified</span>`;
-                    this.parentElement.innerHTML = '<span class="text-primary flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest mr-2"><span class="material-symbols-outlined text-sm">verified_user</span>Checked</span>';
-                    showToast("KYE Approved successfully!");
-                });
-            });
+            // Close on backdrop click
+            modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(modal, card); });
 
-            rejectBtns.forEach(btn => {
-                btn.addEventListener('click', function () {
-                    const row = this.closest('tr');
-                    const statusTd = row.querySelector('td:nth-child(4)');
-                    statusTd.innerHTML = `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-red-500/10 text-red-500 border border-red-500/20">
-                                            <span class="size-1.5 rounded-full bg-red-500"></span>Rejected</span>`;
-                    this.parentElement.innerHTML = '<button class="px-3 py-1.5 bg-white text-slate-900 text-xs font-black rounded-lg hover:bg-border-dark transition-all border border-slate-200">RE-OPEN</button>';
-                    showToast("KYE Application Rejected.", "error");
-                });
-            });
+            document.getElementById('send-invite-btn').addEventListener('click', () => {
+                const name = document.getElementById('modal-name').value.trim();
+                const email = document.getElementById('modal-email').value.trim();
+                const dept = document.getElementById('modal-dept').value;
+                const role = document.getElementById('modal-role').value;
 
-            // Re-open Logic
-            document.querySelector('tbody').addEventListener('click', function (e) {
-                if (e.target.tagName === 'BUTTON' && e.target.textContent === 'RE-OPEN') {
-                    showToast("Case re-opened and pushed back to queue.");
+                if (!name || !email) {
+                    showToast('Please fill in name and email.', 'error');
+                    return;
                 }
+                if (!email.includes('@')) {
+                    showToast('Please enter a valid email address.', 'error');
+                    return;
+                }
+
+                // Generate password
+                const password = generatePassword();
+
+                // Add new staff member
+                const staff = getAllStaff();
+                const newId = 'DGX-STF-' + String(Math.floor(Math.random() * 9000) + 1000);
+                const newStaff = {
+                    id: newId,
+                    name: name,
+                    email: email,
+                    role: role,
+                    department: dept,
+                    kyeStatus: 'pending_submission',
+                    kyeSubmittedDate: null,
+                    kyeRefId: null,
+                    avatar: null,
+                };
+                staff.push(newStaff);
+                saveStaff(staff);
+
+                // Store credentials so the invited staff can login
+                let credentials = [];
+                try { credentials = JSON.parse(localStorage.getItem('degxifi_staff_credentials')) || []; } catch { }
+                credentials.push({ staffId: newId, email: email, password: password, name: name, role: role, department: dept });
+                localStorage.setItem('degxifi_staff_credentials', JSON.stringify(credentials));
+
+                // Log audit
+                logAuditEvent(`Invited new staff: ${name} (${email})`);
+
+                // Add admin notification
+                let notifs = getAdminNotifications();
+                notifs.unshift({
+                    id: Date.now(),
+                    title: 'Staff Invited',
+                    message: `${name} was added to the system. Credentials sent to ${email}.`,
+                    time: new Date().toISOString(),
+                    read: false,
+                    icon: 'person_add'
+                });
+                localStorage.setItem('degxifi_admin_notifications', JSON.stringify(notifs));
+
+                // Close invite modal with animation
+                closeModal(modal, card);
+                document.getElementById('modal-name').value = '';
+                document.getElementById('modal-email').value = '';
+
+                // Show email confirmation modal with credentials
+                setTimeout(() => {
+                    document.getElementById('email-sent-email').textContent = email;
+                    document.getElementById('email-sent-password').textContent = password;
+                    const emailModal = document.getElementById('email-sent-modal');
+                    const emailCard = document.getElementById('email-modal-card');
+                    openModal(emailModal, emailCard);
+                }, 350);
+
+                renderTable();
+                renderNotifications();
             });
 
-            // Simple Search Filter
-            const searchInput = document.querySelector('input[placeholder*="Search by name"]');
-            if (searchInput) {
-                searchInput.addEventListener('input', function (e) {
-                    const term = e.target.value.toLowerCase();
-                    const rows = document.querySelectorAll('tbody tr');
-                    rows.forEach(row => {
-                        const text = row.textContent.toLowerCase();
-                        row.style.display = text.includes(term) ? '' : 'none';
-                    });
+            // Email sent OK button
+            document.getElementById('email-sent-ok-btn').addEventListener('click', () => {
+                closeModal(document.getElementById('email-sent-modal'), document.getElementById('email-modal-card'));
+            });
+        }
+
+        // ========================================
+        // REMOVE STAFF LOGIC
+        // ========================================
+        let pendingDeleteId = null;
+
+        window.confirmRemoveStaff = function (id) {
+            const staff = getAllStaff();
+            const s = staff.find(x => x.id === id);
+            pendingDeleteId = id;
+            document.getElementById('delete-confirm-text').textContent =
+                `This will permanently remove ${s ? s.name : 'this staff member'} and all associated KYE data.`;
+            const delModal = document.getElementById('delete-confirm-modal');
+            const delCard = document.getElementById('delete-modal-card');
+            openModal(delModal, delCard);
+        };
+
+        function setupDeleteModal() {
+            const delModal = document.getElementById('delete-confirm-modal');
+            const delCard = document.getElementById('delete-modal-card');
+
+            document.getElementById('delete-cancel-btn').addEventListener('click', () => {
+                pendingDeleteId = null;
+                closeModal(delModal, delCard);
+            });
+
+            delModal.addEventListener('click', (e) => {
+                if (e.target === delModal) { pendingDeleteId = null; closeModal(delModal, delCard); }
+            });
+
+            document.getElementById('delete-confirm-btn').addEventListener('click', () => {
+                if (!pendingDeleteId) return;
+                let staff = getAllStaff();
+                const removed = staff.find(x => x.id === pendingDeleteId);
+                staff = staff.filter(x => x.id !== pendingDeleteId);
+                saveStaff(staff);
+
+                // Remove credentials too
+                try {
+                    let creds = JSON.parse(localStorage.getItem('degxifi_staff_credentials')) || [];
+                    creds = creds.filter(c => c.staffId !== pendingDeleteId);
+                    localStorage.setItem('degxifi_staff_credentials', JSON.stringify(creds));
+                } catch { }
+
+                logAuditEvent(`Removed staff: ${removed ? removed.name : pendingDeleteId}`);
+                pendingDeleteId = null;
+                closeModal(delModal, delCard);
+                showToast('Staff member removed successfully.');
+                renderTable(document.getElementById('filter-status').value, document.getElementById('table-search').value);
+                renderNotifications();
+            });
+        }
+
+        // ========================================
+        // CSV DOWNLOAD
+        // ========================================
+        function setupCSV() {
+            document.getElementById('download-csv-btn').addEventListener('click', () => {
+                const staff = getAllStaff();
+                let csv = 'Name,Email,Role,Department,Status,Submitted\n';
+                staff.forEach(s => {
+                    const date = s.kyeSubmittedDate ? new Date(s.kyeSubmittedDate).toLocaleDateString() : 'N/A';
+                    csv += `"${s.name}","${s.email}","${s.role}","${s.department}","${s.kyeStatus}","${date}"\n`;
                 });
-            }
+                const blob = new Blob([csv], { type: 'text/csv' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url; a.download = 'degxifi_staff_management.csv';
+                a.click(); URL.revokeObjectURL(url);
+                showToast('CSV downloaded!');
+            });
+        }
+
+        // ========================================
+        // INIT
+        // ========================================
+        document.addEventListener("DOMContentLoaded", function () {
+            // Auth guard
+            try {
+                const s = JSON.parse(localStorage.getItem('degxifi_session'));
+                if (!s || !s.loggedIn) { window.location.href = '../login/code.html'; return; }
+                document.getElementById('admin-name').textContent = s.name || 'Admin';
+            } catch { window.location.href = '../login/code.html'; return; }
+
+            initStaffData();
+            renderTable();
+            renderNotifications();
+            setupModal();
+            setupDeleteModal();
+            setupCSV();
+
+            // Logout
+            document.getElementById('logout-btn').addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('degxifi_session');
+                localStorage.removeItem('degxifi_activities');
+                localStorage.removeItem('degxifi_notifications');
+                localStorage.removeItem('degxifi_kye_draft');
+                window.location.href = '../login/code.html';
+            });
+
+            // Search
+            document.getElementById('table-search').addEventListener('input', () => {
+                renderTable(document.getElementById('filter-status').value, document.getElementById('table-search').value);
+            });
+
+            // Filter
+            document.getElementById('filter-status').addEventListener('change', () => {
+                renderTable(document.getElementById('filter-status').value, document.getElementById('table-search').value);
+            });
         });
     </script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Fallback Toast if showToast doesn't exist
-        function fallbackToast(message, type="success") {
-            if(typeof showToast === "function") {
-                try {
-                    showToast(message, type);
-                    return;
-                } catch(e) {}
-            }
-            // Create mini-toast
-            const t = document.createElement("div");
-            t.className = `fixed bottom-4 right-4 px-6 py-3 rounded-xl text-sm font-bold shadow-2xl z-[9999] transform transition-all translate-y-10 opacity-0 flex items-center gap-2 ${type === "success" ? "bg-primary text-white" : "bg-red-500 text-white"}`;
-            t.innerHTML = `<span class="material-symbols-outlined text-lg">${type === 'success' ? 'check_circle' : 'error'}</span><span>${message}</span>`;
-            document.body.appendChild(t);
-            setTimeout(() => t.classList.remove("translate-y-10", "opacity-0"), 10);
-            setTimeout(() => {
-                t.classList.add("translate-y-10", "opacity-0");
-                setTimeout(() => t.remove(), 300);
-            }, 3000);
-        }
-
-        // Intercept all '#' links
-        document.querySelectorAll('a[href="#"]').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                fallbackToast("Backend Action Pending: " + (this.textContent.trim() || 'Link clicked'), "success");
-            });
-        });
-
-        // Pagination Buttons Interaction
-        document.querySelectorAll('button').forEach(btn => {
-            const txt = btn.textContent.trim();
-            // Numbers 1, 2, 3...
-            if(txt.match(/^[0-9]+$/) && btn.parentElement.classList.contains('gap-2')) {
-                btn.addEventListener('click', function() {
-                    fallbackToast("Fetching Page " + txt + " from database...", "success");
-                    // Visual active state swap if applicable
-                    this.parentElement.querySelectorAll('button').forEach(b => {
-                        if(b.textContent.trim().match(/^[0-9]+$/)) {
-                            b.classList.remove('bg-primary', 'text-white');
-                            if(!b.classList.contains('text-slate-500')) {
-                                b.classList.add('text-slate-500');
-                            }
-                        }
-                    });
-                    this.classList.remove('text-slate-500', 'bg-white');
-                    this.classList.add('bg-primary', 'text-white');
-                });
-            }
-            
-            // Next / Prev Pagination 
-            if(txt === 'chevron_left' || txt === 'chevron_right' || txt === 'keyboard_double_arrow_left' || txt === 'keyboard_double_arrow_right') {
-                btn.addEventListener('click', function() {
-                    fallbackToast("Navigating pages...", "success");
-                });
-            }
-        });
-
-        // Filter / Select dropdowns
-        document.querySelectorAll('select').forEach(sel => {
-            sel.addEventListener('change', function() {
-                fallbackToast("Filtering data by: " + this.value, "success");
-            });
-        });
-        
-        // Top right bell icon / notification
-        const notifBtn = document.querySelector('button:has(span:contains("notifications"))') || document.querySelector('button span.material-symbols-outlined:contains("notifications")');
-        if(notifBtn) {
-            notifBtn.parentElement.addEventListener('click', function() {
-                fallbackToast("You have 0 unread alerts.");
-            });
-        }
-        
-    });
-</script>
 </body>
 
 </html>

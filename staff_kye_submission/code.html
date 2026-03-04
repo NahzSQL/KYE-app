@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html class="light" lang="en">
 
 <head>
@@ -8,9 +7,6 @@
     <title>Staff KYE Verification | Degxifi</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
@@ -24,16 +20,11 @@
                         "primary": "#10b77f",
                         "background-light": "#f6f8f7",
                         "background-dark": "#10221c",
+                        "surface-dark": "#162a24",
+                        "border-dark": "#23483c"
                     },
-                    fontFamily: {
-                        "display": ["Inter", "sans-serif"]
-                    },
-                    borderRadius: {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
+                    fontFamily: { "display": ["Inter", "sans-serif"] },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
                 },
             },
         }
@@ -48,14 +39,180 @@
             box-shadow: 0 0 0 2px rgba(16, 183, 127, 0.2);
         }
 
-        .upload-zone:hover {
+        .upload-zone {
+            transition: all 0.3s ease;
+        }
+
+        .upload-zone:hover,
+        .upload-zone.dragover {
             border-color: #10b77f;
-            background-color: rgba(16, 183, 127, 0.10);
+            background-color: rgba(16, 183, 127, 0.08);
+            transform: scale(1.01);
+        }
+
+        .upload-zone.dragover {
+            border-color: #10b77f;
+            box-shadow: 0 0 0 3px rgba(16, 183, 127, 0.15);
+        }
+
+        .form-error {
+            border-color: #ef4444 !important;
+            box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideLeft {
+            from {
+                opacity: 0;
+                transform: translateX(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideRight {
+            from {
+                opacity: 0;
+                transform: translateX(-40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes progressBar {
+            from {
+                width: 0%;
+            }
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-6px);
+            }
+
+            75% {
+                transform: translateX(6px);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.5s ease-out both;
+        }
+
+        .animate-slide-left {
+            animation: slideLeft 0.4s ease-out both;
+        }
+
+        .animate-slide-right {
+            animation: slideRight 0.4s ease-out both;
+        }
+
+        .animate-progress {
+            animation: progressBar 1.5s ease-out both;
+        }
+
+        .animate-shake {
+            animation: shake 0.4s ease-in-out;
+        }
+
+        .step-section {
+            display: none;
+        }
+
+        .step-section.active {
+            display: block;
+        }
+
+        .file-preview {
+            transition: all 0.3s ease;
+        }
+
+        .file-preview:hover {
+            background-color: rgba(16, 183, 127, 0.05);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            transition: all 0.3s ease;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+        }
+
+        .mobile-menu.show {
+            opacity: 1;
+            max-height: 300px;
+        }
+
+        /* Notifications */
+        .notif-dropdown {
+            transform-origin: top right;
+            transition: all 0.2s ease;
+        }
+
+        .notif-dropdown.hidden {
+            opacity: 0;
+            transform: scale(0.95);
+            pointer-events: none;
+        }
+
+        .notif-dropdown.show {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: all;
+        }
+
+        /* Camera */
+        #camera-video {
+            transform: scaleX(-1);
+        }
+
+        .camera-overlay {
+            position: absolute;
+            inset: 0;
+            border: 3px solid rgba(16, 183, 127, 0.5);
+            border-radius: 1rem;
+            pointer-events: none;
+        }
+
+        .camera-overlay::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%;
+            height: 70%;
+            border: 2px dashed rgba(16, 183, 127, 0.4);
+            border-radius: 50%;
         }
     </style>
 </head>
 
-<body class="bg-background-light dark:bg-slate-50 text-slate-900 dark:text-slate-800 min-h-screen font-display">
+<body class="bg-background-light text-slate-900 min-h-screen font-display">
     <div class="relative flex h-auto min-h-screen w-full flex-col">
         <div class="layout-container flex h-full grow flex-col">
             <!-- Top Navigation Bar -->
@@ -69,257 +226,566 @@
                             </h2>
                         </div>
                         <nav class="hidden md:flex items-center gap-8">
-                            <a class="text-slate-600 dark:text-slate-600 hover:text-primary transition-colors text-sm font-medium"
+                            <a class="text-slate-600 hover:text-primary transition-colors text-sm font-medium"
                                 href="../staff_dashboard/code.html">Dashboard</a>
-                            <a class="text-primary text-sm font-bold" href="../staff_KYE_submission/code.html">KYE
+                            <a class="text-primary text-sm font-bold" href="../staff_kye_submission/code.html?v=3">KYE
                                 Submission</a>
-                            <a class="text-slate-600 dark:text-slate-600 hover:text-primary transition-colors text-sm font-medium"
-                                href="../staff_KYE_status/code.html">KYE Status</a>
+                            <a class="text-slate-600 hover:text-primary transition-colors text-sm font-medium"
+                                href="../staff_kye_status/code.html?v=3">KYE Status</a>
                         </nav>
                     </div>
                     <div class="flex items-center gap-4">
-                        <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary/20"
-                            data-alt="User profile avatar placeholder"
-                            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBDHZB_zoVhsnwLkJbI8gkjW5MXSLENgVnpgmtU_t3NkTr5HfIJrMOYze1lvE8D_i81HGkwU47c5kNESwSLoQovQOR1RkeVgvBlWCov_RvuWZjnoEVOwMrjKCXbs4LAmMqvljwes9EOUkcP5RVLGY3joFnkWWjxezh34Yxv_-CLj1IZkS9wkLKlBpCHd9D9GyML_TTUPQSZHrihtkSwTF5qfPkLKzVTRoYSWGeOI774kbkm7w6QmhwrnKs_Wh15T6MbESELj5IDwLQ");'>
+                        <div class="relative">
+                            <button id="notif-bell" onclick="toggleNotifications()"
+                                class="relative p-2 rounded-lg text-slate-500 hover:text-primary hover:bg-primary/10 transition-all"
+                                title="Notifications">
+                                <span class="material-symbols-outlined text-xl">notifications</span>
+                                <span id="notif-badge"
+                                    class="absolute -top-0.5 -right-0.5 size-5 bg-red-500 text-white text-[10px] font-black rounded-full flex items-center justify-center hidden">0</span>
+                            </button>
+                            <!-- Notification Dropdown -->
+                            <div id="notif-dropdown"
+                                class="notif-dropdown hidden absolute right-0 top-12 w-80 bg-white border border-slate-200 rounded-xl shadow-2xl shadow-slate-200/50 z-50 overflow-hidden">
+                                <div class="p-4 border-b border-slate-100 flex items-center justify-between">
+                                    <h4 class="font-bold text-sm text-slate-900">Notifications</h4>
+                                    <button onclick="markAllRead()"
+                                        class="text-xs text-primary font-medium hover:underline">Mark all read</button>
+                                </div>
+                                <div id="notif-list" class="max-h-72 overflow-y-auto"></div>
+                                <div class="p-3 border-t border-slate-100 text-center">
+                                    <span class="text-xs text-slate-400">End of notifications</span>
+                                </div>
+                            </div>
                         </div>
-                        <a href="../login/code.html"
+                        <div class="flex items-center gap-3">
+                            <div class="text-right hidden sm:block">
+                                <p id="header-user-name" class="text-xs font-bold text-slate-900">Staff Member</p>
+                                <p id="header-user-role" class="text-[10px] text-slate-500">Role</p>
+                            </div>
+                            <div id="header-avatar-container"
+                                class="size-10 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center overflow-hidden">
+                                <span class="material-symbols-outlined text-primary">person</span>
+                            </div>
+                        </div>
+                        <a href="#" onclick="handleLogout(event)"
                             class="p-2 rounded-lg text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-all"
                             title="Sign Out"><span class="material-symbols-outlined text-[20px]">logout</span></a>
+                        <!-- Mobile Menu Toggle -->
+                        <button onclick="toggleMobileMenu()"
+                            class="md:hidden p-2 rounded-lg text-slate-500 hover:text-primary hover:bg-primary/10 transition-all">
+                            <span id="mobile-menu-icon" class="material-symbols-outlined text-xl">menu</span>
+                        </button>
                     </div>
                 </div>
+                <!-- Mobile Menu -->
+                <div id="mobile-menu" class="mobile-menu md:hidden border-t border-slate-200 bg-white px-6 py-3">
+                    <nav class="flex flex-col gap-3">
+                        <a class="text-slate-600 hover:text-primary transition-colors text-sm font-medium py-2"
+                            href="../staff_dashboard/code.html">Dashboard</a>
+                        <a class="text-primary text-sm font-bold py-2" href="../staff_kye_submission/code.html?v=3">KYE
+                            Submission</a>
+                        <a class="text-slate-600 hover:text-primary transition-colors text-sm font-medium py-2"
+                            href="../staff_kye_status/code.html?v=3">KYE Status</a>
+                    </nav>
+                </div>
             </header>
+
             <main class="flex-1 px-4 py-8 lg:px-20 max-w-7xl mx-auto w-full">
                 <div class="flex flex-col lg:flex-row gap-10">
                     <!-- Left Column: Form Section -->
                     <div class="flex-1 space-y-8">
                         <!-- Page Header & Status -->
-                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                        <div
+                            class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-fade-in-up">
                             <div>
-                                <h1 class="text-3xl font-black tracking-tight text-slate-900 dark:text-slate-900">Staff KYE
-                                    Submission</h1>
-                                <p class="text-slate-500 dark:text-primary/70 mt-1">Please provide your details to
-                                    verify your identity.</p>
+                                <h1 class="text-3xl font-black tracking-tight text-slate-900">Staff KYE Submission</h1>
+                                <p class="text-slate-500 mt-1">Please provide your details to verify your identity.</p>
                             </div>
-                            <div
-                                class="inline-flex p-1 bg-slate-200 dark:bg-slate-50 border border-slate-300 dark:border-primary/20 rounded-xl overflow-hidden">
-                                <span class="px-4 py-2 text-sm font-bold bg-primary text-white rounded-lg shadow-sm">Not
+                            <div id="status-bar"
+                                class="inline-flex p-1 bg-slate-200 border border-slate-300 rounded-xl overflow-hidden">
+                                <span id="status-not-started"
+                                    class="px-4 py-2 text-sm font-bold bg-primary text-white rounded-lg shadow-sm">Not
                                     Started</span>
-                                <span class="px-4 py-2 text-sm font-medium text-slate-500 dark:text-slate-500">Pending
+                                <span id="status-pending" class="px-4 py-2 text-sm font-medium text-slate-500">Pending
                                     Review</span>
-                                <span
-                                    class="px-4 py-2 text-sm font-medium text-slate-500 dark:text-slate-500">Verified</span>
+                                <span id="status-verified"
+                                    class="px-4 py-2 text-sm font-medium text-slate-500">Verified</span>
                             </div>
                         </div>
+
                         <!-- Multi-Step Indicator -->
-                        <div class="relative flex justify-between items-center max-w-2xl mx-auto">
-                            <div class="absolute top-1/2 left-0 w-full h-0.5 bg-slate-200 dark:bg-primary/10 -z-10">
-                            </div>
-                            <div class="flex flex-col items-center gap-2">
-                                <div
-                                    class="size-10 rounded-full bg-primary flex items-center justify-center text-slate-900 ring-4 ring-primary/20 ring-offset-4 ring-offset-background-light dark:ring-offset-background-dark">
+                        <div class="relative flex justify-between items-center max-w-2xl mx-auto animate-fade-in-up"
+                            style="animation-delay:0.1s">
+                            <!-- Progress line background -->
+                            <div class="absolute top-5 left-[60px] right-[60px] h-0.5 bg-slate-200 -z-10"></div>
+                            <!-- Progress line fill -->
+                            <div id="step-progress-line"
+                                class="absolute top-5 left-[60px] h-0.5 bg-primary -z-[5] transition-all duration-500"
+                                style="width: 0%"></div>
+
+                            <div class="flex flex-col items-center gap-2 cursor-pointer" onclick="goToStep(1)">
+                                <div id="step-icon-1"
+                                    class="size-10 rounded-full bg-primary flex items-center justify-center text-white ring-4 ring-primary/20 ring-offset-4 ring-offset-background-light transition-all duration-300">
                                     <span class="material-symbols-outlined text-[20px]">person</span>
                                 </div>
-                                <span class="text-xs font-bold text-primary">Personal</span>
+                                <span id="step-label-1"
+                                    class="text-xs font-bold text-primary transition-colors">Personal</span>
                             </div>
-                            <div class="flex flex-col items-center gap-2">
-                                <div
-                                    class="size-10 rounded-full bg-slate-200 dark:bg-primary/20 flex items-center justify-center text-slate-500 dark:text-primary/60 border border-primary/30">
+                            <div class="flex flex-col items-center gap-2 cursor-pointer" onclick="goToStep(2)">
+                                <div id="step-icon-2"
+                                    class="size-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 border border-slate-300 transition-all duration-300">
                                     <span class="material-symbols-outlined text-[20px]">badge</span>
                                 </div>
-                                <span class="text-xs font-medium text-slate-500">Documents</span>
+                                <span id="step-label-2"
+                                    class="text-xs font-medium text-slate-500 transition-colors">Documents</span>
                             </div>
-                            <div class="flex flex-col items-center gap-2">
-                                <div
-                                    class="size-10 rounded-full bg-slate-200 dark:bg-primary/20 flex items-center justify-center text-slate-500 dark:text-primary/60 border border-primary/30">
+                            <div class="flex flex-col items-center gap-2 cursor-pointer" onclick="goToStep(3)">
+                                <div id="step-icon-3"
+                                    class="size-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 border border-slate-300 transition-all duration-300">
                                     <span class="material-symbols-outlined text-[20px]">face</span>
                                 </div>
-                                <span class="text-xs font-medium text-slate-500">Selfie</span>
+                                <span id="step-label-3"
+                                    class="text-xs font-medium text-slate-500 transition-colors">Selfie</span>
                             </div>
                         </div>
+
                         <!-- Form Container -->
-                        <div
-                            class="bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-2xl p-8 shadow-xl shadow-primary/5">
-                            <!-- Step 1: Personal Details -->
-                            <section class="space-y-6">
-                                <div class="flex items-center gap-2 border-b border-primary/10 pb-4">
-                                    <span class="material-symbols-outlined text-primary">contact_mail</span>
-                                    <h3 class="text-xl font-bold">1. Personal Details</h3>
-                                </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div class="flex flex-col gap-2">
-                                        <label class="text-sm font-semibold text-slate-700 dark:text-slate-600">Full
-                                            Legal Name</label>
-                                        <input
-                                            class="form-input w-full rounded-xl bg-slate-50 dark:bg-slate-50 border-slate-300 dark:border-primary/30 text-slate-900 dark:text-slate-900 p-4 transition-all"
-                                            placeholder="Adebayo Ogunleye" type="text" />
+                        <div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-xl shadow-primary/5">
+
+                            <!-- ============ STEP 1: Personal Details ============ -->
+                            <section id="step-1" class="step-section active animate-slide-left">
+                                <div class="space-y-6">
+                                    <div class="flex items-center gap-2 border-b border-primary/10 pb-4">
+                                        <span class="material-symbols-outlined text-primary">contact_mail</span>
+                                        <h3 class="text-xl font-bold">1. Personal Details</h3>
                                     </div>
-                                    <div class="flex flex-col gap-2">
-                                        <label class="text-sm font-semibold text-slate-700 dark:text-slate-600">Email
-                                            Address</label>
-                                        <input
-                                            class="form-input w-full rounded-xl bg-slate-50 dark:bg-slate-50 border-slate-300 dark:border-primary/30 text-slate-900 dark:text-slate-900 p-4 transition-all"
-                                            placeholder="adebayo.o@degxifi.com" type="email" />
-                                    </div>
-                                    <div class="flex flex-col gap-2 md:col-span-2">
-                                        <label class="text-sm font-semibold text-slate-700 dark:text-slate-600">Phone
-                                            Number</label>
-                                        <input
-                                            class="form-input w-full rounded-xl bg-slate-50 dark:bg-slate-50 border-slate-300 dark:border-primary/30 text-slate-900 dark:text-slate-900 p-4 transition-all"
-                                            placeholder="+1 (555) 000-0000" type="tel" />
-                                    </div>
-                                </div>
-                            </section>
-                            <!-- Step 2: Identification Upload -->
-                            <section class="mt-12 space-y-6">
-                                <div class="flex items-center gap-2 border-b border-primary/10 pb-4">
-                                    <span class="material-symbols-outlined text-primary">file_upload</span>
-                                    <h3 class="text-xl font-bold">2. Government-issued ID</h3>
-                                </div>
-                                <p class="text-sm text-slate-500 dark:text-slate-500">Select an ID type and upload a
-                                    clear, high-resolution photo of the front of your document.</p>
-                                <div class="flex flex-wrap gap-3">
-                                    <button
-                                        class="flex items-center gap-2 px-4 py-2 rounded-lg border border-primary bg-primary/10 text-primary text-sm font-bold">
-                                        <span class="material-symbols-outlined text-sm">travel</span> Passport
-                                    </button>
-                                    <button
-                                        class="flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-300 dark:border-primary/30 hover:bg-primary/5 text-slate-500 dark:text-slate-500 text-sm font-medium transition-all">
-                                        <span class="material-symbols-outlined text-sm">drive_eta</span> Driver's
-                                        License
-                                    </button>
-                                    <button
-                                        class="flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-300 dark:border-primary/30 hover:bg-primary/5 text-slate-500 dark:text-slate-500 text-sm font-medium transition-all">
-                                        <span class="material-symbols-outlined text-sm">id_card</span> NIN Slip
-                                    </button>
-                                </div>
-                                <div
-                                    class="upload-zone border-2 border-dashed border-slate-300 dark:border-primary/30 rounded-2xl p-10 flex flex-col items-center justify-center gap-3 transition-all cursor-pointer group bg-slate-50/50 dark:bg-transparent">
-                                    <div
-                                        class="size-14 rounded-full bg-primary/10 text-primary flex items-center justify-center group-hover:scale-110 transition-transform">
-                                        <span class="material-symbols-outlined text-[32px]">cloud_upload</span>
-                                    </div>
-                                    <div class="text-center">
-                                        <p class="font-bold text-slate-900 dark:text-slate-900">Click to upload or drag and
-                                            drop</p>
-                                        <p class="text-sm text-slate-500 dark:text-slate-500">PNG, JPG or PDF (max.
-                                            10MB)</p>
-                                    </div>
-                                </div>
-                                <!-- ID Upload Progress -->
-                                <div class="space-y-2">
-                                    <div class="flex justify-between text-xs font-bold">
-                                        <span class="text-primary flex items-center gap-1">
-                                            <span class="material-symbols-outlined text-[14px]">check_circle</span>
-                                            passport_scan_v1.jpg
-                                        </span>
-                                        <span class="text-slate-500">100% Complete</span>
-                                    </div>
-                                    <div
-                                        class="w-full h-1.5 bg-slate-200 dark:bg-primary/10 rounded-full overflow-hidden">
-                                        <div class="h-full bg-primary w-full shadow-[0_0_8px_rgba(16,183,127,0.5)]">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div class="flex flex-col gap-2">
+                                            <label class="text-sm font-semibold text-slate-700">Full Legal Name <span
+                                                    class="text-red-400">*</span></label>
+                                            <input id="field-name"
+                                                class="form-input w-full rounded-xl bg-slate-50 border-slate-300 text-slate-900 p-4 transition-all"
+                                                placeholder="e.g. Adebayo Ogunleye" type="text" />
+                                            <p id="error-name" class="text-xs text-red-500 font-medium hidden">
+                                                <span
+                                                    class="material-symbols-outlined text-[13px] align-middle mr-0.5">error</span>
+                                                Full name is required
+                                            </p>
+                                        </div>
+                                        <div class="flex flex-col gap-2">
+                                            <label class="text-sm font-semibold text-slate-700">Email Address <span
+                                                    class="text-red-400">*</span></label>
+                                            <input id="field-email"
+                                                class="form-input w-full rounded-xl bg-slate-50 border-slate-300 text-slate-900 p-4 transition-all"
+                                                placeholder="e.g. adebayo.o@degxifi.com" type="email" />
+                                            <p id="error-email" class="text-xs text-red-500 font-medium hidden">
+                                                <span
+                                                    class="material-symbols-outlined text-[13px] align-middle mr-0.5">error</span>
+                                                Valid email address is required
+                                            </p>
+                                        </div>
+                                        <div class="flex flex-col gap-2">
+                                            <label class="text-sm font-semibold text-slate-700">Phone Number <span
+                                                    class="text-red-400">*</span></label>
+                                            <input id="field-phone"
+                                                class="form-input w-full rounded-xl bg-slate-50 border-slate-300 text-slate-900 p-4 transition-all"
+                                                placeholder="e.g. +234 800 000 0000" type="tel" />
+                                            <p id="error-phone" class="text-xs text-red-500 font-medium hidden">
+                                                <span
+                                                    class="material-symbols-outlined text-[13px] align-middle mr-0.5">error</span>
+                                                Phone number is required
+                                            </p>
+                                        </div>
+                                        <div class="flex flex-col gap-2">
+                                            <label class="text-sm font-semibold text-slate-700">Date of Birth <span
+                                                    class="text-red-400">*</span></label>
+                                            <input id="field-dob"
+                                                class="form-input w-full rounded-xl bg-slate-50 border-slate-300 text-slate-900 p-4 transition-all"
+                                                type="date" />
+                                            <p id="error-dob" class="text-xs text-red-500 font-medium hidden">
+                                                <span
+                                                    class="material-symbols-outlined text-[13px] align-middle mr-0.5">error</span>
+                                                Date of birth is required
+                                            </p>
+                                        </div>
+                                        <div class="flex flex-col gap-2 md:col-span-2">
+                                            <label class="text-sm font-semibold text-slate-700">Residential Address
+                                                <span class="text-red-400">*</span></label>
+                                            <input id="field-address"
+                                                class="form-input w-full rounded-xl bg-slate-50 border-slate-300 text-slate-900 p-4 transition-all"
+                                                placeholder="e.g. 15 Adeola Odeku Street, Victoria Island, Lagos"
+                                                type="text" />
+                                            <p id="error-address" class="text-xs text-red-500 font-medium hidden">
+                                                <span
+                                                    class="material-symbols-outlined text-[13px] align-middle mr-0.5">error</span>
+                                                Address is required
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
-                            </section>
-                            <!-- Step 3: Proof of Address -->
-                            <section class="mt-12 space-y-6">
-                                <div class="flex items-center gap-2 border-b border-primary/10 pb-4">
-                                    <span class="material-symbols-outlined text-primary">home_pin</span>
-                                    <h3 class="text-xl font-bold">3. Proof of Address</h3>
-                                </div>
-                                <div
-                                    class="upload-zone border-2 border-dashed border-slate-300 dark:border-primary/30 rounded-2xl p-10 flex flex-col items-center justify-center gap-3 transition-all cursor-pointer bg-slate-50/50 dark:bg-transparent">
-                                    <div
-                                        class="size-14 rounded-full bg-primary/10 text-primary flex items-center justify-center">
-                                        <span class="material-symbols-outlined text-[32px]">upload_file</span>
-                                    </div>
-                                    <div class="text-center">
-                                        <p class="font-bold text-slate-900 dark:text-slate-900">Upload utility bill or bank
-                                            statement</p>
-                                        <p class="text-sm text-slate-500 dark:text-slate-500">Must be issued within the
-                                            last 3 months</p>
-                                    </div>
-                                </div>
-                                <!-- Empty Progress Example -->
-                                <div class="space-y-2 opacity-50">
-                                    <div class="flex justify-between text-xs font-bold">
-                                        <span class="text-slate-500">No file selected</span>
-                                        <span class="text-slate-500">0%</span>
-                                    </div>
-                                    <div
-                                        class="w-full h-1.5 bg-slate-200 dark:bg-primary/10 rounded-full overflow-hidden">
-                                        <div class="h-full bg-primary w-0 transition-all duration-500"></div>
-                                    </div>
+                                <!-- Step 1 Actions -->
+                                <div class="mt-8 pt-6 border-t border-slate-100 flex justify-end">
+                                    <button onclick="nextStep()"
+                                        class="flex items-center gap-2 px-8 py-3.5 bg-primary text-white font-bold rounded-xl shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all">
+                                        Continue to Documents
+                                        <span class="material-symbols-outlined text-lg">arrow_forward</span>
+                                    </button>
                                 </div>
                             </section>
-                            <!-- Step 4: Selfie Verification -->
-                            <section class="mt-12 space-y-6">
-                                <div class="flex items-center gap-2 border-b border-primary/10 pb-4">
-                                    <span class="material-symbols-outlined text-primary">face_retouching_natural</span>
-                                    <h3 class="text-xl font-bold">4. Face Verification</h3>
-                                </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                                    <div
-                                        class="aspect-square bg-slate-50/50 border border-primary/20 rounded-2xl flex items-center justify-center relative overflow-hidden">
-                                        <img class="object-cover w-full h-full opacity-60 grayscale"
-                                            data-alt="Illustration of a clear facial verification selfie photo"
-                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCA0rDZBBrQHjbBlodv3Hzpy0Jpv_gWMC4f_vrncPmxjQ8vsxlbFVaIollzYu0sgqpsuJAHP8ZrQVk5u71XNJ9BF66HkKYi4NSDRMpGsQ2djs4-3sLwSTH1a4vZ5sRX8EBdKbbw4PFrKIpu0kwpkBerflEkcORWLhP45vJ7fEnXa8lowFHQ8U9SaSi4hoXsPXNtt4yahvRscOClzltdah_jYs72QVqXtTbvYADjAI2fMM1rvQlKw0TqSso4_PlT5Pxz2LJRW4s44UY" />
-                                        <div
-                                            class="absolute inset-0 bg-gradient-to-t from-background-dark to-transparent">
+
+                            <!-- ============ STEP 2: Documents ============ -->
+                            <section id="step-2" class="step-section">
+                                <div class="space-y-8">
+                                    <!-- Government ID -->
+                                    <div class="space-y-6">
+                                        <div class="flex items-center gap-2 border-b border-primary/10 pb-4">
+                                            <span class="material-symbols-outlined text-primary">file_upload</span>
+                                            <h3 class="text-xl font-bold">2. Government-Issued ID</h3>
                                         </div>
-                                        <button
-                                            class="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-xl font-bold shadow-lg shadow-primary/30 hover:scale-105 transition-all">
-                                            <span class="material-symbols-outlined">photo_camera</span> Start Camera
+                                        <p class="text-sm text-slate-500">Select an ID type and upload a clear,
+                                            high-resolution photo of the front of your document.</p>
+
+                                        <!-- ID Type Selection -->
+                                        <div class="flex flex-wrap gap-3" id="id-type-group">
+                                            <button data-type="passport" onclick="selectIdType(this)"
+                                                class="id-type-btn flex items-center gap-2 px-4 py-2.5 rounded-lg border border-primary bg-primary/10 text-primary text-sm font-bold transition-all">
+                                                <span class="material-symbols-outlined text-sm">travel</span> Passport
+                                            </button>
+                                            <button data-type="drivers-license" onclick="selectIdType(this)"
+                                                class="id-type-btn flex items-center gap-2 px-4 py-2.5 rounded-lg border border-slate-300 hover:bg-primary/5 text-slate-500 text-sm font-medium transition-all">
+                                                <span class="material-symbols-outlined text-sm">drive_eta</span>
+                                                Driver's License
+                                            </button>
+                                            <button data-type="nin" onclick="selectIdType(this)"
+                                                class="id-type-btn flex items-center gap-2 px-4 py-2.5 rounded-lg border border-slate-300 hover:bg-primary/5 text-slate-500 text-sm font-medium transition-all">
+                                                <span class="material-symbols-outlined text-sm">id_card</span> NIN Slip
+                                            </button>
+                                        </div>
+
+                                        <!-- Upload Zone: Government ID -->
+                                        <div id="upload-zone-id"
+                                            class="upload-zone border-2 border-dashed border-slate-300 rounded-2xl p-10 flex flex-col items-center justify-center gap-3 cursor-pointer bg-slate-50/50">
+                                            <input type="file" id="file-input-id" class="hidden"
+                                                accept=".png,.jpg,.jpeg,.pdf" />
+                                            <div
+                                                class="size-14 rounded-full bg-primary/10 text-primary flex items-center justify-center group-hover:scale-110 transition-transform">
+                                                <span class="material-symbols-outlined text-[32px]">cloud_upload</span>
+                                            </div>
+                                            <div class="text-center">
+                                                <p class="font-bold text-slate-900">Click to upload or drag and drop</p>
+                                                <p class="text-sm text-slate-500">PNG, JPG or PDF (max. 10MB)</p>
+                                            </div>
+                                        </div>
+
+                                        <!-- File Preview: Government ID -->
+                                        <div id="file-preview-id" class="hidden">
+                                            <div
+                                                class="file-preview flex items-center gap-4 bg-slate-50 border border-slate-200 rounded-xl p-4">
+                                                <div
+                                                    class="size-12 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                                                    <span id="file-icon-id"
+                                                        class="material-symbols-outlined text-primary text-2xl">description</span>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <p id="file-name-id"
+                                                        class="text-sm font-bold text-slate-900 truncate">—</p>
+                                                    <p id="file-meta-id" class="text-xs text-slate-500 mt-0.5">—</p>
+                                                    <!-- Progress bar -->
+                                                    <div class="mt-2">
+                                                        <div class="flex justify-between text-[10px] font-bold mb-1">
+                                                            <span id="file-status-id"
+                                                                class="text-primary flex items-center gap-1">
+                                                                <span
+                                                                    class="material-symbols-outlined text-[12px]">sync</span>
+                                                                Uploading...
+                                                            </span>
+                                                            <span id="file-percent-id" class="text-slate-500">0%</span>
+                                                        </div>
+                                                        <div
+                                                            class="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                                                            <div id="file-progress-id"
+                                                                class="h-full bg-primary rounded-full transition-all duration-300 shadow-[0_0_8px_rgba(16,183,127,0.4)]"
+                                                                style="width:0%"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button onclick="removeFile('id')"
+                                                    class="p-2 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all shrink-0"
+                                                    title="Remove file">
+                                                    <span class="material-symbols-outlined text-lg">close</span>
+                                                </button>
+                                            </div>
+                                            <!-- Image thumbnail preview -->
+                                            <div id="file-thumb-id"
+                                                class="hidden mt-3 rounded-xl overflow-hidden border border-slate-200 max-h-48">
+                                                <img id="file-thumb-img-id" class="w-full h-full object-cover" src=""
+                                                    alt="ID preview" />
+                                            </div>
+                                        </div>
+                                        <p id="error-file-id" class="text-xs text-red-500 font-medium hidden">
+                                            <span
+                                                class="material-symbols-outlined text-[13px] align-middle mr-0.5">error</span>
+                                            Government ID document is required
+                                        </p>
+                                    </div>
+
+                                    <!-- Proof of Address -->
+                                    <div class="space-y-6 mt-4">
+                                        <div class="flex items-center gap-2 border-b border-primary/10 pb-4">
+                                            <span class="material-symbols-outlined text-primary">home_pin</span>
+                                            <h3 class="text-xl font-bold">3. Proof of Address</h3>
+                                        </div>
+                                        <p class="text-sm text-slate-500">Upload a utility bill, bank statement, or
+                                            government letter issued within the last 3 months.</p>
+
+                                        <!-- Upload Zone: Proof of Address -->
+                                        <div id="upload-zone-address"
+                                            class="upload-zone border-2 border-dashed border-slate-300 rounded-2xl p-10 flex flex-col items-center justify-center gap-3 cursor-pointer bg-slate-50/50">
+                                            <input type="file" id="file-input-address" class="hidden"
+                                                accept=".png,.jpg,.jpeg,.pdf" />
+                                            <div
+                                                class="size-14 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+                                                <span class="material-symbols-outlined text-[32px]">upload_file</span>
+                                            </div>
+                                            <div class="text-center">
+                                                <p class="font-bold text-slate-900">Upload utility bill or bank
+                                                    statement</p>
+                                                <p class="text-sm text-slate-500">PNG, JPG or PDF (max. 10MB)</p>
+                                            </div>
+                                        </div>
+
+                                        <!-- File Preview: Proof of Address -->
+                                        <div id="file-preview-address" class="hidden">
+                                            <div
+                                                class="file-preview flex items-center gap-4 bg-slate-50 border border-slate-200 rounded-xl p-4">
+                                                <div
+                                                    class="size-12 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                                                    <span id="file-icon-address"
+                                                        class="material-symbols-outlined text-primary text-2xl">description</span>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <p id="file-name-address"
+                                                        class="text-sm font-bold text-slate-900 truncate">—</p>
+                                                    <p id="file-meta-address" class="text-xs text-slate-500 mt-0.5">—
+                                                    </p>
+                                                    <div class="mt-2">
+                                                        <div class="flex justify-between text-[10px] font-bold mb-1">
+                                                            <span id="file-status-address"
+                                                                class="text-primary flex items-center gap-1">
+                                                                <span
+                                                                    class="material-symbols-outlined text-[12px]">sync</span>
+                                                                Uploading...
+                                                            </span>
+                                                            <span id="file-percent-address"
+                                                                class="text-slate-500">0%</span>
+                                                        </div>
+                                                        <div
+                                                            class="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                                                            <div id="file-progress-address"
+                                                                class="h-full bg-primary rounded-full transition-all duration-300 shadow-[0_0_8px_rgba(16,183,127,0.4)]"
+                                                                style="width:0%"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button onclick="removeFile('address')"
+                                                    class="p-2 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all shrink-0"
+                                                    title="Remove file">
+                                                    <span class="material-symbols-outlined text-lg">close</span>
+                                                </button>
+                                            </div>
+                                            <div id="file-thumb-address"
+                                                class="hidden mt-3 rounded-xl overflow-hidden border border-slate-200 max-h-48">
+                                                <img id="file-thumb-img-address" class="w-full h-full object-cover"
+                                                    src="" alt="Address proof preview" />
+                                            </div>
+                                        </div>
+                                        <p id="error-file-address" class="text-xs text-red-500 font-medium hidden">
+                                            <span
+                                                class="material-symbols-outlined text-[13px] align-middle mr-0.5">error</span>
+                                            Proof of address document is required
+                                        </p>
+                                    </div>
+                                </div>
+                                <!-- Step 2 Actions -->
+                                <div class="mt-8 pt-6 border-t border-slate-100 flex justify-between">
+                                    <button onclick="prevStep()"
+                                        class="flex items-center gap-2 px-6 py-3.5 bg-slate-100 text-slate-700 font-bold rounded-xl hover:bg-slate-200 transition-all">
+                                        <span class="material-symbols-outlined text-lg">arrow_back</span>
+                                        Back
+                                    </button>
+                                    <button onclick="nextStep()"
+                                        class="flex items-center gap-2 px-8 py-3.5 bg-primary text-white font-bold rounded-xl shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all">
+                                        Continue to Selfie
+                                        <span class="material-symbols-outlined text-lg">arrow_forward</span>
+                                    </button>
+                                </div>
+                            </section>
+
+                            <!-- ============ STEP 3: Face Verification ============ -->
+                            <section id="step-3" class="step-section">
+                                <div class="space-y-6">
+                                    <div class="flex items-center gap-2 border-b border-primary/10 pb-4">
+                                        <span
+                                            class="material-symbols-outlined text-primary">face_retouching_natural</span>
+                                        <h3 class="text-xl font-bold">4. Face Verification</h3>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                                        <div id="camera-container"
+                                            class="aspect-square bg-slate-900 border border-primary/20 rounded-2xl flex items-center justify-center relative overflow-hidden">
+                                            <!-- Placeholder (shown before camera starts) -->
+                                            <div id="camera-placeholder"
+                                                class="flex flex-col items-center gap-4 text-center p-6">
+                                                <div
+                                                    class="size-20 rounded-full bg-primary/10 flex items-center justify-center">
+                                                    <span
+                                                        class="material-symbols-outlined text-primary text-5xl">photo_camera</span>
+                                                </div>
+                                                <p class="text-slate-400 text-sm">Camera preview will appear here</p>
+                                            </div>
+                                            <!-- Live Video Feed (hidden until camera starts) -->
+                                            <video id="camera-video"
+                                                class="hidden w-full h-full object-cover rounded-2xl" autoplay
+                                                playsinline muted></video>
+                                            <!-- Captured Photo (hidden until photo is taken) -->
+                                            <img id="camera-captured"
+                                                class="hidden w-full h-full object-cover rounded-2xl"
+                                                alt="Captured selfie" />
+                                            <canvas id="camera-canvas" class="hidden"></canvas>
+                                            <!-- Face guide overlay -->
+                                            <div id="camera-overlay" class="camera-overlay hidden"></div>
+                                            <!-- Error message -->
+                                            <div id="camera-error"
+                                                class="hidden absolute inset-0 flex flex-col items-center justify-center text-center p-6">
+                                                <span
+                                                    class="material-symbols-outlined text-red-400 text-4xl mb-2">videocam_off</span>
+                                                <p class="text-red-400 text-sm font-bold">Camera access denied</p>
+                                                <p class="text-slate-400 text-xs mt-1">Please allow camera access in
+                                                    your browser settings</p>
+                                            </div>
+                                            <!-- Action Buttons -->
+                                            <div
+                                                class="absolute bottom-4 left-0 right-0 flex items-center justify-center gap-3 px-4">
+                                                <button id="camera-btn"
+                                                    class="flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-xl font-bold shadow-lg shadow-primary/30 hover:scale-105 transition-all">
+                                                    <span class="material-symbols-outlined">photo_camera</span> Start
+                                                    Camera
+                                                </button>
+                                                <button id="capture-btn"
+                                                    class="hidden flex items-center gap-2 px-6 py-3 bg-white text-slate-900 rounded-xl font-bold shadow-lg hover:scale-105 transition-all">
+                                                    <span class="material-symbols-outlined">camera</span> Capture
+                                                </button>
+                                                <button id="retake-btn"
+                                                    class="hidden flex items-center gap-2 px-5 py-3 bg-slate-700 text-white rounded-xl font-bold shadow-lg hover:scale-105 transition-all">
+                                                    <span class="material-symbols-outlined">refresh</span> Retake
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <p id="error-selfie"
+                                            class="text-xs text-red-500 font-medium hidden md:hidden col-span-full">
+                                            <span
+                                                class="material-symbols-outlined text-[13px] align-middle mr-0.5">error</span>
+                                            Face verification photo is required before submitting
+                                        </p>
+                                        <div class="space-y-4">
+                                            <h4 class="font-bold text-lg">Selfie Instructions:</h4>
+                                            <ul class="space-y-3">
+                                                <li class="flex items-start gap-3 text-sm text-slate-600">
+                                                    <span
+                                                        class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+                                                    Ensure your face is well-lit and clearly visible.
+                                                </li>
+                                                <li class="flex items-start gap-3 text-sm text-slate-600">
+                                                    <span
+                                                        class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+                                                    Remove glasses, hats, or face masks.
+                                                </li>
+                                                <li class="flex items-start gap-3 text-sm text-slate-600">
+                                                    <span
+                                                        class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+                                                    Look directly at the camera and keep a neutral expression.
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Step 3 Actions -->
+                                <div
+                                    class="mt-8 pt-6 border-t border-slate-100 flex flex-col md:flex-row gap-4 items-center justify-between">
+                                    <div class="flex gap-3 order-2 md:order-1">
+                                        <button onclick="prevStep()"
+                                            class="flex items-center gap-2 px-6 py-3.5 bg-slate-100 text-slate-700 font-bold rounded-xl hover:bg-slate-200 transition-all">
+                                            <span class="material-symbols-outlined text-lg">arrow_back</span> Back
                                         </button>
                                     </div>
-                                    <div class="space-y-4">
-                                        <h4 class="font-bold text-lg">Selfie Instructions:</h4>
-                                        <ul class="space-y-3">
-                                            <li
-                                                class="flex items-start gap-3 text-sm text-slate-500 dark:text-slate-600">
-                                                <span
-                                                    class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
-                                                Ensure your face is well-lit and clearly visible.
-                                            </li>
-                                            <li
-                                                class="flex items-start gap-3 text-sm text-slate-500 dark:text-slate-600">
-                                                <span
-                                                    class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
-                                                Remove glasses, hats, or face masks.
-                                            </li>
-                                            <li
-                                                class="flex items-start gap-3 text-sm text-slate-500 dark:text-slate-600">
-                                                <span
-                                                    class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
-                                                Look directly at the camera and keep a neutral expression.
-                                            </li>
-                                        </ul>
+                                    <div class="flex flex-col items-end gap-2 order-1 md:order-2">
+                                        <p class="text-xs text-slate-500 max-w-md text-right">By clicking submit, you
+                                            agree to Degxifi's privacy policy and consent to the processing of your
+                                            biometric data.</p>
+                                        <button id="submit-kyc-btn" onclick="submitForm()"
+                                            class="flex items-center gap-2 px-10 py-4 bg-primary text-white font-black text-lg rounded-xl shadow-xl shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-1 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0">
+                                            <span class="material-symbols-outlined text-xl">verified</span>
+                                            Submit Verification
+                                        </button>
                                     </div>
                                 </div>
                             </section>
-                            <div
-                                class="mt-16 pt-8 border-t border-primary/10 flex flex-col md:flex-row gap-4 items-center justify-between">
-                                <p class="text-xs text-slate-500 dark:text-slate-500 max-w-md">By clicking submit, you
-                                    agree to Degxifi's privacy policy and consent to the processing of your biometric
-                                    data for verification purposes.</p>
-                                <button id="submit-kyc-btn"
-                                    class="w-full md:w-auto px-10 py-4 bg-primary text-white font-black text-lg rounded-xl shadow-xl shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-1 transition-all inline-block text-center flex items-center justify-center gap-2">
-                                    Submit Verification
-                                </button>
-                            </div>
                         </div>
                     </div>
+
                     <!-- Right Column: Sidebar -->
                     <aside class="lg:w-80 space-y-6">
-                        <div class="bg-primary/10 border border-primary/20 rounded-2xl p-6">
+                        <!-- Completion Tracker -->
+                        <div class="bg-white border border-slate-200 rounded-2xl p-6 animate-fade-in-up"
+                            style="animation-delay:0.2s">
+                            <h4 class="font-bold mb-4 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">checklist</span> Completion Tracker
+                            </h4>
+                            <div class="space-y-3">
+                                <div id="check-personal"
+                                    class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-100">
+                                    <div
+                                        class="size-6 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
+                                        <span class="material-symbols-outlined text-slate-400 text-sm">circle</span>
+                                    </div>
+                                    <span class="text-sm text-slate-600">Personal Details</span>
+                                </div>
+                                <div id="check-govid"
+                                    class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-100">
+                                    <div
+                                        class="size-6 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
+                                        <span class="material-symbols-outlined text-slate-400 text-sm">circle</span>
+                                    </div>
+                                    <span class="text-sm text-slate-600">Government ID</span>
+                                </div>
+                                <div id="check-address"
+                                    class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-100">
+                                    <div
+                                        class="size-6 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
+                                        <span class="material-symbols-outlined text-slate-400 text-sm">circle</span>
+                                    </div>
+                                    <span class="text-sm text-slate-600">Proof of Address</span>
+                                </div>
+                                <div id="check-selfie"
+                                    class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-100">
+                                    <div
+                                        class="size-6 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
+                                        <span class="material-symbols-outlined text-slate-400 text-sm">circle</span>
+                                    </div>
+                                    <span class="text-sm text-slate-600">Face Verification</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-primary/10 border border-primary/20 rounded-2xl p-6 animate-fade-in-up"
+                            style="animation-delay:0.3s">
                             <h4 class="text-lg font-bold text-primary flex items-center gap-2 mb-4">
                                 <span class="material-symbols-outlined">verified_user</span> Security &amp; Privacy
                             </h4>
-                            <div class="space-y-6">
+                            <div class="space-y-5">
                                 <div>
                                     <h5 class="font-bold text-sm mb-1 uppercase tracking-wider text-slate-500">Why KYE?
                                     </h5>
-                                    <p class="text-sm text-slate-600 dark:text-slate-600 leading-relaxed">
+                                    <p class="text-sm text-slate-600 leading-relaxed">
                                         As a regulated DeFi institution, Degxifi requires staff verification to prevent
                                         fraud and ensure compliance with international AML standards.
                                     </p>
@@ -327,7 +793,7 @@
                                 <div>
                                     <h5 class="font-bold text-sm mb-1 uppercase tracking-wider text-slate-500">Data
                                         Encryption</h5>
-                                    <p class="text-sm text-slate-600 dark:text-slate-600 leading-relaxed">
+                                    <p class="text-sm text-slate-600 leading-relaxed">
                                         Your documents are encrypted using AES-256 military-grade encryption and stored
                                         in a secure offline vault.
                                     </p>
@@ -335,199 +801,848 @@
                                 <div>
                                     <h5 class="font-bold text-sm mb-1 uppercase tracking-wider text-slate-500">
                                         Compliance</h5>
-                                    <p class="text-sm text-slate-600 dark:text-slate-600 leading-relaxed">
+                                    <p class="text-sm text-slate-600 leading-relaxed">
                                         Verification is performed by our SOC2 Type II certified compliance engine.
                                     </p>
                                 </div>
                             </div>
                         </div>
-                        <div
-                            class="bg-white dark:bg-slate-100/20 border border-slate-200 dark:border-primary/10 rounded-2xl p-6">
+
+                        <div class="bg-white border border-slate-200 rounded-2xl p-6 animate-fade-in-up"
+                            style="animation-delay:0.4s">
                             <h4 class="font-bold mb-3 flex items-center gap-2">
                                 <span class="material-symbols-outlined text-primary">help_outline</span> Need help?
                             </h4>
-                            <p class="text-sm text-slate-500 dark:text-slate-500 mb-4">If you are having trouble
+                            <p class="text-sm text-slate-500 mb-4">If you are having trouble
                                 uploading your documents, please contact internal support.</p>
-                            <a class="inline-flex items-center text-sm font-bold text-primary hover:underline" href="#">
+                            <a class="inline-flex items-center text-sm font-bold text-primary hover:underline" href="#"
+                                onclick="showToast('Opening support contact...'); return false;">
                                 Contact Support <span
                                     class="material-symbols-outlined text-[16px] ml-1">arrow_forward</span>
                             </a>
-                        </div>
-                        <!-- Mini Map / Location Context -->
-                        <div
-                            class="bg-slate-50 border border-primary/20 rounded-2xl overflow-hidden h-48 relative">
-                            <div class="absolute inset-0 bg-primary/5"></div>
-                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                <div class="relative">
-                                    <div class="size-6 bg-primary rounded-full animate-ping absolute inset-0"></div>
-                                    <div class="size-6 bg-primary rounded-full relative border-2 border-white"></div>
-                                </div>
-                            </div>
-                            <img class="w-full h-full object-cover opacity-30"
-                                data-alt="Abstract dark stylized map of the city for location context"
-                                data-location="Lagos"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFFLoiZkJVsJwQaauSmbFamb-vFHhVvluJa5k4PZrsYP_5DxtvM6v_YR7zClDxzbZP-8YGRryl9ip1kEqbTh0k8OVyotCIHIIzubHO4I1US3ibNM6g0YgW_mwEYk9XrLITfLxl0CuZ2CaOThuOkgfILVR7fMCr48m9h7PENKRx800onEuXk2mQREJI-eoaM-2HjxNvbCKSky60RfElLh6l9PA8poCBmbsOjaDD5SNmXqyRenFtQbAgfgR4G7n1fYGBH2Hw-52BX3I" />
-                            <div
-                                class="absolute bottom-3 left-3 bg-slate-50/80 backdrop-blur px-2 py-1 rounded border border-primary/30 text-[10px] uppercase font-bold text-primary">
-                                Current Node: LON-01
-                            </div>
                         </div>
                     </aside>
                 </div>
             </main>
             <footer class="mt-20 border-t border-primary/10 px-6 py-10 lg:px-20 text-center">
-                <p class="text-slate-500 dark:text-slate-500 text-sm">© 2024 Degxifi Protocol. All internal
+                <p class="text-slate-500 text-sm">© 2025 Degxifi Protocol. All internal
                     communications are monitored and encrypted.</p>
             </footer>
         </div>
     </div>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Fallback Toast if showToast doesn't exist
-        function fallbackToast(message, type="success") {
-            if(typeof showToast === "function") {
-                try {
-                    showToast(message, type);
-                    return;
-                } catch(e) {}
-            }
-            // Create mini-toast
+
+    <script>
+        // ========================================
+        // TOAST
+        // ========================================
+        function showToast(message, type = "success") {
             const t = document.createElement("div");
-            t.className = `fixed bottom-4 right-4 px-6 py-3 rounded-xl text-sm font-bold shadow-2xl z-[9999] transform transition-all translate-y-10 opacity-0 flex items-center gap-2 ${type === "success" ? "bg-primary text-white" : "bg-red-500 text-white"}`;
-            t.innerHTML = `<span class="material-symbols-outlined text-lg">${type === 'success' ? 'check_circle' : 'error'}</span><span>${message}</span>`;
+            t.className = `fixed bottom-4 right-4 px-6 py-3 rounded-xl text-sm font-bold shadow-2xl z-[9999] transform transition-all translate-y-10 opacity-0 flex items-center gap-2 ${type === "success" ? "bg-primary text-white" : type === "error" ? "bg-red-500 text-white" : "bg-amber-500 text-white"}`;
+            t.innerHTML = `<span class="material-symbols-outlined text-lg">${type === 'success' ? 'check_circle' : type === 'error' ? 'error' : 'info'}</span><span>${message}</span>`;
             document.body.appendChild(t);
             setTimeout(() => t.classList.remove("translate-y-10", "opacity-0"), 10);
-            setTimeout(() => {
-                t.classList.add("translate-y-10", "opacity-0");
-                setTimeout(() => t.remove(), 300);
-            }, 3000);
+            setTimeout(() => { t.classList.add("translate-y-10", "opacity-0"); setTimeout(() => t.remove(), 300); }, 3000);
         }
 
-        // Intercept all '#' links
-        document.querySelectorAll('a[href="#"]').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                fallbackToast("Backend Action Pending: " + (this.textContent.trim() || 'Link clicked'), "success");
-            });
-        });
+        // ========================================
+        // STATE
+        // ========================================
+        let currentStep = 1;
+        const totalSteps = 3;
+        let selectedIdType = 'passport';
+        const uploadedFiles = { id: null, address: null };
 
-        // Pagination Buttons Interaction
-        document.querySelectorAll('button').forEach(btn => {
-            const txt = btn.textContent.trim();
-            // Numbers 1, 2, 3...
-            if(txt.match(/^[0-9]+$/) && btn.parentElement.classList.contains('gap-2')) {
-                btn.addEventListener('click', function() {
-                    fallbackToast("Fetching Page " + txt + " from database...", "success");
-                    // Visual active state swap if applicable
-                    this.parentElement.querySelectorAll('button').forEach(b => {
-                        if(b.textContent.trim().match(/^[0-9]+$/)) {
-                            b.classList.remove('bg-primary', 'text-white');
-                            if(!b.classList.contains('text-slate-500')) {
-                                b.classList.add('text-slate-500');
-                            }
-                        }
+        // ========================================
+        // 1. MULTI-STEP NAVIGATION
+        // ========================================
+        function updateStepUI() {
+            // Hide all sections
+            document.querySelectorAll('.step-section').forEach(s => s.classList.remove('active'));
+
+            // Show current section
+            const section = document.getElementById(`step-${currentStep}`);
+            section.classList.add('active');
+
+            // Update step icons
+            for (let i = 1; i <= totalSteps; i++) {
+                const icon = document.getElementById(`step-icon-${i}`);
+                const label = document.getElementById(`step-label-${i}`);
+
+                if (i < currentStep) {
+                    // Completed
+                    icon.className = 'size-10 rounded-full bg-primary flex items-center justify-center text-white ring-4 ring-primary/20 ring-offset-4 ring-offset-background-light transition-all duration-300';
+                    icon.innerHTML = '<span class="material-symbols-outlined text-[20px]">check</span>';
+                    label.className = 'text-xs font-bold text-primary transition-colors';
+                } else if (i === currentStep) {
+                    // Current
+                    const icons = ['person', 'badge', 'face'];
+                    icon.className = 'size-10 rounded-full bg-primary flex items-center justify-center text-white ring-4 ring-primary/20 ring-offset-4 ring-offset-background-light transition-all duration-300';
+                    icon.innerHTML = `<span class="material-symbols-outlined text-[20px]">${icons[i - 1]}</span>`;
+                    label.className = 'text-xs font-bold text-primary transition-colors';
+                } else {
+                    // Upcoming
+                    const icons = ['person', 'badge', 'face'];
+                    icon.className = 'size-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 border border-slate-300 transition-all duration-300';
+                    icon.innerHTML = `<span class="material-symbols-outlined text-[20px]">${icons[i - 1]}</span>`;
+                    label.className = 'text-xs font-medium text-slate-500 transition-colors';
+                }
+            }
+
+            // Progress line
+            const progressPercent = ((currentStep - 1) / (totalSteps - 1)) * 100;
+            const lineEl = document.getElementById('step-progress-line');
+            const maxW = document.querySelector('.relative.flex.justify-between').offsetWidth - 120;
+            lineEl.style.width = (progressPercent / 100 * maxW) + 'px';
+
+            // Scroll to top of form
+            window.scrollTo({ top: 200, behavior: 'smooth' });
+        }
+
+        function nextStep() {
+            if (!validateCurrentStep()) return;
+            if (currentStep < totalSteps) {
+                currentStep++;
+                updateStepUI();
+                // Animate new step in
+                const section = document.getElementById(`step-${currentStep}`);
+                section.classList.add('animate-slide-left');
+                setTimeout(() => section.classList.remove('animate-slide-left'), 500);
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStepUI();
+                const section = document.getElementById(`step-${currentStep}`);
+                section.classList.add('animate-slide-right');
+                setTimeout(() => section.classList.remove('animate-slide-right'), 500);
+            }
+        }
+
+        function goToStep(step) {
+            if (step < currentStep) {
+                currentStep = step;
+                updateStepUI();
+            } else if (step === currentStep + 1) {
+                nextStep();
+            } else if (step > currentStep + 1) {
+                showToast(`Please complete the preceding steps first`, 'warning');
+                const icon = document.getElementById(`step-icon-${step}`);
+                icon.classList.add('animate-shake');
+                setTimeout(() => icon.classList.remove('animate-shake'), 400);
+            }
+        }
+
+        // ========================================
+        // I: SAVE DRAFT
+        // ========================================
+        function saveDraft() {
+            try {
+                const draft = {
+                    name: document.getElementById('field-name').value,
+                    email: document.getElementById('field-email').value,
+                    phone: document.getElementById('field-phone').value,
+                    dob: document.getElementById('field-dob').value,
+                    address: document.getElementById('field-address').value,
+                    idType: selectedIdType
+                };
+                localStorage.setItem('degxifi_kye_draft', JSON.stringify(draft));
+            } catch (e) { }
+        }
+
+        // ========================================
+        // 2. FORM VALIDATION
+        // ========================================
+        function showError(fieldId, errorId) {
+            const field = document.getElementById(fieldId);
+            const error = document.getElementById(errorId);
+            field.classList.add('form-error');
+            error.classList.remove('hidden');
+            // Shake animation
+            field.classList.add('animate-shake');
+            setTimeout(() => field.classList.remove('animate-shake'), 400);
+        }
+
+        function clearError(fieldId, errorId) {
+            const field = document.getElementById(fieldId);
+            const error = document.getElementById(errorId);
+            field.classList.remove('form-error');
+            error.classList.add('hidden');
+        }
+
+        function validateStep1() {
+            let valid = true;
+            const fields = [
+                { field: 'field-name', error: 'error-name', check: v => v.trim().length >= 2 },
+                { field: 'field-email', error: 'error-email', check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
+                { field: 'field-phone', error: 'error-phone', check: v => v.trim().length >= 7 },
+                { field: 'field-dob', error: 'error-dob', check: v => v !== '' },
+                { field: 'field-address', error: 'error-address', check: v => v.trim().length >= 5 },
+            ];
+
+            fields.forEach(f => {
+                const val = document.getElementById(f.field).value;
+                if (!f.check(val)) {
+                    showError(f.field, f.error);
+                    valid = false;
+                } else {
+                    clearError(f.field, f.error);
+                }
+            });
+
+            if (valid) updateChecklist('check-personal', true);
+            return valid;
+        }
+
+        function validateStep2() {
+            let valid = true;
+
+            if (!uploadedFiles.id) {
+                document.getElementById('error-file-id').classList.remove('hidden');
+                document.getElementById('upload-zone-id').classList.add('form-error');
+                valid = false;
+            } else {
+                document.getElementById('error-file-id').classList.add('hidden');
+                document.getElementById('upload-zone-id').classList.remove('form-error');
+            }
+
+            if (!uploadedFiles.address) {
+                document.getElementById('error-file-address').classList.remove('hidden');
+                document.getElementById('upload-zone-address').classList.add('form-error');
+                valid = false;
+            } else {
+                document.getElementById('error-file-address').classList.add('hidden');
+                document.getElementById('upload-zone-address').classList.remove('form-error');
+            }
+
+            if (!valid) showToast('Please upload all required documents', 'error');
+            return valid;
+        }
+
+        function validateCurrentStep() {
+            if (currentStep === 1) return validateStep1();
+            if (currentStep === 2) return validateStep2();
+            return true;
+        }
+
+        // Clear errors and save draft on input
+        document.addEventListener('DOMContentLoaded', () => {
+            ['field-name', 'field-email', 'field-phone', 'field-dob', 'field-address'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('input', () => {
+                        clearError(id, 'error-' + id.replace('field-', ''));
+                        saveDraft();
                     });
-                    this.classList.remove('text-slate-500', 'bg-white');
-                    this.classList.add('bg-primary', 'text-white');
+                }
+            });
+        });
+
+        // ========================================
+        // 3 & 4. FILE UPLOAD (Government ID + Proof of Address)
+        // ========================================
+        const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/jpg', 'application/pdf'];
+        const MAX_SIZE = 10 * 1024 * 1024; // 10MB
+
+        function setupUploadZone(type) {
+            const zone = document.getElementById(`upload-zone-${type}`);
+            const input = document.getElementById(`file-input-${type}`);
+
+            // Click to upload
+            zone.addEventListener('click', () => input.click());
+
+            // File selected via input
+            input.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) handleFile(e.target.files[0], type);
+            });
+
+            // Drag & Drop
+            zone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                zone.classList.add('dragover');
+            });
+
+            zone.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                zone.classList.remove('dragover');
+            });
+
+            zone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                zone.classList.remove('dragover');
+                if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0], type);
+            });
+        }
+
+        function handleFile(file, type) {
+            // Validate file type
+            if (!ALLOWED_TYPES.includes(file.type)) {
+                showToast(`Invalid file type. Please use PNG, JPG, or PDF.`, 'error');
+                return;
+            }
+
+            // Validate file size
+            if (file.size > MAX_SIZE) {
+                showToast(`File is too large. Maximum size is 10MB.`, 'error');
+                return;
+            }
+
+            uploadedFiles[type] = {
+                name: file.name,
+                size: file.size,
+                type: file.type,
+                lastModified: file.lastModified,
+                file: file
+            };
+
+            // Clear error
+            document.getElementById(`error-file-${type}`).classList.add('hidden');
+            document.getElementById(`upload-zone-${type}`).classList.remove('form-error');
+
+            // Show preview
+            const preview = document.getElementById(`file-preview-${type}`);
+            const zone = document.getElementById(`upload-zone-${type}`);
+            zone.classList.add('hidden');
+            preview.classList.remove('hidden');
+
+            // File info
+            document.getElementById(`file-name-${type}`).textContent = file.name;
+            document.getElementById(`file-meta-${type}`).textContent = `${formatFileSize(file.size)} • ${file.type.split('/')[1].toUpperCase()}`;
+
+            // File icon
+            const iconEl = document.getElementById(`file-icon-${type}`);
+            iconEl.textContent = file.type === 'application/pdf' ? 'picture_as_pdf' : 'image';
+
+            // Image thumbnail
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    document.getElementById(`file-thumb-img-${type}`).src = e.target.result;
+                    document.getElementById(`file-thumb-${type}`).classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            } else {
+                document.getElementById(`file-thumb-${type}`).classList.add('hidden');
+            }
+
+            // Simulate upload progress
+            simulateUpload(type);
+
+            // Update checklist
+            if (type === 'id') updateChecklist('check-govid', true);
+            if (type === 'address') updateChecklist('check-address', true);
+        }
+
+        function simulateUpload(type) {
+            let progress = 0;
+            const progressBar = document.getElementById(`file-progress-${type}`);
+            const percentLabel = document.getElementById(`file-percent-${type}`);
+            const statusLabel = document.getElementById(`file-status-${type}`);
+
+            statusLabel.innerHTML = '<span class="material-symbols-outlined text-[12px] animate-spin">sync</span> Uploading...';
+
+            const interval = setInterval(() => {
+                progress += Math.random() * 15 + 5;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    statusLabel.innerHTML = '<span class="material-symbols-outlined text-[12px]">check_circle</span> Upload complete';
+                    statusLabel.className = 'text-primary flex items-center gap-1';
+                    showToast('File uploaded successfully!');
+                }
+                progressBar.style.width = Math.min(progress, 100) + '%';
+                percentLabel.textContent = Math.round(Math.min(progress, 100)) + '%';
+            }, 200);
+        }
+
+        function removeFile(type) {
+            uploadedFiles[type] = null;
+
+            // Hide preview, show zone
+            document.getElementById(`file-preview-${type}`).classList.add('hidden');
+            document.getElementById(`upload-zone-${type}`).classList.remove('hidden');
+            document.getElementById(`file-input-${type}`).value = '';
+
+            // Reset progress
+            document.getElementById(`file-progress-${type}`).style.width = '0%';
+            document.getElementById(`file-percent-${type}`).textContent = '0%';
+
+            // Update checklist
+            if (type === 'id') updateChecklist('check-govid', false);
+            if (type === 'address') updateChecklist('check-address', false);
+
+            showToast('File removed', 'warning');
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+
+        // ========================================
+        // ID TYPE SELECTION
+        // ========================================
+        function selectIdType(btn) {
+            selectedIdType = btn.dataset.type;
+            document.querySelectorAll('.id-type-btn').forEach(b => {
+                b.className = 'id-type-btn flex items-center gap-2 px-4 py-2.5 rounded-lg border border-slate-300 hover:bg-primary/5 text-slate-500 text-sm font-medium transition-all';
+            });
+            btn.className = 'id-type-btn flex items-center gap-2 px-4 py-2.5 rounded-lg border border-primary bg-primary/10 text-primary text-sm font-bold transition-all';
+            if (typeof saveDraft === 'function') saveDraft();
+        }
+
+        // ========================================
+        // COMPLETENESS CHECKLIST
+        // ========================================
+        function updateChecklist(id, complete) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            const iconDiv = el.querySelector('div');
+            const label = el.querySelector('span');
+
+            if (complete) {
+                iconDiv.className = 'size-6 rounded-full bg-primary flex items-center justify-center shrink-0';
+                iconDiv.innerHTML = '<span class="material-symbols-outlined text-white text-sm">check</span>';
+                el.className = 'flex items-center gap-3 p-2.5 rounded-lg border border-primary/20 bg-primary/5';
+                label.className = 'text-sm text-primary font-medium';
+            } else {
+                iconDiv.className = 'size-6 rounded-full bg-slate-100 flex items-center justify-center shrink-0';
+                iconDiv.innerHTML = '<span class="material-symbols-outlined text-slate-400 text-sm">circle</span>';
+                el.className = 'flex items-center gap-3 p-2.5 rounded-lg border border-slate-100';
+                label.className = 'text-sm text-slate-600';
+            }
+        }
+
+        // ========================================
+        // SUBMIT (D: validates selfie before submit)
+        // ========================================
+        let selfieCaptured = false;
+
+        function submitForm() {
+            // D: Validate selfie was captured
+            if (!selfieCaptured) {
+                showToast('Please capture your face verification photo first', 'error');
+                document.getElementById('error-selfie').classList.remove('hidden');
+                document.getElementById('camera-container').classList.add('form-error');
+                document.getElementById('camera-container').classList.add('animate-shake');
+                setTimeout(() => document.getElementById('camera-container').classList.remove('animate-shake'), 400);
+                return;
+            }
+
+            showToast('Encrypting files & processing submission...');
+            const btn = document.getElementById('submit-kyc-btn');
+            btn.classList.add('opacity-80', 'cursor-not-allowed', 'pointer-events-none');
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-lg">sync</span> Processing...';
+
+            // Helper: read file as base64 data URL
+            function fileToDataURL(file) {
+                return new Promise((resolve) => {
+                    if (!file) { resolve(null); return; }
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.onerror = () => resolve(null);
+                    reader.readAsDataURL(file);
                 });
             }
-            
-            // Next / Prev Pagination 
-            if(txt === 'chevron_left' || txt === 'chevron_right' || txt === 'keyboard_double_arrow_left' || txt === 'keyboard_double_arrow_right') {
-                btn.addEventListener('click', function() {
-                    fallbackToast("Navigating pages...", "success");
-                });
-            }
-        });
 
-        // Filter / Select dropdowns
-        document.querySelectorAll('select').forEach(sel => {
-            sel.addEventListener('change', function() {
-                fallbackToast("Filtering data by: " + this.value, "success");
-            });
-        });
-        
-        // Top right bell icon / notification
-        const notifBtn = document.querySelector('button:has(span:contains("notifications"))') || document.querySelector('button span.material-symbols-outlined:contains("notifications")');
-        if(notifBtn) {
-            notifBtn.parentElement.addEventListener('click', function() {
-                fallbackToast("You have 0 unread alerts.");
-            });
-        }
-        
-    });
-</script>
-</body>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Toast Notification System
-        function showToast(message, type = "success") {
-            const toast = document.createElement("div");
-            toast.className = `fixed bottom-4 right-4 px-6 py-3 rounded-xl text-sm font-bold shadow-2xl z-[200] transform transition-all translate-y-10 opacity-0 flex items-center gap-2 ${type === "success" ? "bg-primary text-white" : "bg-red-500 text-white"
-                }`;
+            // Convert uploaded files to base64, then save everything
+            const idFile = uploadedFiles.id ? uploadedFiles.id.file : null;
+            const addressFile = uploadedFiles.address ? uploadedFiles.address.file : null;
 
-            const icon = document.createElement("span");
-            icon.className = "material-symbols-outlined text-lg";
-            icon.innerText = type === "success" ? "check_circle" : "camera";
-
-            const text = document.createElement("span");
-            text.innerText = message;
-
-            toast.appendChild(icon);
-            toast.appendChild(text);
-            document.body.appendChild(toast);
-
-            // Animate in
-            setTimeout(() => toast.classList.remove("translate-y-10", "opacity-0"), 10);
-
-            // Animate out
-            setTimeout(() => {
-                toast.classList.add("translate-y-10", "opacity-0");
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
-
-        // Document Type Selection logic
-        const docButtons = document.querySelectorAll(".flex.flex-wrap.gap-3 button");
-        docButtons.forEach(btn => {
-            btn.addEventListener("click", function () {
-                // Reset all buttons to inactive state
-                docButtons.forEach(b => {
-                    b.className = "flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-300 dark:border-primary/30 hover:bg-primary/5 text-slate-500 dark:text-slate-500 text-sm font-medium transition-all";
-                });
-
-                // Set clicked button to active state
-                this.className = "flex items-center gap-2 px-4 py-2 rounded-lg border border-primary bg-primary/10 text-primary text-sm font-bold";
-            });
-        });
-
-        // Start Camera Button
-        const cameraBtn = document.querySelector("button:has(span.material-symbols-outlined:contains('photo_camera'))") ||
-            [...document.querySelectorAll('button')].find(b => b.textContent.includes('Start Camera'));
-        if (cameraBtn) {
-            cameraBtn.addEventListener('click', function (e) {
-                e.preventDefault();
-                showToast("Connecting to device camera for FaceID...", "success");
-            });
-        }
-
-        // Submit flow logic
-        const submitBtn = document.getElementById("submit-kyc-btn");
-        if (submitBtn) {
-            submitBtn.addEventListener('click', function (e) {
-                e.preventDefault();
-                showToast("Encrypting files & processing submission...");
-
-                // Add loading visual state
-                submitBtn.classList.add('opacity-80', 'cursor-not-allowed');
-                submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-lg">sync</span> Processing...';
-
+            Promise.all([
+                fileToDataURL(idFile),
+                fileToDataURL(addressFile)
+            ]).then(([idDataUrl, addressDataUrl]) => {
                 setTimeout(() => {
-                    window.location.href = "../staff_KYE_status/code.html";
+                    // Update session KYE status
+                    const s = JSON.parse(localStorage.getItem('degxifi_session'));
+                    if (!s) { console.error('KYE SUBMIT: No session found!'); return; }
+
+                    s.kyeStatus = 'pending_review';
+                    s.kyeStep = 2;
+                    s.kyeStepLabel = 'Document Review';
+                    s.kyeSubmittedDate = new Date().toISOString();
+                    s.documentsUploaded = 3;
+                    s.documentsRequired = 3;
+
+                    // Save the avatar selfie to session
+                    const capturedEl = document.getElementById('camera-captured');
+                    if (capturedEl && capturedEl.src && !capturedEl.src.endsWith('#')) {
+                        s.avatar = capturedEl.src;
+                    }
+
+                    // Store document data in session
+                    s.kyeDocs = {
+                        idType: selectedIdType,
+                        idFileName: uploadedFiles.id ? uploadedFiles.id.name : null,
+                        idImage: idDataUrl,
+                        addressFileName: uploadedFiles.address ? uploadedFiles.address.name : null,
+                        addressImage: addressDataUrl,
+                        selfieImage: s.avatar || null
+                    };
+
+                    localStorage.setItem('degxifi_session', JSON.stringify(s));
+                    console.log('KYE SUBMIT: Session updated. staffId=' + s.staffId + ', email=' + s.email);
+
+                    // ALSO update the main admin database!
+                    const adminStaffRaw = localStorage.getItem('degxifi_admin_staff');
+                    console.log('KYE SUBMIT: Admin staff exists in localStorage:', !!adminStaffRaw);
+
+                    if (adminStaffRaw) {
+                        const adminStaff = JSON.parse(adminStaffRaw);
+                        console.log('KYE SUBMIT: Admin staff count:', adminStaff.length);
+
+                        // Try matching by ID first, then fallback to email
+                        let staffIndex = adminStaff.findIndex(x => x.id === s.staffId);
+                        if (staffIndex === -1) {
+                            staffIndex = adminStaff.findIndex(x => x.email && x.email.toLowerCase() === (s.email || '').toLowerCase());
+                        }
+
+                        if (staffIndex !== -1) {
+                            adminStaff[staffIndex].kyeStatus = 'pending_review';
+                            adminStaff[staffIndex].kyeSubmittedDate = s.kyeSubmittedDate;
+                            adminStaff[staffIndex].avatar = s.avatar || null;
+                            adminStaff[staffIndex].kyeDocs = s.kyeDocs;
+                            localStorage.setItem('degxifi_admin_staff', JSON.stringify(adminStaff));
+                            console.log('KYE SUBMIT: ✅ Admin database updated for ' + adminStaff[staffIndex].name);
+                        } else {
+                            console.error('KYE SUBMIT: ❌ Could not find staff in admin database!');
+                        }
+                    }
+
+                    // Add activity
+                    const acts = JSON.parse(localStorage.getItem('degxifi_activities') || '[]');
+                    acts.unshift({
+                        id: Date.now(),
+                        type: 'success',
+                        title: 'KYE Submitted',
+                        description: `All documents uploaded. ${selectedIdType} + proof of address + selfie.`,
+                        date: new Date().toISOString(),
+                        icon: 'task_alt'
+                    });
+                    localStorage.setItem('degxifi_activities', JSON.stringify(acts));
+
+                    window.location.href = "../staff_kye_status/code.html?v=3";
                 }, 2000);
             });
         }
-    });
-</script>
+
+        // ========================================
+        // C: REAL CAMERA — webcam access, capture, retake
+        // ========================================
+        let cameraStream = null;
+
+        function stopCameraStream() {
+            if (cameraStream) {
+                cameraStream.getTracks().forEach(t => t.stop());
+                cameraStream = null;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const cameraBtn = document.getElementById('camera-btn');
+            const captureBtn = document.getElementById('capture-btn');
+            const retakeBtn = document.getElementById('retake-btn');
+            const video = document.getElementById('camera-video');
+            const canvas = document.getElementById('camera-canvas');
+            const captured = document.getElementById('camera-captured');
+            const placeholder = document.getElementById('camera-placeholder');
+            const overlay = document.getElementById('camera-overlay');
+            const errorDiv = document.getElementById('camera-error');
+
+            // Start Camera
+            if (cameraBtn) {
+                cameraBtn.addEventListener('click', async () => {
+                    cameraBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">sync</span> Connecting...';
+                    cameraBtn.disabled = true;
+
+                    try {
+                        cameraStream = await navigator.mediaDevices.getUserMedia({
+                            video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 640 } },
+                            audio: false
+                        });
+                        video.srcObject = cameraStream;
+                        await video.play();
+
+                        // Show video, hide placeholder
+                        placeholder.classList.add('hidden');
+                        errorDiv.classList.add('hidden');
+                        video.classList.remove('hidden');
+                        overlay.classList.remove('hidden');
+
+                        // Swap buttons: hide start, show capture
+                        cameraBtn.classList.add('hidden');
+                        captureBtn.classList.remove('hidden');
+
+                        showToast('Camera connected — position your face in the oval guide');
+                    } catch (err) {
+                        console.error('Camera error:', err);
+                        placeholder.classList.add('hidden');
+                        errorDiv.classList.remove('hidden');
+                        cameraBtn.innerHTML = '<span class="material-symbols-outlined">photo_camera</span> Retry Camera';
+                        cameraBtn.disabled = false;
+                        showToast('Camera access denied. Please allow camera permissions.', 'error');
+                    }
+                });
+            }
+
+            // Capture Photo
+            if (captureBtn) {
+                captureBtn.addEventListener('click', () => {
+                    // Draw current video frame to canvas
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    const ctx = canvas.getContext('2d');
+                    // Mirror the capture to match the mirrored video preview
+                    ctx.translate(canvas.width, 0);
+                    ctx.scale(-1, 1);
+                    ctx.drawImage(video, 0, 0);
+
+                    // Convert to image
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.9);
+                    captured.src = dataUrl;
+
+                    // Stop camera stream
+                    stopCameraStream();
+
+                    // Show captured image, hide video
+                    video.classList.add('hidden');
+                    overlay.classList.add('hidden');
+                    captured.classList.remove('hidden');
+
+                    // Swap buttons: hide capture, show retake
+                    captureBtn.classList.add('hidden');
+                    retakeBtn.classList.remove('hidden');
+
+                    // Mark selfie as captured
+                    selfieCaptured = true;
+                    updateChecklist('check-selfie', true);
+                    document.getElementById('error-selfie').classList.add('hidden');
+                    document.getElementById('camera-container').classList.remove('form-error');
+
+                    showToast('Photo captured successfully!');
+                });
+            }
+
+            // Retake Photo
+            if (retakeBtn) {
+                retakeBtn.addEventListener('click', async () => {
+                    selfieCaptured = false;
+                    updateChecklist('check-selfie', false);
+                    captured.classList.add('hidden');
+                    retakeBtn.classList.add('hidden');
+
+                    // Restart camera
+                    try {
+                        cameraStream = await navigator.mediaDevices.getUserMedia({
+                            video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 640 } },
+                            audio: false
+                        });
+                        video.srcObject = cameraStream;
+                        await video.play();
+                        video.classList.remove('hidden');
+                        overlay.classList.remove('hidden');
+                        captureBtn.classList.remove('hidden');
+                        showToast('Camera restarted — take a new photo');
+                    } catch (err) {
+                        placeholder.classList.remove('hidden');
+                        cameraBtn.classList.remove('hidden');
+                        cameraBtn.innerHTML = '<span class="material-symbols-outlined">photo_camera</span> Start Camera';
+                        cameraBtn.disabled = false;
+                        showToast('Could not restart camera', 'error');
+                    }
+                });
+            }
+        });
+
+        // ========================================
+        // A: MOBILE HAMBURGER MENU
+        // ========================================
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('mobile-menu-icon');
+            menu.classList.toggle('show');
+            icon.textContent = menu.classList.contains('show') ? 'close' : 'menu';
+        }
+
+        // ========================================
+        // H: NOTIFICATION SYSTEM
+        // ========================================
+        function getNotifications() {
+            try {
+                const n = localStorage.getItem('degxifi_notifications');
+                return n ? JSON.parse(n) : [];
+            } catch { return []; }
+        }
+
+        function saveNotifications(notifs) {
+            localStorage.setItem('degxifi_notifications', JSON.stringify(notifs));
+        }
+
+        function getDefaultNotifications() {
+            return []; // Return empty to show empty state
+        }
+
+        function renderNotifications() {
+            const notifs = getNotifications().length > 0 ? getNotifications() : getDefaultNotifications();
+            const list = document.getElementById('notif-list');
+            const unread = notifs.filter(n => !n.read).length;
+
+            const badge = document.getElementById('notif-badge');
+            if (unread > 0) {
+                badge.textContent = unread;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+
+            list.innerHTML = notifs.map(n => {
+                const d = new Date(n.time);
+                const timeAgo = getTimeAgo(d);
+                return `<div class="flex items-start gap-3 p-4 border-b border-slate-50 hover:bg-slate-50 transition-all cursor-pointer ${n.read ? 'opacity-60' : ''}" onclick="markNotifRead(${n.id})">
+                <div class="size-9 rounded-lg ${n.read ? 'bg-slate-100' : 'bg-primary/10'} flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined text-sm ${n.read ? 'text-slate-400' : 'text-primary'}">${n.icon}</span>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-xs font-bold text-slate-900 ${n.read ? '' : ''}">${n.title}</p>
+                    <p class="text-[11px] text-slate-500 mt-0.5 truncate">${n.message}</p>
+                    <p class="text-[10px] text-slate-400 mt-1">${timeAgo}</p>
+                </div>
+                ${!n.read ? '<div class="size-2 rounded-full bg-primary shrink-0 mt-2"></div>' : ''}
+            </div>`;
+            }).join('');
+        }
+
+        function getTimeAgo(date) {
+            const now = new Date();
+            const diffMs = now - date;
+            const mins = Math.floor(diffMs / 60000);
+            if (mins < 60) return mins + 'm ago';
+            const hrs = Math.floor(mins / 60);
+            if (hrs < 24) return hrs + 'h ago';
+            const days = Math.floor(hrs / 24);
+            if (days < 30) return days + 'd ago';
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        }
+
+        function toggleNotifications() {
+            const dd = document.getElementById('notif-dropdown');
+            dd.classList.toggle('hidden');
+            dd.classList.toggle('show');
+        }
+
+        function markNotifRead(id) {
+            const notifs = getNotifications().length > 0 ? getNotifications() : getDefaultNotifications();
+            const updated = notifs.map(n => n.id === id ? { ...n, read: true } : n);
+            saveNotifications(updated);
+            renderNotifications();
+        }
+
+        function markAllRead() {
+            const notifs = getNotifications().length > 0 ? getNotifications() : getDefaultNotifications();
+            const updated = notifs.map(n => ({ ...n, read: true }));
+            saveNotifications(updated);
+            renderNotifications();
+        }
+
+        document.addEventListener('click', function (e) {
+            const bell = document.getElementById('notif-bell');
+            const dropdown = document.getElementById('notif-dropdown');
+            if (bell && dropdown) {
+                if (!bell.contains(e.target) && !dropdown.contains(e.target)) {
+                    dropdown.classList.add('hidden');
+                    dropdown.classList.remove('show');
+                }
+            }
+        });
+
+        // ========================================
+        // B: PROPER LOGOUT — clear session then redirect
+        // ========================================
+        function handleLogout(e) {
+            e.preventDefault();
+            // Stop camera if running
+            stopCameraStream();
+            // Clear all session data
+            localStorage.removeItem('degxifi_session');
+            localStorage.removeItem('degxifi_activities');
+            localStorage.removeItem('degxifi_notifications');
+            localStorage.removeItem('degxifi_kye_draft');
+            showToast('Signed out successfully');
+            setTimeout(() => {
+                window.location.href = '../login/code.html';
+            }, 500);
+        }
+
+        // ========================================
+        // SESSION & STATE INIT
+        // ========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                const s = JSON.parse(localStorage.getItem('degxifi_session'));
+                if (s) {
+                    document.getElementById('header-user-name').textContent = s.name || 'Staff Member';
+                    document.getElementById('header-user-role').textContent = s.role || 'Role';
+
+                    // E: Status Bar Reactive Tracker
+                    if (s.kyeStatus === 'pending_review') {
+                        document.getElementById('status-not-started').className = 'px-4 py-2 text-sm font-medium text-slate-500';
+                        document.getElementById('status-pending').className = 'px-4 py-2 text-sm font-bold bg-amber-500 text-white rounded-lg shadow-sm';
+                    } else if (s.kyeStatus === 'verified') {
+                        document.getElementById('status-not-started').className = 'px-4 py-2 text-sm font-medium text-slate-500';
+                        document.getElementById('status-verified').className = 'px-4 py-2 text-sm font-bold bg-primary text-white rounded-lg shadow-sm';
+                    }
+
+                    // F: Already Submitted Guard
+                    if (s.kyeStatus === 'pending_review' || s.kyeStatus === 'verified') {
+                        showToast('You have already submitted your KYE application.', 'info');
+                        document.querySelector('main').classList.add('opacity-50', 'pointer-events-none', 'transition-opacity');
+                        setTimeout(() => window.location.href = '../staff_kye_status/code.html?v=3', 2500);
+                        return; // Stop further initialization
+                    }
+
+                    // Pre-fill form fields
+                    if (s.name) document.getElementById('field-name').value = s.name;
+                    if (s.email) document.getElementById('field-email').value = s.email;
+
+                    // Extract Avatar
+                    if (s.avatar) {
+                        const avatarContainer = document.getElementById('header-avatar-container');
+                        if (avatarContainer) {
+                            avatarContainer.innerHTML = `<img src="${s.avatar}" alt="Avatar" class="w-full h-full object-cover">`;
+                        }
+                    }
+                }
+
+                // I: Restore Form Draft
+                const draftStr = localStorage.getItem('degxifi_kye_draft');
+                if (draftStr) {
+                    const draft = JSON.parse(draftStr);
+                    if (draft.name) document.getElementById('field-name').value = draft.name;
+                    if (draft.email) document.getElementById('field-email').value = draft.email;
+                    if (draft.phone) document.getElementById('field-phone').value = draft.phone;
+                    if (draft.dob) document.getElementById('field-dob').value = draft.dob;
+                    if (draft.address) document.getElementById('field-address').value = draft.address;
+                    if (draft.idType) {
+                        const btn = document.querySelector(`.id-type-btn[data-type="${draft.idType}"]`);
+                        if (btn) btn.click();
+                    }
+                }
+            } catch (e) { }
+
+            // Setup upload zones
+            setupUploadZone('id');
+            setupUploadZone('address');
+
+            // Clean up camera on page unload
+            window.addEventListener('beforeunload', stopCameraStream);
+        });
+    </script>
+</body>
 
 </html>
