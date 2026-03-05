@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String    @id @default(uuid())
+  staffId        String    @unique
+  name           String
+  email          String    @unique
+  password       String
+  role           String    @default("Staff")
+  department     String    @default("General")
+  region         String    @default("Nigeria")
+  isAdmin        Boolean   @default(false)
+  avatar         String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  kyeSubmission  KyeSubmission?
+  notifications  Notification[]
+  activities     Activity[]
+}
+
+model KyeSubmission {
+  id              String    @id @default(uuid())
+  userId          String    @unique
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status          String    @default("pending_submission") // pending_submission, pending_review, verified, rejected
+  step            Int       @default(0)
+  totalSteps      Int       @default(4)
+  stepLabel       String    @default("Awaiting Submission")
+  refId           String?
+  submittedDate   DateTime?
+  riskScore       Float     @default(0)
+
+  // Personal details
+  fullName        String?
+  phone           String?
+  dob             String?
+  address         String?
+
+  // Document paths
+  idType          String?   // passport, drivers-license, nin
+  idDocumentPath  String?
+  addressDocPath  String?
+  selfiePath      String?
+
+  documentsUploaded Int     @default(0)
+  documentsRequired Int     @default(3)
+
+  // Admin feedback
+  rejectReason    String?
+  adminComment    String?
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  icon      String   @default("info")
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Activity {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type        String   @default("info") // success, warning, error, info
+  title       String
+  description String
+  icon        String   @default("info")
+  createdAt   DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  admin     String
+  action    String
+  details   String?
+  createdAt DateTime @default(now())
+}
